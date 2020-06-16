@@ -7,7 +7,7 @@ here.
 ## Installation
 
 ```
-    bash install.sh
+    bash installation.sh
 ```
 
 This symlinks the dotfiles, folders, and files into your home folder.
