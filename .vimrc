@@ -20,7 +20,6 @@ call vundle#begin()
     " Colorschemes to try out
     Plugin 'morhetz/gruvbox'
     Plugin 'arcticicestudio/nord-vim'
-    Plugin 'KeitaNakamura/neodark.vim'
     Plugin 'mhartington/oceanic-next'
     Plugin 'altercation/vim-colors-solarized'
     Plugin 'tomasiser/vim-code-dark'
@@ -91,7 +90,6 @@ set background=dark
 let g:gruvbox_contrast_dark='hard' | colorscheme gruvbox
 " colorscheme nord
 " colorscheme onedark
-" colorscheme neodark
 " colorscheme OceanicNext
 " colorscheme solarized
 " colorscheme codedark
