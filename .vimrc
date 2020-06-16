@@ -9,8 +9,6 @@ call vundle#begin()
     
     " let Vundle manage Vundle, required
     Plugin 'VundleVim/Vundle.vim'
-    " NERDTree
-    Plugin 'scrooloose/nerdtree'
     " Delimiter Mate
     Plugin 'delimitMate.vim'
     " Track the engine.
@@ -19,10 +17,10 @@ call vundle#begin()
     Plugin 'honza/vim-snippets'
     " Colorschemes to try out
     Plugin 'morhetz/gruvbox'
-    " Plugin 'arcticicestudio/nord-vim'
-    " Plugin 'mhartington/oceanic-next'
-    " Plugin 'altercation/vim-colors-solarized'
-    " Plugin 'tomasiser/vim-code-dark'
+    Plugin 'arcticicestudio/nord-vim'
+    Plugin 'mhartington/oceanic-next'
+    Plugin 'altercation/vim-colors-solarized'
+    Plugin 'tomasiser/vim-code-dark'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -40,18 +38,21 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 "
+" -------------------------------------------
 " UltiSnips
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-let g:UltiSnipsSnippetsDir="~/.vim/snippets/UltiSnips"
 let g:ultisnips_python_style = "google"
+
 " To be able to run snippets to newly created vim files
 let g:tex_flavor="latex" 
-"let g:UltiSnipsSnippetDirectories = ['snippets/UltiSnips']
+
 " Adds my snippets to runtimepath
-set runtimepath+=~/.vim/snippets/UltiSnips
+set rtp+=~/dotfiles/my-snippets
+let g:UltiSnipsSnippetDirectories=["UltiSnips"]
+
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
@@ -59,28 +60,48 @@ let g:UltiSnipsEditSplit="vertical"
 " -------------------------------------------
 let delimitMate_expand_cr = 1
 
-" Has to do with NERDTree
 " -------------------------------------------
-autocmd VimEnter * NERDTree
-autocmd VimEnter * wincmd p
+" Netrw
 
-" Allows nerdtree to open mirrors in new tabs
-autocmd BufWinEnter * NERDTreeMirror
-"
-" Close NERDTree if it is the last open buffer
-autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
+" Control left/right split
+let g:netrw_altv = 1
 
-" Close all open buffers on entering a window if the only
-" buffer that's left is the NERDTree buffer
-function! s:CloseIfOnlyNerdTreeLeft()
-    if exists("t:NERDTreeBufName")
-        if bufwinnr(t:NERDTreeBufName) != -1
-            if winnr("$") == 1
-                q
+" absolute width of netrw window
+let g:netrw_winsize = 10
+
+" do not display info on the top of window
+let g:netrw_banner = 0
+
+" tree-view
+let g:netrw_liststyle = 3
+
+" sort is affecting only: directories on the top, files below
+let g:netrw_sort_sequence = '[\/]$,*'
+
+" use the previous window to open file
+let g:netrw_browse_split = 4
+
+" Change directory to the current buffer when opening files.
+set autochdir
+
+" Toggle Lexplore with Leader-E
+let g:NetrwIsOpen=0
+function! ToggleNetrw()
+    if g:NetrwIsOpen
+        let i = bufnr("$")
+        while (i >= 1)
+            if (getbufvar(i, "&filetype") == "netrw")
+                silent exe "bwipeout " . i
             endif
-        endif
+            let i-=1
+        endwhile
+        let g:NetrwIsOpen=0
+    else
+        let g:NetrwIsOpen=1
+        silent Lexplore
     endif
 endfunction
+" Keymapping set further down !!!!
 
 " -------------------------------------------
 "  Colorscheme
@@ -111,7 +132,7 @@ set breakindent
 "  Line numbering
 set relativenumber
 "  Lines above and below line
-set scrolloff=3 
+set scrolloff=5 
 
 " -------------------------------------------
 "  Smart Searches
@@ -133,6 +154,9 @@ set cursorline
 "
 " Remap Leader to space
 let mapleader = "\<Space>"
+
+" Toggle netrw menu
+noremap <silent> <Leader>e :call ToggleNetrw()<CR>
 
 " Execute python code
 autocmd! FileType python nnoremap <leader>p :exec '!python3.6' shellescape(@%, 1)<cr>
