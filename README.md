@@ -15,4 +15,7 @@ This symlinks the dotfiles, folders, and files into your home folder.
 
 ## ToDo
 * Fix Installation script
-* Make sure snippets are added correctly
+
+### Fixed
+* ~Added snippets correctly~
+* ~Installed Plugins correctly~
