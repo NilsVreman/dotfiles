@@ -49,10 +49,6 @@ let g:ultisnips_python_style = "google"
 " To be able to run snippets to newly created vim files
 let g:tex_flavor="latex" 
 
-" Adds my snippets to runtimepath
-set rtp+=~/dotfiles/my-snippets
-let g:UltiSnipsSnippetDirectories=["UltiSnips"]
-
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
