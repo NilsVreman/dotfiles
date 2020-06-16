@@ -19,11 +19,10 @@ call vundle#begin()
     Plugin 'honza/vim-snippets'
     " Colorschemes to try out
     Plugin 'morhetz/gruvbox'
-    Plugin 'arcticicestudio/nord-vim'
-    Plugin 'KeitaNakamura/neodark.vim'
-    Plugin 'mhartington/oceanic-next'
-    Plugin 'altercation/vim-colors-solarized'
-    Plugin 'tomasiser/vim-code-dark'
+    " Plugin 'arcticicestudio/nord-vim'
+    " Plugin 'mhartington/oceanic-next'
+    " Plugin 'altercation/vim-colors-solarized'
+    " Plugin 'tomasiser/vim-code-dark'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -90,8 +89,6 @@ set termguicolors                     " For full support of colours, uncomment t
 set background=dark
 let g:gruvbox_contrast_dark='hard' | colorscheme gruvbox
 " colorscheme nord
-" colorscheme onedark
-" colorscheme neodark
 " colorscheme OceanicNext
 " colorscheme solarized
 " colorscheme codedark
