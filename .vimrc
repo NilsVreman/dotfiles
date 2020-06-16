@@ -17,10 +17,10 @@ call vundle#begin()
     Plugin 'honza/vim-snippets'
     " Colorschemes to try out
     Plugin 'morhetz/gruvbox'
-    Plugin 'arcticicestudio/nord-vim'
-    Plugin 'mhartington/oceanic-next'
-    Plugin 'altercation/vim-colors-solarized'
-    Plugin 'tomasiser/vim-code-dark'
+    " Plugin 'arcticicestudio/nord-vim'
+    " Plugin 'mhartington/oceanic-next'
+    " Plugin 'altercation/vim-colors-solarized'
+    " Plugin 'tomasiser/vim-code-dark'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
