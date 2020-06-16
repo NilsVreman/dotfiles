@@ -12,6 +12,7 @@ here.
 
 This symlinks the dotfiles, folders, and files into your home folder.
 
-## NOTE
 
-Currently the installation script is not available.
+## ToDo
+* Fix Installation script
+* Make sure snippets are added correctly
