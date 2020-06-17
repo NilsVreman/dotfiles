@@ -77,8 +77,8 @@ let g:netrw_sort_sequence = '[\/]$,*'
 " use the previous window to open file
 let g:netrw_browse_split = 4
 
-" Change directory to the current buffer when opening files.
-set autochdir
+" Remove hidden buffers
+autocmd FileType netrw setl bufhidden=wipe
 
 " Toggle Lexplore with Leader-E
 let g:NetrwIsOpen=0
