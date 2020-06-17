@@ -14,8 +14,9 @@ This symlinks the dotfiles, folders, and files into your home folder and
 installs all important packages in vim using vundle.
 
 ## ToDo
-* Fix Installation script
+Nothing right now
 
 ### Fixed
+* ~Fix Installation script~
 * ~Added snippets correctly~
 * ~Installed Plugins correctly~
