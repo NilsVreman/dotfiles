@@ -128,3 +128,6 @@ alias zotero='~/Downloads/Zotero-5.0.60_linux-x86_64/Zotero_linux-x86_64/zotero'
 alias c='xclip'
 alias v='xclip -o'
 
+# Bind autocompletion here to overwrite the one in /etc/inputrc
+bind "set completion-ignore-case on"
+bind "set show-all-if-ambiguous on"
