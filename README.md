@@ -7,11 +7,11 @@ here.
 ## Installation
 
 ```
-    bash installation.sh
+    sh setup.sh
 ```
 
-This symlinks the dotfiles, folders, and files into your home folder.
-
+This symlinks the dotfiles, folders, and files into your home folder and
+installs all important packages in vim using vundle.
 
 ## ToDo
 * Fix Installation script
