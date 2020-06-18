@@ -43,12 +43,13 @@ echo "Adding snippet links to correct path..."
 for TFILE in ${SNIPPETTARGET}/*.snippets; do
     if [[ -L ${TFILE} ]]; then
         unlink ${TFILE}
-        rm -rf ${TFILE}
     fi
 done
 # Add new symlinks
 for SFILE in ${SNIPPETSOURCE}/*.snippets; do
-    ln -sT ${SFILE} "${SNIPPETTARGET}/$(basename ${SFILE} .snippets).snippets"
+    TARGETPATH="${SNIPPETTARGET}/$(basename ${SFILE} .snippets).snippets"
+    rm -rf ${TARGETPATH}
+    ln -sT ${SFILE} ${TARGETPATH}
 done
 
 echo "Done!"
