@@ -141,9 +141,13 @@ set incsearch
 set wildmode=longest,list,full
 
 " -------------------------------------------
-"  Has to do with line highlighting
-"hi CursorLine guifg=NONE guibg=#2d3c45 ctermbg=237 gui=NONE term=NONE cterm=NONE
+"  Highlighting
 set cursorline
+
+" -------------------------------------------
+"  Statusline
+set statusline+=%F
+set laststatus=2
 
 " -------------------------------------------
 " KEY MAPPINGS
