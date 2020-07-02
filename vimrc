@@ -139,6 +139,7 @@ set incsearch
 " -------------------------------------------
 "  Commandline completion
 set wildmode=longest,list,full
+set wildignorecase
 
 " -------------------------------------------
 "  Highlighting
