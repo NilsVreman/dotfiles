@@ -208,7 +208,9 @@ nnoremap <leader>n :noh<CR>
 " Add spell check for certain files
 " Spell check is currently positioned in ~/.vim/after/ftplugin/type.vim
 
+" -------------------------------------------
 " BUFFER KEYMAPPINGS
+
 " Move to the previous buffer with "gp"
 nnoremap gp :bp<CR>
 
@@ -220,3 +222,12 @@ nnoremap gl :ls<CR>
 
 " List all possible buffers with "gb" and accept a new buffer argument [1]
 nnoremap gb :ls<CR>:b
+
+" -------------------------------------------
+" WINDOW KEYMAPPINGS
+
+" Vertical split
+nnoremap gv :vsp 
+
+" Horizontal split
+nnoremap gh :sp 
