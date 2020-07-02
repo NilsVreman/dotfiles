@@ -231,3 +231,5 @@ nnoremap gv :vsp
 
 " Horizontal split
 nnoremap gh :sp 
+
+" Moving around windows: C-w + {h, j, k, l}
