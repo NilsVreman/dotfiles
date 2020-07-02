@@ -181,8 +181,6 @@ nnoremap <Tab> >>
 vnoremap <Tab> >gv
 vnoremap <S-tab> <gv
 
-" New line from marker NOT INSERTING
-nmap <CR> i<CR><Esc>l
 " New line above or below line
 nmap <leader>o o<Esc>k
 nmap <leader>O O<Esc>j
@@ -208,3 +206,16 @@ nnoremap <leader>n :noh<CR>
 
 " Add spell check for certain files
 " Spell check is currently positioned in ~/.vim/after/ftplugin/type.vim
+
+" BUFFER KEYMAPPINGS
+" Move to the previous buffer with "gp"
+nnoremap gp :bp<CR>
+
+" Move to the next buffer with "gn"
+nnoremap gn :bn<CR>
+
+" List all possible buffers with "gl"
+nnoremap gl :ls<CR>
+
+" List all possible buffers with "gb" and accept a new buffer argument [1]
+nnoremap gb :ls<CR>:b
