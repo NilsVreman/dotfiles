@@ -147,12 +147,15 @@ set cursorline
 
 " -------------------------------------------
 "  Statusline
-set statusline+=%F
+set statusline+=[%F]        " Path frome $HOME
+set statusline+=-%n         " Buffer number
+set statusline+=%=          " Switch to right
+set statusline+=[%Y]        " File type
+set statusline+=[%l:%c]     " Current Line + Separator + Current char
 set laststatus=2
 
 " -------------------------------------------
 "  Window split order
-set splitbelow
 set splitright
 
 " -------------------------------------------
