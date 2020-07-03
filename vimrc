@@ -151,6 +151,11 @@ set statusline+=%F
 set laststatus=2
 
 " -------------------------------------------
+"  Window split order
+set splitbelow
+set splitright
+
+" -------------------------------------------
 " KEY MAPPINGS
 "
 " Remap Leader to space
@@ -222,6 +227,9 @@ nnoremap gl :ls<CR>
 
 " List all possible buffers with "gb" and accept a new buffer argument [1]
 nnoremap gb :ls<CR>:b
+
+" Close current buffer and open next in buffer list. 
+nnoremap gd :bp<bar>sp<bar>bn<bar>bd<CR>
 
 " -------------------------------------------
 " WINDOW KEYMAPPINGS
