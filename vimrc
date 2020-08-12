@@ -148,10 +148,10 @@ set cursorline
 " -------------------------------------------
 "  Statusline
 set statusline+=[%F]        " Path frome $HOME
-set statusline+=-%n         " Buffer number
+set statusline+=\ >\        " Buffer number
+set statusline+=[%Y\ :\ %n] " File type
 set statusline+=%=          " Switch to right
-set statusline+=[%Y]        " File type
-set statusline+=[%l:%c]     " Current Line + Separator + Current char
+set statusline+=[%l\ :\ %c] " Current Line + Separator + Current char
 set laststatus=2
 
 " -------------------------------------------
