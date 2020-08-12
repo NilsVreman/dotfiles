@@ -216,6 +216,10 @@ nnoremap <leader>n :noh<CR>
 " Add spell check for certain files
 " Spell check is currently positioned in ~/.vim/after/ftplugin/type.vim
 
+" Remap increase number and decrease number
+noremap <C-j> <C-x>
+noremap <C-k> <C-a>
+
 " -------------------------------------------
 " BUFFER KEYMAPPINGS
 
