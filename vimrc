@@ -112,6 +112,14 @@ let g:gruvbox_contrast_dark='hard' | colorscheme gruvbox
 syntax on
 
 " -------------------------------------------
+"  Highlighting
+" Highlight misspelled words
+hi SpellBad guibg=#afaf00 ctermbg=black
+
+" Highlight currently marked item
+hi IncSearch guifg=#ff0000 guibg=black
+
+" -------------------------------------------
 "  Tabs
 set tabstop=4
 set shiftwidth=4
@@ -213,8 +221,8 @@ vnoremap <down> j
 " Remove highlighting when pressing space+n after search
 nnoremap <leader>n :noh<CR>
 
-" Add spell check for certain files
-" Spell check is currently positioned in ~/.vim/after/ftplugin/type.vim
+" Add spell check
+map <Leader>s :setlocal spell! spelllang=en_gb<CR>
 
 " Remap increase number and decrease number
 noremap <C-j> <C-x>
