@@ -131,6 +131,7 @@ set autoindent
 set wrap
 set linebreak
 set breakindent
+set textwidth=80
 
 " -------------------------------------------
 "  Line numbering
@@ -227,6 +228,9 @@ map <Leader>s :setlocal spell! spelllang=en_gb<CR>
 " Remap increase number and decrease number
 noremap <C-j> <C-x>
 noremap <C-k> <C-a>
+
+" Toggle line wrapping
+nnoremap <Leader>w :execute "set textwidth=" . (&textwidth == "0" ? "80" : "0")<CR>
 
 " -------------------------------------------
 " BUFFER KEYMAPPINGS
