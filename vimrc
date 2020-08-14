@@ -114,9 +114,10 @@ syntax on
 " -------------------------------------------
 "  Highlighting
 " Highlight misspelled words
-hi SpellBad guibg=#afaf00 ctermbg=black
+hi SpellBad guibg=#afaf00 guifg=black
 
 " Highlight currently marked item
+" NOTE: IncSearch sets reverse automatically -> bg colours are fg and other way around!
 hi IncSearch guifg=#ff0000 guibg=black
 
 " -------------------------------------------
