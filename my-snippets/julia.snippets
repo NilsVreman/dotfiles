@@ -42,9 +42,24 @@ endsnippet
 snippet for "normal for loop" b
 for ${1:i} in ${2:array}
 	${0:loop}
+end
 endsnippet
 
 snippet def "function definition" b
+function ${1:function_name}(${2:Arguments})${3:::${4:ReturnType}}
+	${5:#=
+	 # ${6: Comments}
+	=#}$0
+end
+endsnippet
+
+snippet deff "function definition without comments" b
+function ${1:function_name}(${2:Arguments})${3:::${4:ReturnType}}
+	$0
+end
+endsnippet
+
+snippet fun "function definition" b
 function ${1:function_name}(${2:Arguments})${3:::${4:ReturnType}}
 	${5:#=
 	 # ${6: Comments}
