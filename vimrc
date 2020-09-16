@@ -21,6 +21,7 @@ call vundle#begin()
     " Plugin 'mhartington/oceanic-next'
     " Plugin 'altercation/vim-colors-solarized'
     " Plugin 'tomasiser/vim-code-dark'
+    Plugin 'JuliaEditorSupport/julia-vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -52,9 +53,23 @@ let g:tex_flavor="latex"
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
-" Has to do with delimitMate
 " -------------------------------------------
+" DelimitMate
 let delimitMate_expand_cr = 1
+
+" -------------------------------------------
+"  Julia-Vim
+
+" Blockwise movement = false
+let g:julia_blocks = 0
+
+" Spellchecking
+let g:julia_spellcheck_docstrings = 0
+let g:julia_spellcheck_comments = 0
+
+" unicode tabbing
+let g:latex_to_unicode_suggestions = 0
+let g:latex_to_unicode_tab = 0
 
 " -------------------------------------------
 " Netrw
