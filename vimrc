@@ -195,9 +195,6 @@ noremap <silent> <Leader>e :call ToggleNetrw()<CR>
 " Execute python code
 autocmd! FileType python nnoremap <leader>p :exec '!python3.6' shellescape(@%, 1)<cr>
 
-" Execute Julia code
-autocmd! FileType julia nnoremap <leader>j :exec '!julia-1.1' shellescape(@%, 1)<cr>
-
 " Run Makefile in folder
 nnoremap <Leader>m :!make<CR>
 
