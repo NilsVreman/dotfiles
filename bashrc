@@ -113,6 +113,7 @@ alias gd='git diff'
 alias gs='git status'
 alias ga='git add'
 alias gc='git commit -m'
+alias gp='git push'
 
 # My aliases
 cdw() { cd ~/"$1" && clear; }
