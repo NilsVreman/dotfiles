@@ -46,32 +46,26 @@ COLOR_GIT="\033[38;5;3m"
 COLOR_CHANGE="\033[38;5;9m"
 COLOR_RESET="\033[0m"
 
-# Pick correct color based on if we have changes or not
-function parse_git_change {
-    local git_status="$(git status 2> /dev/null)"
-
-    if [[ $git_status =~ "Your branch is up to date with" && $git_status =~ "nothing to commit" ]]; then
-        echo -e ""
-    else
-        echo -e "$COLOR_CHANGE *$COLOR_GIT"
-    fi
-}
-
 # Pick the branch we are on
 function parse_git_branch {
-  local git_status="$(git status 2> /dev/null)"
-  local on_branch="On branch ([^${IFS}]*)"
+    local git_status="$(git status 2> /dev/null)"
+    local on_branch="On branch ([^${IFS}]*)"
 
-  if [[ $git_status =~ $on_branch ]]; then
-    local branch=${BASH_REMATCH[1]}
-    echo "$branch"
-  fi
+    if [[ $git_status =~ $on_branch ]]; then
+        local branch=${BASH_REMATCH[1]}
+
+        if [[ $git_status =~ "Your branch is up to date with" && $git_status =~ "nothing to commit" ]]; then
+            echo -e " $COLOR_GIT[$branch]"
+        else
+            echo -e " $COLOR_GIT[$branch$COLOR_CHANGE*$COLOR_GIT]"
+        fi
+    fi
 }
 
 # To get gruvbox terminal colours: bash -c  "$(wget -qO- https://git.io/vQgMr)"
 
 # Command prompt color and look
-PS1="${debian_chroot:+($debian_chroot)}\[$COLOR_HOST\]\u@\h\[$COLOR_RESET\]:\[$COLOR_PATH\]./\W\[$COLOR_GIT\] [\$(parse_git_branch)\$(parse_git_change)]\[$COLOR_RESET\]\$ "
+PS1="${debian_chroot:+($debian_chroot)}\[$COLOR_HOST\]\u@\h\[$COLOR_RESET\]:\[$COLOR_PATH\]./\W\$(parse_git_branch)\[$COLOR_RESET\]\$ "
 
 ### Aliases
 # enable color support of ls and also add handy aliases
@@ -112,7 +106,7 @@ alias glog='git log --graph --oneline -n30'
 alias gd='git diff'
 alias gs='git status'
 alias ga='git add'
-alias gc='git commit -m'
+alias gc='git commit'
 alias gp='git push'
 
 # My aliases
