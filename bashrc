@@ -42,28 +42,18 @@ fi
 # Color definition
 COLOR_HOST="\033[38;5;202m"
 COLOR_PATH="\033[38;5;184m"
-COLOR_GITCHANGED="\033[38;5;160m"
-COLOR_GITUNTRACKED="\033[38;5;160m"
-COLOR_GITADD="\033[38;5;172m"
-COLOR_GITCOMMIT="\033[38;5;177m"
-COLOR_GITCLEAN="\033[38;5;73m"
-COLOR_GITOTHER="\033[38;5;128m"
+COLOR_GIT="\033[38;5;3m"
+COLOR_CHANGE="\033[38;5;9m"
 COLOR_RESET="\033[0m"
 
 # Pick correct color based on if we have changes or not
-function parse_git_color {
+function parse_git_change {
     local git_status="$(git status 2> /dev/null)"
 
-    if [[ $git_status =~ "Changes not staged for commit" || $git_status =~ "Untracked files" ]]; then
-        echo -e $COLOR_GITCHANGED
-    elif [[ $git_status =~ "Changes to be committed" ]]; then
-        echo -e $COLOR_GITADD
-    elif [[ $git_status =~ "Your branch is ahead of" ]]; then
-        echo -e $COLOR_GITCOMMIT
-    elif [[ $git_status =~ "nothing to commit" ]]; then
-        echo -e $COLOR_GITCLEAN
+    if [[ $git_status =~ "Your branch is up to date with" && $git_status =~ "nothing to commit" ]]; then
+        echo -e ""
     else
-        echo -e $COLOR_GITOTHER
+        echo -e "$COLOR_CHANGE *$COLOR_GIT"
     fi
 }
 
@@ -74,20 +64,18 @@ function parse_git_branch {
 
   if [[ $git_status =~ $on_branch ]]; then
     local branch=${BASH_REMATCH[1]}
-    echo " [$branch]"
+    echo "$branch"
   fi
 }
 
 # To get gruvbox terminal colours: bash -c  "$(wget -qO- https://git.io/vQgMr)"
 
 # Command prompt color and look
-PS1="${debian_chroot:+($debian_chroot)}\[$COLOR_HOST\]\u@\h\[$COLOR_RESET\]:\[$COLOR_PATH\]./\W\[\$(parse_git_color)\]\$(parse_git_branch)\[$COLOR_RESET\]\$ "
+PS1="${debian_chroot:+($debian_chroot)}\[$COLOR_HOST\]\u@\h\[$COLOR_RESET\]:\[$COLOR_PATH\]./\W\[$COLOR_GIT\] [\$(parse_git_branch)\$(parse_git_change)]\[$COLOR_RESET\]\$ "
 
 ### Aliases
 # enable color support of ls and also add handy aliases
 alias ls='ls --color=auto'
-#alias dir='dir --color=auto'
-#alias vdir='vdir --color=auto'
 
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -104,9 +92,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Added julia thread count
-export JULIA_NUM_THREADS=4
-
 # --------------------------------
 # Commands
 # --------------------------------
@@ -122,10 +107,16 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -1'
 
+# Git Aliases
+alias glog='git log --graph --oneline -n30'
+alias gd='git diff'
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit -m'
+
 # My aliases
 cdw() { cd ~/"$1" && clear; }
 alias t='tree'
-alias zotero='~/Downloads/Zotero-5.0.60_linux-x86_64/Zotero_linux-x86_64/zotero'
 
 # XClip aliases
 alias c='xclip'
