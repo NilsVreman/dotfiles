@@ -67,7 +67,7 @@ if ${1:true}
 end # if
 endsnippet
 
-snippet "ife(lse)?" "normal if-else statement" b
+snippet ife "normal if-else statement" b
 if ${1:i < 0}
 	${2:if-statement}
 else
@@ -113,7 +113,15 @@ endsnippet
 ###### Modules ######
 #####################
 
-snippet "mod(ule)?" "module definition" b
+snippet mod "module definition" b
+module ${1:ModuleName}
+
+$0
+
+end # module
+endsnippet
+
+snippet module "module definition" b
 module ${1:ModuleName}
 
 $0
