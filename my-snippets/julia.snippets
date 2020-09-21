@@ -88,23 +88,23 @@ endsnippet
 #####################
 
 snippet def "function definition" b
-function ${1:function_name}(${2:Arguments})${3:::${4:ReturnType}}
-	${5:#=
-	 # ${6: Comments}
+function ${1:function_name}(${2:Arguments})
+	${3:#=
+	 # ${4: Comments}
 	=#}$0
 end # function
 endsnippet
 
 snippet deff "function definition without comments" b
-function ${1:function_name}(${2:Arguments})${3:::${4:ReturnType}}
+function ${1:function_name}(${2:Arguments})
 	$0
 end # function
 endsnippet
 
 snippet fun "function definition" b
-function ${1:function_name}(${2:Arguments})${3:::${4:ReturnType}}
-	${5:#=
-	 # ${6: Comments}
+function ${1:function_name}(${2:Arguments})
+	${3:#=
+	 # ${4: Comments}
 	=#}$0
 end # function
 endsnippet
@@ -127,4 +127,16 @@ module ${1:ModuleName}
 $0
 
 end # module
+endsnippet
+
+#####################
+##### Includes ######
+#####################
+
+snippet inc "Includes" b
+include("${1:Include}")$0
+endsnippet
+
+snippet include "Includes" b
+include("${1:Include}")$0
 endsnippet
