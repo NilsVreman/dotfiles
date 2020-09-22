@@ -83,6 +83,14 @@ elseif ${3:i > 0}
 end # if
 endsnippet
 
+snippet try "normal try-catch statement" b
+try 
+	${1:try-statement}
+catch ${2:e}
+	${3:throw(e)}
+end # try$0
+endsnippet
+
 #####################
 ##### Functions #####
 #####################
