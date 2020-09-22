@@ -189,6 +189,8 @@ set splitright
 " Remap Leader to space
 let mapleader = "\<Space>"
 
+" TOGGLES -----------------------------------
+"
 " Toggle netrw menu
 noremap <silent> <Leader>e :call ToggleNetrw()<CR>
 
@@ -201,6 +203,17 @@ nnoremap <Leader>m :!make<CR>
 " Has to do with line highlighting
 nnoremap <Leader>c :set cursorline!<CR>
 
+" Remove highlighting when pressing space+n after search
+nnoremap <leader>n :noh<CR>
+
+" Add spell check
+map <Leader>s :setlocal spell! spelllang=en_gb<CR>
+
+" Toggle line wrapping
+nnoremap <Leader>w :execute "set textwidth=" . (&textwidth == "0" ? "80" : "0")<CR>
+
+" MOVEMENT ----------------------------------
+"
 " Join two lines
 nnoremap <Leader>j J
 
@@ -232,18 +245,9 @@ vnoremap <right> l
 vnoremap <up> k
 vnoremap <down> j
 
-" Remove highlighting when pressing space+n after search
-nnoremap <leader>n :noh<CR>
-
-" Add spell check
-map <Leader>s :setlocal spell! spelllang=en_gb<CR>
-
 " Remap increase number and decrease number
 noremap <C-j> <C-x>
 noremap <C-k> <C-a>
-
-" Toggle line wrapping
-nnoremap <Leader>w :execute "set textwidth=" . (&textwidth == "0" ? "80" : "0")<CR>
 
 " -------------------------------------------
 " BUFFER KEYMAPPINGS
