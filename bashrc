@@ -92,7 +92,8 @@ fi
 # Language aliases
 alias python='python3'
 alias julia11='/opt/julia/julia-v1.1.0/bin/julia'
-alias julia='julia11'
+alias julia15='/opt/julia/julia-v1.5.2/bin/julia'
+alias julia='julia15'
 alias matlab16='VERSION=R2016a matlab &'
 alias matlab19='VERSION=R2019b matlab &'
 
