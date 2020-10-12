@@ -24,6 +24,10 @@ ln -sT ${BASEDIR}/bash_profile ~/.bash_profile
 # Tmux
 ln -sT ${BASEDIR}/tmux.conf ~/.tmux.conf
 
+# Julia
+mkdir -p ~/.julia/config/
+ln -sT ${BASEDIR}/startup.jl ~/.julia/config/startup.jl
+
 # Git
 ln -sT ${BASEDIR}/gitconfig ~/.gitconfig
 
