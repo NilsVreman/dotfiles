@@ -110,6 +110,9 @@ alias ga='git add'
 alias gc='git commit'
 alias gp='git push'
 alias gl='git pull'
+alias gf='git fetch'
+alias gm='git merge'
+alias gco='git checkout'
 
 # My aliases
 cdw() { cd ~/"$1" && clear; }
