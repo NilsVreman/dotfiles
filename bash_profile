@@ -3,10 +3,10 @@ source ~/.bashrc
 # Path extentions
 
 # added by Anaconda3 4.4.0 installer
-export PATH="/home/nils/anaconda3/bin:$PATH"
+#export PATH="/home/nils/anaconda3/bin:$PATH"
 
 # added by Anaconda3 installer
-export PATH="/local/home/nilsv/anaconda3/bin:$PATH"
+#export PATH="/local/home/nilsv/anaconda3/bin:$PATH"
 
 # Add sml path
 export PATH="$HOME/SML-NJ/bin:$PATH"
