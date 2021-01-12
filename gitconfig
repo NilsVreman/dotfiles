@@ -5,3 +5,5 @@
 	email = nils.vreman@gmail.com
 [pull]
 	ff = only
+[core]
+	editor = vim

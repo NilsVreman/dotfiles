@@ -87,6 +87,12 @@ if ! shopt -oq posix; then
 fi
 
 # --------------------------------
+# Link java
+# --------------------------------
+
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.9.11-0.fc33.x86_64/
+
+# --------------------------------
 # Commands
 # --------------------------------
 # Language aliases
