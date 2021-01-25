@@ -322,6 +322,37 @@ snippet cas "cases environment" w
 $0
 endsnippet
 
+# State-space
+snippet ss "Continuous state-space environment" w
+\begin{cases}
+	\dot x &= \begin{${1:p/b/v/V/B/small}matrix}
+		${2}
+	\end{$1matrix} x + \begin{$1matrix}
+		${3}
+	\end{$1matrix} u \\
+	y &= \begin{$1matrix}
+		${4}
+	\end{$1matrix} x + \begin{$1matrix}
+		${5}
+	\end{$1matrix} u
+\end{cases}
+endsnippet
+
+snippet ssd "discrete state-space environment" w
+\begin{cases}
+	x_{${1:k}+1} &= \begin{${2:p/b/v/V/B/small}matrix}
+		${3}
+	\end{$2matrix} x_{$1} + \begin{$2matrix}
+		${4}
+	\end{$2matrix} u_{$1} \\
+	y_{$1} &= \begin{$2matrix}
+		${5}
+	\end{$2matrix} x_{$1} + \begin{$2matrix}
+		${6}
+	\end{$2matrix} u_{$1}
+\end{cases}
+endsnippet
+
 snippet frac "\frac{}{}"
 \frac{${1:num}}{${2:denom}} $0
 endsnippet
