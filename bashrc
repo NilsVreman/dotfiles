@@ -99,6 +99,7 @@ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.9.11-0.fc33.x86_64/
 alias python='python3'
 alias matlab16='VERSION=R2016a matlab &'
 alias matlab19='VERSION=R2019b matlab &'
+alias julia15='~/.julia/v1.5.4/bin/julia'
 
 # some more ls aliases
 alias ll='ls -alF'
