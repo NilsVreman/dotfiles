@@ -250,7 +250,7 @@ noremap <C-j> <C-x>
 noremap <C-k> <C-a>
 
 " Remap Match nearest [], (), {} on this line to its nearest counterpart
-noremap % M
+noremap M %
 
 " -------------------------------------------
 " BUFFER KEYMAPPINGS
