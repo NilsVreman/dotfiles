@@ -16,3 +16,6 @@ export PATH="$HOME/racket/bin:$PATH"
 
 # Add mosek path
 export PATH="$HOME/PhD/toolboxes/mosek/9.2/tools/platform/linux64x86/bin:$PATH"
+
+# opam configuration
+test -r /local/home/nilsv/.opam/opam-init/init.sh && . /local/home/nilsv/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
