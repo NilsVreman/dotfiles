@@ -13,7 +13,7 @@ snippet todo "TODO"
 endsnippet
 
 snippet inc "#include <...h>"
-#include <${1:stdio.h}>$0
+#include <${1:stdio}.h>$0
 endsnippet
 
 snippet #ifndef "#ifndef ... #define ... #endif"
@@ -54,6 +54,12 @@ snippet forg "for loop (for)"
 for (${1:initialization}; ${2:condition}; ${3:increment/decrement}) {
 	$0
 }
+endsnippet
+
+snippet do "do-while loop"
+do {
+	$0
+} while (${1:condition});
 endsnippet
 
 snippet once "Include header once only guard"
