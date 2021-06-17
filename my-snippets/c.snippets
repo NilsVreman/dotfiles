@@ -50,6 +50,12 @@ for (${1:int }${2:i} = 0; ${3:$2 < n}; ${4:$2++}) {
 }
 endsnippet
 
+snippet forg "for loop (for)"
+for (${1:initialization}; ${2:condition}; ${3:increment/decrement}) {
+	$0
+}
+endsnippet
+
 snippet once "Include header once only guard"
 #ifndef ${1:`!p
 if not snip.c:
@@ -86,15 +92,7 @@ struct ${1:`!p snip.rv = (snip.basename or "name") + "_t"`} {
 };
 endsnippet
 
-snippet fun "function" b
-${1:void} ${2:function_name}(${3:args}) {
-	$0
-}
-endsnippet
-
-snippet fund "function declaration" b
-${1:void} ${2:function_name}(${3:args});$0
-endsnippet
+### Functions ###
 
 global !p
 def split_line(text):
@@ -112,23 +110,33 @@ def get_args(arglist):
 	return args
 endglobal
 
-post_jump "if snip.tabstop == 0 : split_line(snip.tabstops[4].current_text)"
+snippet fun "function" b
+${1:void} ${2:function_name}(${3:args}) {
+	$0
+}
+endsnippet
+
+snippet funp "function prototype" b
+${1:void} ${2:function_name}(${3:args});$0
+endsnippet
+
+#post_jump "if snip.tabstop == 0 : split_line(snip.tabstops[4].current_text)"
 snippet head "File Header" b
-/******************************************************************************
+/*****************************************************************************
 * File:             `!p snip.rv = fn`
 *
-* Author:           ${2}  
+* Author:           ${2:Author name}  
 * Created:          `date +%m/%d/%y` 
-* Description:      ${4:${VISUAL}}
+* Description:      ${4:File Description}
 *****************************************************************************/
 ${0}
 endsnippet
 
-post_jump "if snip.tabstop == 0 : split_line(snip.tabstops[4].current_text)"
-snippet func "Function Header" 
-/******************************************************************************
+#post_jump "if snip.tabstop == 0 : split_line(snip.tabstops[4].current_text)"
+snippet funh "Function with Header" 
+/*****************************************************************************
 * Function:         $1
-* Description:      ${4:${VISUAL}}
+* Description:      $4
 * Where:`!p 
 snip.rv = ""
 snip >> 2
@@ -142,8 +150,28 @@ snip << 2
 * Return:           $5
 * Error:            $6
 *****************************************************************************/
-${1}($2){
-	${0}
+${1:function_name}(${2:args}) {
+	$0
 }
+endsnippet
+
+snippet funph "Function prototype with Header" 
+/*****************************************************************************
+* Function:         $1
+* Description:      $4
+* Where:`!p 
+snip.rv = ""
+snip >> 2
+
+args = get_args(t[2])
+if args:
+	for arg in args:
+		snip.rv += '\n' + '*' + ' '*19 + arg + ' - TODO'
+snip << 2
+`
+* Return:           $5
+* Error:            $6
+*****************************************************************************/
+${1:function_name}(${2:args});$0
 endsnippet
 # vim:ft=snippets:
