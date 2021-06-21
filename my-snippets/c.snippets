@@ -9,11 +9,15 @@ snippet def "#define ..."
 endsnippet
 
 snippet todo "TODO"
-/* 	TODO: ${1:Todo description here} */$0
+/* ${1:${2:TODO}: ${3:Description here}} */$0
 endsnippet
 
 snippet inc "#include <...h>"
 #include <${1:stdio}.h>$0
+endsnippet
+
+snippet incf "#include '...h'"
+#include "${1:myfile}.h"$0
 endsnippet
 
 snippet #ifndef "#ifndef ... #define ... #endif"
