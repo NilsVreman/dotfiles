@@ -116,13 +116,13 @@ def get_args(arglist):
 	return args
 endglobal
 
-snippet fun "function" b
+snippet funf "function" b
 ${1:void} ${2:function_name}(${3:args}) {
 	$0
 }
 endsnippet
 
-snippet funp "function prototype" b
+snippet funpf "function prototype" b
 ${1:void} ${2:function_name}(${3:args});$0
 endsnippet
 
@@ -139,7 +139,7 @@ ${0}
 endsnippet
 
 #post_jump "if snip.tabstop == 0 : split_line(snip.tabstops[4].current_text)"
-snippet funh "Function with Header" 
+snippet fun "Function with Header" 
 /*****************************************************************************
 * Function:         $1
 * Description:      $4
@@ -161,7 +161,7 @@ ${1:function_name}(${2:args}) {
 }
 endsnippet
 
-snippet funph "Function prototype with Header" 
+snippet funp "Function prototype with Header" 
 /*****************************************************************************
 * Function:         $1
 * Description:      $4
