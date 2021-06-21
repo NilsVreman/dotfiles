@@ -131,9 +131,9 @@ snippet head "File Header" b
 /*****************************************************************************
 * File:             `!p snip.rv = fn`
 *
-* Author:           ${2:Author name}  
+* Author:           ${1:Author name}  
 * Created:          `date +%m/%d/%y` 
-* Description:      ${4:File Description}
+* Description:      ${2:File Description}
 *****************************************************************************/
 ${0}
 endsnippet
@@ -141,43 +141,43 @@ endsnippet
 #post_jump "if snip.tabstop == 0 : split_line(snip.tabstops[4].current_text)"
 snippet fun "Function with Header" 
 /*****************************************************************************
-* Function:         $1
+* Function:         $2
 * Description:      $4
 * Where:`!p 
 snip.rv = ""
 snip >> 2
 
-args = get_args(t[2])
+args = get_args(t[3])
 if args:
 	for arg in args:
 		snip.rv += '\n' + '*' + ' '*19 + arg + ' - TODO'
 snip << 2
 `
-* Return:           $5
-* Error:            $6
+* Return:           $1
+* Error:            $5
 *****************************************************************************/
-${1:function_name}(${2:args}) {
+${1:void} ${2:function_name}(${3:args}) {
 	$0
 }
 endsnippet
 
 snippet funp "Function prototype with Header" 
 /*****************************************************************************
-* Function:         $1
+* Function:         $2
 * Description:      $4
 * Where:`!p 
 snip.rv = ""
 snip >> 2
 
-args = get_args(t[2])
+args = get_args(t[3])
 if args:
 	for arg in args:
 		snip.rv += '\n' + '*' + ' '*19 + arg + ' - TODO'
 snip << 2
 `
-* Return:           $5
-* Error:            $6
+* Return:           $1
+* Error:            $5
 *****************************************************************************/
-${1:function_name}(${2:args});$0
+${1:void} ${2:function_name}(${3:args});$0
 endsnippet
 # vim:ft=snippets:
