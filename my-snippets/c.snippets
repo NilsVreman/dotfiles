@@ -37,6 +37,13 @@ ${1:#pragma mark -
 $0
 endsnippet
 
+snippet mainn "main(void) (main)"
+int main(${1:void}) {
+	$0
+	return 0;
+}
+endsnippet
+
 snippet main "main() (main)"
 int main(${1:int argc, char *argv[]}) {
 	$0
@@ -117,13 +124,13 @@ def get_args(arglist):
 endglobal
 
 snippet funf "function" b
-${1:void} ${2:function_name}(${3:args}) {
+${1:void} ${2:function_name}(${3:void}) {
 	$0
 }
 endsnippet
 
 snippet funpf "function prototype" b
-${1:void} ${2:function_name}(${3:args});$0
+${1:void} ${2:function_name}(${3:void});$0
 endsnippet
 
 #post_jump "if snip.tabstop == 0 : split_line(snip.tabstops[4].current_text)"
@@ -156,7 +163,7 @@ snip << 2
 * Return:           $1
 * Error:            $5
 *****************************************************************************/
-${1:void} ${2:function_name}(${3:args}) {
+${1:void} ${2:function_name}(${3:void}) {
 	$0
 }
 endsnippet
@@ -178,6 +185,6 @@ snip << 2
 * Return:           $1
 * Error:            $5
 *****************************************************************************/
-${1:void} ${2:function_name}(${3:args});$0
+${1:void} ${2:function_name}(${3:void});$0
 endsnippet
 # vim:ft=snippets:
