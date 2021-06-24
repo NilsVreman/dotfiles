@@ -93,20 +93,14 @@ snippet fprintf "fprintf ..."
 fprintf(${1:stderr}, "${2:%s}\n"${2/([^%]|%%)*(%.)?.*/(?2:, :\);)/}$3${2/([^%]|%%)*(%.)?.*/(?2:\);)/}
 endsnippet
 
-snippet eli "else if .. (eli)"
-else if (${1:condition}) {
-	$0
-}
-endsnippet
-
 snippet printf "printf .. (printf)"
 printf("${1:%s}\n"${1/([^%]|%%)*(%.)?.*/(?2:, :\);)/}$2${1/([^%]|%%)*(%.)?.*/(?2:\);)/}
 endsnippet
 
-snippet st "struct"
+snippet struct "struct"
 struct ${1:`!p snip.rv = (snip.basename or "name") + "_t"`} {
-	${0:data}
-};
+	${2:data}
+};$0
 endsnippet
 
 ### Functions ###
