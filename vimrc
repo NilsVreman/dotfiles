@@ -72,49 +72,6 @@ let g:latex_to_unicode_suggestions = 0
 let g:latex_to_unicode_tab = 0
 
 " -------------------------------------------
-" Netrw
-
-" Control left/right split
-let g:netrw_altv = 1
-
-" absolute width of netrw window
-let g:netrw_winsize = 10
-
-" do not display info on the top of window
-let g:netrw_banner = 0
-
-" tree-view
-let g:netrw_liststyle = 3
-
-" sort is affecting only: directories on the top, files below
-let g:netrw_sort_sequence = '[\/]$,*'
-
-" use the previous window to open file
-let g:netrw_browse_split = 4
-
-" Remove hidden buffers
-autocmd FileType netrw setl bufhidden=wipe
-
-" Toggle Lexplore with Leader-E
-let g:NetrwIsOpen=0
-function! ToggleNetrw()
-    if g:NetrwIsOpen
-        let i = bufnr("$")
-        while (i >= 1)
-            if (getbufvar(i, "&filetype") == "netrw")
-                silent exe "bwipeout " . i
-            endif
-            let i-=1
-        endwhile
-        let g:NetrwIsOpen=0
-    else
-        let g:NetrwIsOpen=1
-        silent Lexplore
-    endif
-endfunction
-" Keymapping set further down !!!!
-
-" -------------------------------------------
 "  Colorscheme
 set termguicolors                     " For full support of colours, uncomment this line and comment next
 " set t_Co=256
@@ -190,9 +147,6 @@ set splitright
 let mapleader = "\<Space>"
 
 " TOGGLES -----------------------------------
-"
-" Toggle netrw menu
-noremap <silent> <Leader>e :call ToggleNetrw()<CR>
 
 " Execute python code
 autocmd! FileType python nnoremap <leader>p :exec '!python3.6' shellescape(@%, 1)<cr>
