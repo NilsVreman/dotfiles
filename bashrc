@@ -93,6 +93,13 @@ fi
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.9.11-0.fc33.x86_64/
 
 # --------------------------------
+# Make vim default editor
+# --------------------------------
+
+export EDITOR='vim'
+export VISUAL='vim'
+
+# --------------------------------
 # Commands
 # --------------------------------
 # Language aliases
