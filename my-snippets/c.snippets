@@ -119,19 +119,26 @@ endsnippet
 #########################
 
 snippet td "typedef"
-typedef ${1:typename_t} ${2:type};$0
+typedef ${1:typetag_t} ${2:type};$0
 endsnippet
 
 snippet st "struct"
-struct ${1:structname} {
-	${2:data}
-};$0
+struct ${1:structtag} {
+	${3:data}
+}${2: optional struct variables};$0
 endsnippet
 
 snippet tds "typedef struct"
 typedef struct {
 	${2:data}
-} ${1:type_name_t};$0
+} ${1:typetag_t};$0
+endsnippet
+
+snippet un "union"
+union ${1:uniontag_u} {
+	${3:member definition;
+	member definition;}
+}${2: optional union variables};$0
 endsnippet
 
 #################
