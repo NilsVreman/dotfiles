@@ -4,6 +4,10 @@ priority -50
 #                            TextMate Snippets                            #
 ###########################################################################
 
+###########################
+### PRECOMPILER RELATED ###
+###########################
+
 snippet def "#define ..."
 #define ${1:SYMBOL} ${2:value}$0
 endsnippet
@@ -22,7 +26,8 @@ endsnippet
 
 snippet #ifndef "#ifndef ... #define ... #endif"
 #ifndef ${1/([A-Za-z0-9_]+).*/$1/}
-#define ${1:SYMBOL} ${2:value}
+#define ${1:SYMBOL}
+$0
 #endif /* ifndef $1 */
 endsnippet
 
@@ -41,6 +46,26 @@ ${1:#pragma mark -
 $0
 endsnippet
 
+snippet once "Include header once only guard"
+#ifndef ${1:`!p
+if not snip.c:
+	import random, string
+	name = re.sub(r'[^A-Za-z0-9]+','_', snip.fn).upper()
+	rand = ''.join(random.sample(string.ascii_letters+string.digits, 8))
+	snip.rv = ('%s_%s' % (name,rand)).upper()
+else:
+	snip.rv = snip.c`}
+#define $1
+
+$0
+
+#endif /* end of include guard: $1 */
+endsnippet
+
+############
+### MAIN ###
+############
+
 snippet mainn "main(void) (main)"
 int main(${1:void}) {
 	$0
@@ -54,6 +79,10 @@ int main(${1:int argc, char *argv[]}) {
 	return 0;
 }
 endsnippet
+
+#############
+### LOOPS ###
+#############
 
 snippet for "for loop (for)"
 for (${1:int }${2:i} = 0; ${3:$2 < n}; ${4:$2++}) {
@@ -73,21 +102,9 @@ do {
 } while (${1:condition});
 endsnippet
 
-snippet once "Include header once only guard"
-#ifndef ${1:`!p
-if not snip.c:
-	import random, string
-	name = re.sub(r'[^A-Za-z0-9]+','_', snip.fn).upper()
-	rand = ''.join(random.sample(string.ascii_letters+string.digits, 8))
-	snip.rv = ('%s_%s' % (name,rand)).upper()
-else:
-	snip.rv = snip.c`}
-#define $1
-
-$0
-
-#endif /* end of include guard: $1 */
-endsnippet
+################
+### PRINTING ###
+################
 
 snippet fprintf "fprintf ..."
 fprintf(${1:stderr}, "${2:%s}\n"${2/([^%]|%%)*(%.)?.*/(?2:, :\);)/}$3${2/([^%]|%%)*(%.)?.*/(?2:\);)/}
@@ -97,13 +114,29 @@ snippet printf "printf .. (printf)"
 printf("${1:%s}\n"${1/([^%]|%%)*(%.)?.*/(?2:, :\);)/}$2${1/([^%]|%%)*(%.)?.*/(?2:\);)/}
 endsnippet
 
-snippet struct "struct"
-struct ${1:`!p snip.rv = (snip.basename or "name") + "_t"`} {
+#########################
+### TYPES AND STRUCTS ###
+#########################
+
+snippet td "typedef"
+typedef ${1:typename_t} ${2:type};$0
+endsnippet
+
+snippet st "struct"
+struct ${1:structname} {
 	${2:data}
 };$0
 endsnippet
 
-### Functions ###
+snippet tds "typedef struct"
+typedef struct {
+	${2:data}
+} ${1:type_name_t};$0
+endsnippet
+
+#################
+### FUNCTIONS ###
+#################
 
 global !p
 def split_line(text):
