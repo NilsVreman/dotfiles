@@ -128,17 +128,24 @@ struct ${1:structtag} {
 }${2: optional struct variables};$0
 endsnippet
 
+snippet un "union"
+union ${1:uniontag_u} {
+	${3:member definition;
+	member definition;}
+}${2: optional union variables};$0
+endsnippet
+
 snippet tds "typedef struct"
 typedef struct {
 	${2:data}
 } ${1:typetag_t};$0
 endsnippet
 
-snippet un "union"
-union ${1:uniontag_u} {
-	${3:member definition;
+snippet tdu "typedef union"
+typedef union {
+	${2:member definition;
 	member definition;}
-}${2: optional union variables};$0
+}${1:typetag_t};$0
 endsnippet
 
 #################
