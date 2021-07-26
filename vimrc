@@ -143,18 +143,19 @@ function! Modetheme(group)
 endfunction
 
 set statusline=                             " Init
-set statusline+=[%{expand('%:p:h:t')}/%t]%*   " finds parent directory and the current file name
-set statusline+=\ >\ %*                       " Arrow
-set statusline+=[%Y\ :\ %n]%*                 " File type : Buffer Number
-set statusline+=\ %7*%m%*
+set statusline+=[%{expand('%:p:h:t')}/%t]%* " finds parent directory and the current file name
+set statusline+=\ >\ %*                     " Arrow
+set statusline+=[%Y]\ >\ %*                 " File type 
+set statusline+=%n%*                        " Buffer Number
+set statusline+=\ %7*%m%*                   " Modified file flag"
 set statusline+=%=                          " Switch to right
-set statusline+=[%l/%L\ (%v)]\ %*             " Current Line / Total # lines + (virtual column number)
-set statusline+=%1*%{(Modetheme('INS'))}%*    " Color 'USER1"
-set statusline+=%2*%{(Modetheme('NRM'))}%*    " Color 'USER2"
-set statusline+=%3*%{(Modetheme('CMD'))}%*    " Color 'USER3"
-set statusline+=%4*%{(Modetheme('REP'))}%*    " Color 'USER4"
-set statusline+=%5*%{(Modetheme('VIS'))}%*    " Color 'USER5"
-set statusline+=%6*%{(Modetheme('OTH'))}%*    " Color 'USER6"
+set statusline+=[%l/%L]\ (%v)\ %*           " Current Line / Total # lines + (virtual column number)
+set statusline+=%1*%{(Modetheme('INS'))}%*  " Color 'USER1"
+set statusline+=%2*%{(Modetheme('NRM'))}%*  " Color 'USER2"
+set statusline+=%3*%{(Modetheme('CMD'))}%*  " Color 'USER3"
+set statusline+=%4*%{(Modetheme('REP'))}%*  " Color 'USER4"
+set statusline+=%5*%{(Modetheme('VIS'))}%*  " Color 'USER5"
+set statusline+=%6*%{(Modetheme('OTH'))}%*  " Color 'USER6"
 
 "  Colours: Insert, Normal, Command, Replace, Visual, Other
 " aquaish: 108
