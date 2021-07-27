@@ -62,6 +62,14 @@ $0
 #endif /* end of include guard: $1 */
 endsnippet
 
+##############
+### MEMORY ###
+##############
+
+snippet malloc "assign memory accordingly"
+${1:type_name} *${2:var_name} = ($1 *) malloc(${3:sizeof($1)});$0
+endsnippet
+
 ############
 ### MAIN ###
 ############
