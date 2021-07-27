@@ -161,13 +161,13 @@ set statusline+=%6*%{(Modetheme('OTH'))}%*  " Color 'USER6"
 " aquaish: 108
 hi User1 guifg=Black guibg=#8ec07c
 " yellowish: 214
-hi User2 guifg=Black guibg=#fabd2f
+hi User2 guifg=Black guibg=#d79921
 " purple: 175
 hi User3 guifg=Black guibg=LightCoral
 " purple: 175
 hi User4 guifg=Black guibg=#d3869b
 " blueish: 109
-hi User5 guifg=Black guibg=#83a598
+hi User5 guifg=Black guibg=#458588
 "fg dark khaki colour: 250
 hi User6 guifg=Black guibg=#d5c4a1
 "fg light khaki colour: 223
