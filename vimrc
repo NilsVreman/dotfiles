@@ -132,46 +132,38 @@ set cursorline
 let g:currentmode = { 'n': 'NORMAL', 'v': 'VISUAL', 'V': 'V.LINE', "\<C-V>": 'V.BLOCK', 's': 'SELECT', 'S': 'S.LINE', "\<C-S>": 'S.BLOCK', 'i': 'INSERT', 'R': 'REPLACE', 'c': 'COMMAND', 'r': 'PROMPT', 'r?': 'CONFIRM'}
 let g:modegroups = { 'n': 'NRM', 'v': 'VIS', 'V': 'VIS', "\<C-V>": 'VIS', 's': 'OTH', 'S': 'OTH', "\<C-S>": 'OTH', 'i': 'INS', 'R': 'REP', 'c': 'CMD', 'r': 'OTH', 'r?': 'OTH'}
 
-function! Modetheme(group)
+function! ModeTheme(group)
     if g:modegroups[mode()]==a:group
         let g:colthm = g:currentmode[mode()]
-        let g:lineModes = g:colthm
-        return " <".g:lineModes."> "
+        return "  < ".g:colthm." >  "
     else
         return ''
     endif
 endfunction
 
-set statusline=                             " Init
-set statusline+=[%{expand('%:p:h:t')}/%t]%* " finds parent directory and the current file name
-set statusline+=\ >\ %*                     " Arrow
-set statusline+=[%Y]\ >\ %*                 " File type 
-set statusline+=%n%*                        " Buffer Number
-set statusline+=\ %7*%m%*                   " Modified file flag"
-set statusline+=%=                          " Switch to right
-set statusline+=[%l/%L]\ (%v)\ %*           " Current Line / Total # lines + (virtual column number)
-set statusline+=%1*%{(Modetheme('INS'))}%*  " Color 'USER1"
-set statusline+=%2*%{(Modetheme('NRM'))}%*  " Color 'USER2"
-set statusline+=%3*%{(Modetheme('CMD'))}%*  " Color 'USER3"
-set statusline+=%4*%{(Modetheme('REP'))}%*  " Color 'USER4"
-set statusline+=%5*%{(Modetheme('VIS'))}%*  " Color 'USER5"
-set statusline+=%6*%{(Modetheme('OTH'))}%*  " Color 'USER6"
+set statusline=                                     " Init
+set statusline+=\ [%{expand('%:p:h:t')}/%t]\ >\     " finds parent directory and the current file name
+set statusline+=[%Y]\ >\                            " File type 
+set statusline+=[%n]\                               " Buffer Number
+set statusline+=%7*%m                               " Modified file flag"
+set statusline+=%=                                  " Switch to right
+set statusline+=[%l/%L]\ (%v)\                      " Current Line / Total # lines + (virtual column number)
+set statusline+=%1*%{ModeTheme('INS')}  " Color 'USER1"
+set statusline+=%2*%{ModeTheme('NRM')}  " Color 'USER2"
+set statusline+=%3*%{ModeTheme('CMD')}  " Color 'USER3"
+set statusline+=%4*%{ModeTheme('REP')}  " Color 'USER4"
+set statusline+=%5*%{ModeTheme('VIS')}  " Color 'USER5"
+set statusline+=%6*%{ModeTheme('OTH')}  " Color 'USER6"
 
 "  Colours: Insert, Normal, Command, Replace, Visual, Other
-" yellowish: 172
-hi User1 guifg=Black guibg=#d79921
-" greenish: 106
-hi User2 guifg=Black guibg=#98971a
-" redish: 
-hi User3 guifg=Black guibg=LightCoral
-" purpleish: 132
-hi User4 guifg=Black guibg=#b16286
-" blueish: 109
-hi User5 guifg=Black guibg=#83a598
-"fg dark khaki colour: 250
-hi User6 guifg=Black guibg=#d5c4a1
-"fg light khaki colour: 223
+" yellowish: 172, greenish: 106, redish: ?, purpleish: 132, blueish: 109, fg dark khaki colour: 250, fg light khaki colour: 223
 hi User7 guifg=#ebdbb2 guibg=#504945
+hi User1 guifg=Black guibg=#d79921
+hi User2 guifg=Black guibg=#98971a
+hi User3 guifg=Black guibg=LightCoral
+hi User4 guifg=Black guibg=#b16286
+hi User5 guifg=Black guibg=#83a598
+hi User6 guifg=Black guibg=#d5c4a1
 
 " Make permanently visible
 set laststatus=2
