@@ -135,35 +135,39 @@ let g:modegroups = { 'n': 'NRM', 'v': 'VIS', 'V': 'VIS', "\<C-V>": 'VIS', 's': '
 function! ModeTheme(group)
     if g:modegroups[mode()]==a:group
         let g:colthm = g:currentmode[mode()]
-        return "  < ".g:colthm." >  "
+        return " | [".g:colthm."] "
     else
         return ''
     endif
 endfunction
 
+"  Colours: Insert, Normal, Command, Replace, Visual, Other
+" yellowish: 172, greenish: 106, redish: ?, purpleish: 132, blueish: 109, fg dark khaki colour: 250, fg light khaki colour: 223
+hi InsertColour guifg=Black guibg=#d79921
+hi CommandColour guifg=Black guibg=LightCoral
+hi ReplaceColour guifg=Black guibg=#b16286
+hi VisualColour guifg=Black guibg=#83a598
+hi OtherColour guifg=Black guibg=#d5c4a1
+"hi User7 guifg=#ebdbb2 guibg=#504945
+
 set statusline=                                     " Init
+set statusline+=%{%(g:modegroups[mode()]=='INS')?'%#InsertColour#':''%}     " Statusline colour for insert mode
+set statusline+=%{%(g:modegroups[mode()]=='REP')?'%#ReplaceColour#':''%}    " Statusline colour for replace mode
+set statusline+=%{%(g:modegroups[mode()]=='VIS')?'%#VisualColour#':''%}     " Statusline colour for visual mode
+set statusline+=%{%(g:modegroups[mode()]=='CMD')?'%#CommandColour#':''%}    " Statusline colour for command mode
+set statusline+=%{%(g:modegroups[mode()]=='OTH')?'%#OtherColour#':''%}      " Statusline colour for other mode
 set statusline+=\ [%{expand('%:p:h:t')}/%t]\ >\     " finds parent directory and the current file name
 set statusline+=[%Y]\ >\                            " File type 
 set statusline+=[%n]\                               " Buffer Number
-set statusline+=%7*%m                               " Modified file flag"
+set statusline+=%m                                  " Modified file flag"
 set statusline+=%=                                  " Switch to right
 set statusline+=[%l/%L]\ (%v)\                      " Current Line / Total # lines + (virtual column number)
-set statusline+=%1*%{ModeTheme('INS')}  " Color 'USER1"
-set statusline+=%2*%{ModeTheme('NRM')}  " Color 'USER2"
-set statusline+=%3*%{ModeTheme('CMD')}  " Color 'USER3"
-set statusline+=%4*%{ModeTheme('REP')}  " Color 'USER4"
-set statusline+=%5*%{ModeTheme('VIS')}  " Color 'USER5"
-set statusline+=%6*%{ModeTheme('OTH')}  " Color 'USER6"
-
-"  Colours: Insert, Normal, Command, Replace, Visual, Other
-" yellowish: 172, greenish: 106, redish: ?, purpleish: 132, blueish: 109, fg dark khaki colour: 250, fg light khaki colour: 223
-hi User7 guifg=#ebdbb2 guibg=#504945
-hi User1 guifg=Black guibg=#d79921
-hi User2 guifg=Black guibg=#98971a
-hi User3 guifg=Black guibg=LightCoral
-hi User4 guifg=Black guibg=#b16286
-hi User5 guifg=Black guibg=#83a598
-hi User6 guifg=Black guibg=#d5c4a1
+set statusline+=%{ModeTheme('INS')}  " Color 'USER1"
+set statusline+=%{ModeTheme('NRM')}  " Color 'USER2"
+set statusline+=%{ModeTheme('CMD')}  " Color 'USER3"
+set statusline+=%{ModeTheme('REP')}  " Color 'USER4"
+set statusline+=%{ModeTheme('VIS')}  " Color 'USER5"
+set statusline+=%{ModeTheme('OTH')}  " Color 'USER6"
 
 " Make permanently visible
 set laststatus=2
