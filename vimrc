@@ -130,7 +130,7 @@ set cursorline
 " -------------------------------------------
 "  Statusline
 let g:currentmode = { 'n': 'NORMAL', 'v': 'VISUAL', 'V': 'V.LINE', "\<C-V>": 'V.BLOCK', 's': 'SELECT', 'S': 'S.LINE', "\<C-S>": 'S.BLOCK', 'i': 'INSERT', 'R': 'REPLACE', 'c': 'COMMAND', 'r': 'PROMPT', 'r?': 'CONFIRM'}
-let g:modegroups = { 'n': 'NRM', 'v': 'VIS', 'V': 'VIS', "\<C-V>": 'VIS', 's': 'OTH', 'S': 'OTH', "\<C-S>": 'OTH', 'i': 'INS', 'R': 'REP', 'c': 'CMD', 'r': 'OTH', 'r?': 'OTH'}
+let g:modegroups = { 'n': 'NRM', 'v': 'VIS', 'V': 'VIS', "\<C-V>": 'VIS', 's': 'SEL', 'S': 'SEL', "\<C-S>": 'SEL', 'i': 'INS', 'R': 'REP', 'c': 'CMD', 'r': 'OTH', 'r?': 'OTH'}
 
 function! ModeTheme(group)
     if g:modegroups[mode()]==a:group
@@ -146,7 +146,8 @@ endfunction
 hi InsertColour guifg=Black guibg=#d79921
 hi CommandColour guifg=Black guibg=LightCoral
 hi ReplaceColour guifg=Black guibg=#b16286
-hi VisualColour guifg=Black guibg=#83a598
+hi VisualColour guifg=Black guibg=#afd7af
+hi SelectColour guifg=Black guibg=#83a598
 hi OtherColour guifg=Black guibg=#d5c4a1
 "hi User7 guifg=#ebdbb2 guibg=#504945
 
@@ -155,6 +156,7 @@ set statusline+=%{%(g:modegroups[mode()]=='INS')?'%#InsertColour#':''%}     " St
 set statusline+=%{%(g:modegroups[mode()]=='REP')?'%#ReplaceColour#':''%}    " Statusline colour for replace mode
 set statusline+=%{%(g:modegroups[mode()]=='VIS')?'%#VisualColour#':''%}     " Statusline colour for visual mode
 set statusline+=%{%(g:modegroups[mode()]=='CMD')?'%#CommandColour#':''%}    " Statusline colour for command mode
+set statusline+=%{%(g:modegroups[mode()]=='SEL')?'%#SelectColour#':''%}     " Statusline colour for select mode
 set statusline+=%{%(g:modegroups[mode()]=='OTH')?'%#OtherColour#':''%}      " Statusline colour for other mode
 set statusline+=\ [%{expand('%:p:h:t')}/%t]\ >\     " finds parent directory and the current file name
 set statusline+=[%Y]\ >\                            " File type 
