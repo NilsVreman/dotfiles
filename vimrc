@@ -146,8 +146,8 @@ endfunction
 hi InsertColour guifg=Black guibg=#d79921
 hi CommandColour guifg=Black guibg=LightCoral
 hi ReplaceColour guifg=Black guibg=#b16286
-hi VisualColour guifg=Black guibg=#afd7af
-hi SelectColour guifg=Black guibg=#83a598
+hi VisualColour guifg=Black guibg=#83a598
+hi SelectColour guifg=Black guibg=#afd7af
 hi OtherColour guifg=Black guibg=#d5c4a1
 "hi User7 guifg=#ebdbb2 guibg=#504945
 
