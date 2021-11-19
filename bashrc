@@ -105,7 +105,7 @@ export VISUAL='vim'
 # Language aliases
 alias python='python3'
 alias matlab16='VERSION=R2016a matlab &'
-alias matlab19='VERSION=R2019b matlab &'
+alias matlab20='VERSION=R2020b matlab &'
 alias julia15='~/.julia/v1.5.4/bin/julia'
 
 # some more ls aliases
