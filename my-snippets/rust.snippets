@@ -1,0 +1,53 @@
+#######################################################################
+#                            Rust Snippets                            #
+#######################################################################
+
+priority -50
+
+snippet fn "fn name(?) -> ? {}"
+fn ${1:function_name}(${2:arguments}) ${3: -> ${4:Result<Some, Error>}}{
+	$0
+}
+endsnippet
+
+snippet pfn "pub fn name(?) -> ? {}"
+pub fn ${1:function_name}(${2:arguments}) ${3: -> ${4:Result<Some, Error>}}{
+	$0
+}
+endsnippet
+
+snippet afn "async fn name(?) -> ? {}"
+async fn ${1:function_name}(${2:arguments}) ${3: -> ${4:Result<Some, Error>}}{
+	$0
+}
+endsnippet
+
+snippet pafn "pub async fn name(?) -> ? {}"
+pub async fn ${1:function_name}(${2:arguments}) ${3: -> ${4:Result<Some, Error>}}{
+	$0
+}
+endsnippet
+
+snippet print "print!(..)" b
+print!("${1:String}"${2:, alt_args});
+endsnippet
+
+snippet println "println!(..)" b
+println!("${1:String}"${2:, alt_args});
+endsnippet
+
+snippet fmt "format!(..)"
+format!("${1:String}"${2:, alt_args});
+endsnippet
+
+snippet .it ".iter()" i
+.iter()$0
+endsnippet
+
+snippet impl "Struct/Trait implementation" b
+impl ${1:Type/Trait}${2: for ${3:Type}} {
+	$0
+}
+endsnippet
+
+# vim:ft=snippets:
