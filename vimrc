@@ -223,7 +223,7 @@ nmap <leader>O O<Esc>j
 
 " Move to beginning and end of line
 noremap H ^
-noremap L g$
+noremap L $
 noremap K 10k
 noremap J 10j
 
