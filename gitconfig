@@ -7,3 +7,4 @@
 	ff = only
 [core]
 	editor = vim
+	autocrlf = input

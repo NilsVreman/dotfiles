@@ -187,7 +187,7 @@ let mapleader = "\<Space>"
 " TOGGLES -----------------------------------
 
 " Execute python code
-autocmd! FileType python nnoremap <leader>p :exec '!python3.6' shellescape(@%, 1)<cr>
+autocmd! FileType python nnoremap <leader>p :exec '!python' shellescape(@%, 1)<cr>
 
 " Run Makefile in folder
 nnoremap <Leader>m :!make<CR>
