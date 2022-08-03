@@ -19,3 +19,6 @@ export PATH="$HOME/PhD/projects/rtos-course/toolchain/ARM/bin:$PATH"
 
 # opam configuration
 test -r /local/home/nilsv/.opam/opam-init/init.sh && . /local/home/nilsv/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
+
+# Rust
+. "$HOME/.cargo/env"

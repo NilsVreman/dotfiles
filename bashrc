@@ -134,3 +134,6 @@ alias v='xclip -o'
 # Bind autocompletion here to overwrite the one in /etc/inputrc
 bind "set completion-ignore-case on"
 bind "set show-all-if-ambiguous on"
+
+# Rust related
+. "$HOME/.cargo/env"
