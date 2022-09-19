@@ -37,23 +37,30 @@ Run `vim` and update your bundles:
 ### Using [pathogen]
 
 (Note: if you are on Vim 8 or later you may as well use the built-in package management instead of
-pathogen, `:help packages`.)
+pathogen)
 
 ```bash
 cd ~/.vim
 mkdir -p bundle && cd bundle
-git clone git://github.com/JuliaEditorSupport/julia-vim.git
+git clone https://github.com/JuliaEditorSupport/julia-vim.git
 ```
 
 [pathogen]: https://github.com/tpope/vim-pathogen
 [vundle]: https://github.com/gmarik/vundle
 [vim-plug]: https://github.com/junegunn/vim-plug
 
+### Using built-in package management
+
+Load plugin on Vim startup (see `:help packages`):
+
+```bash
+cd ~/.vim
+mkdir -p pack/plugins/start && cd pack/plugins/start
+git clone https://github.com/JuliaEditorSupport/julia-vim.git
+```
+
 ### Manually
 
-**It is advised not to use manual installation** unless you use the built-in package managment of
-Vim version 8 or later, see `:help packages`.
-
-Otherwise, since julia-vim follows the standard runtime path structure, you can copy (or symlink)
+**It is advised not to use manual installation.** Since julia-vim follows the standard runtime path structure, you can copy (or symlink)
 the relevant portions of this repository into the vim application support directory (`~/.vim` or
 `~/.config/nvim` or whatever your system uses), as appropriate.

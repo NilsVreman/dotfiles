@@ -28,11 +28,11 @@ pub async fn ${1:function_name}(${2:arguments}) ${3: -> ${4:Result<Some, Error>}
 }
 endsnippet
 
-snippet print "print!(..)" b
+snippet print "print!(..)" i
 print!("${1:String}"${2:, alt_args});
 endsnippet
 
-snippet println "println!(..)" b
+snippet println "println!(..)" i
 println!("${1:String}"${2:, alt_args});
 endsnippet
 
@@ -48,6 +48,10 @@ snippet impl "Struct/Trait implementation" b
 impl ${1:Type/Trait}${2: for ${3:Type}} {
 	$0
 }
+endsnippet
+
+snippet use "use case"
+use ${1:${2:std}::${3:library}};$0
 endsnippet
 
 # vim:ft=snippets:

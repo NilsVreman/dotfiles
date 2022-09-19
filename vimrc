@@ -17,11 +17,11 @@ call vundle#begin()
     Plugin 'honza/vim-snippets'
     " Colorschemes to try out
     Plugin 'morhetz/gruvbox'
-    " Plugin 'arcticicestudio/nord-vim'
-    " Plugin 'mhartington/oceanic-next'
-    " Plugin 'altercation/vim-colors-solarized'
-    " Plugin 'tomasiser/vim-code-dark'
+    " Asynchronous Lint Engine (ALE) - Fixing, Linting, Auto-completion
+    Plugin 'dense-analysis/ale'
+    " Julia-vim plugin - NOTE: After installing the language client you will have to install it via the install.sh script
     Plugin 'JuliaEditorSupport/julia-vim'
+    Plugin 'autozimu/LanguageClient-neovim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -58,6 +58,40 @@ let g:UltiSnipsEditSplit="vertical"
 let delimitMate_expand_cr = 1
 
 " -------------------------------------------
+"  Asynchronous Language Engine (ALE)
+
+" Don't start linting before I say so
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_filetype_changed = 0
+let g:ale_enabled = 0
+
+" TODO: Auto-completion
+"let g:ale_completion_enabled = 1
+
+" Omni-completion triggered with <C-x><C-o>
+"set omnifunc=ale#completion#OmniFunc
+
+" Moving between errors
+nmap <silent> <C-j> :ALENextWrap<CR>
+nmap <silent> <C-k> :ALEPreviousWrap<CR>
+
+" Linters: (Continue adding more linters here when necessary)
+let g:ale_linters = {
+            \ 'rust': ['rustc', 'rls'],
+            \ 'java': ['javac', 'checkstyle'],
+            \ 'python': ['flake8'],
+            \ 'markdown': ['alex'],
+            \ 'latex': ['alex'],
+            \}
+"TODO: Fix julia linters
+"TODO: Fix markdown linters
+"TODO: Fix Latex linters
+
+" -------------------------------------------
 "  Julia-Vim
 
 " Blockwise movement = false
@@ -73,14 +107,11 @@ let g:latex_to_unicode_tab = 0
 
 " -------------------------------------------
 "  Colorscheme
+"
 set termguicolors                     " For full support of colours, uncomment this line and comment next
 " set t_Co=256
 set background=dark
 let g:gruvbox_contrast_dark='hard' | colorscheme gruvbox
-" colorscheme nord
-" colorscheme OceanicNext
-" colorscheme solarized
-" colorscheme codedark
 syntax on
 
 " -------------------------------------------
@@ -129,6 +160,8 @@ set cursorline
 
 " -------------------------------------------
 "  Statusline
+
+" Help dicts for statusline modes.
 let g:currentmode = { 'n': 'NORMAL', 'v': 'VISUAL', 'V': 'V.LINE', "\<C-V>": 'V.BLOCK', 's': 'SELECT', 'S': 'S.LINE', "\<C-S>": 'S.BLOCK', 'i': 'INSERT', 'R': 'REPLACE', 'c': 'COMMAND', 'r': 'PROMPT', 'r?': 'CONFIRM'}
 let g:modegroups = { 'n': 'NRM', 'v': 'VIS', 'V': 'VIS', "\<C-V>": 'VIS', 's': 'SEL', 'S': 'SEL', "\<C-S>": 'SEL', 'i': 'INS', 'R': 'REP', 'c': 'CMD', 'r': 'OTH', 'r?': 'OTH'}
 
@@ -139,6 +172,19 @@ function! ModeTheme(group)
     else
         return ''
     endif
+endfunction
+
+function! LinterStatus() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
+
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+
+    return l:counts.total == 0 ? '[OK] | ' : printf(
+    \   '[%d (W) / %d (E)] | ',
+    \   all_non_errors,
+    \   all_errors
+    \)
 endfunction
 
 "  Colours: Insert, Normal, Command, Replace, Visual, Other
@@ -163,6 +209,7 @@ set statusline+=[%Y]\ >\                            " File type
 set statusline+=[%n]\                               " Buffer Number
 set statusline+=%m                                  " Modified file flag"
 set statusline+=%=                                  " Switch to right
+set statusline+=%{LinterStatus()}                   " Add Linterstatus to statusline
 set statusline+=[%l/%L]\ (%v)\                      " Current Line / Total # lines + (virtual column number)
 set statusline+=%{ModeTheme('INS')}  " Color 'USER1"
 set statusline+=%{ModeTheme('NRM')}  " Color 'USER2"
@@ -191,6 +238,9 @@ autocmd! FileType python nnoremap <leader>p :exec '!python' shellescape(@%, 1)<c
 
 " Run Makefile in folder
 nnoremap <Leader>m :!make<CR>
+
+" Run linter
+nnoremap <Leader>at :ALEToggle<CR>
 
 " Has to do with line highlighting
 nnoremap <Leader>c :set cursorline!<CR>
@@ -236,10 +286,6 @@ vnoremap <left> h
 vnoremap <right> l
 vnoremap <up> k
 vnoremap <down> j
-
-" Remap increase number and decrease number
-noremap <C-j> <C-x>
-noremap <C-k> <C-a>
 
 " Remap Match nearest [], (), {} on this line to its nearest counterpart
 noremap M %

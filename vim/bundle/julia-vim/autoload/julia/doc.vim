@@ -35,7 +35,7 @@ let s:NODOCPATTERN = '\C\VNo documentation found.'
 function! julia#doc#lookup(keyword, ...) abort
   let juliapath = get(a:000, 0, g:julia#doc#juliapath)
   let keyword = escape(a:keyword, '"\')
-  let cmd = printf('%s -E "@doc %s"', juliapath, keyword)
+  let cmd = printf('%s --compile=min --optimize=0 -E "@doc %s"', juliapath, keyword)
   return systemlist(cmd)
 endfunction
 
@@ -93,7 +93,7 @@ function! s:write_to_preview_window(content, ftype, buffername)
   else
     " We couldn't make it to the preview window, so as a fallback we dump the
     " contents in the status area.
-    execute printf("echo '%s'", join(a:content, "\n"))
+    echo join(a:content, "\n")
   endif
 endfunction
 
@@ -236,7 +236,7 @@ endfunction
 function! s:likely(str) abort
   " escape twice
   let str = escape(escape(a:str, '"\'), '"\')
-  let cmd = printf('%s -E "%s(\"%s\")"', g:julia#doc#juliapath, s:REPL_SEARCH, str)
+  let cmd = printf('%s --compile=min --optimize=0 -E "%s(\"%s\")"', g:julia#doc#juliapath, s:REPL_SEARCH, str)
   let output = systemlist(cmd)
   return split(matchstr(output[0], '\C^search: \zs.*'))
 endfunction
