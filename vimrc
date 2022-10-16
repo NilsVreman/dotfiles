@@ -139,7 +139,7 @@ set textwidth=80
 
 " -------------------------------------------
 "  Line numbering
-set relativenumber
+set number relativenumber
 "  Lines above and below line
 set scrolloff=5 
 
@@ -238,6 +238,9 @@ autocmd! FileType python nnoremap <leader>p :exec '!python' shellescape(@%, 1)<c
 
 " Run Makefile in folder
 nnoremap <Leader>m :!make<CR>
+
+" Run cargo in folder
+nnoremap <Leader>r :!cargo run<CR>
 
 " Run linter
 nnoremap <Leader>at :ALEToggle<CR>
