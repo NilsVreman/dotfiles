@@ -2,41 +2,10 @@
 ### Documentation ###
 #####################
 
-snippet docf "function documentation" b
-# @description
-#
-# ${1:function description}
-#
-# ${2:@param 
-#     ${3:name}::${4:Type}: ${5:Description}}
-#
-# ${6:@returns 
-#     ${7:Type}: ${8:Description}}
-#
-# @examples
-#
-# ${9: function call examples}
-$0
-endsnippet
-
-snippet doct "type definition" b
-# @description
-#
-# ${1:function description}
-#
-# ${2:@field 
-#     ${3:name}::${4:Type}: ${5:Description}}
-#
-# @examples
-#
-# ${6: function call examples}
-$0
-endsnippet
-
 snippet doc "General multiline documentation" b
-#=
-#  ${0:Documentation}
-=#
+"""
+	${0:Documentation}
+"""
 endsnippet
 
 snippet par "function parameter documentation" b
@@ -95,25 +64,20 @@ endsnippet
 ##### Functions #####
 #####################
 
-snippet def "function definition" b
-function ${1:function_name}(${2:Arguments})
-	${3:#
-	# ${4: Comments}
-	#}$0
-end # function
-endsnippet
+snippet "(def|fun)+" "function definition" br
+"""
+	$1($2)$3
 
-snippet deff "function definition without comments" b
-function ${1:function_name}(${2:Arguments})
+${5:Function Description}
+"""
+function ${1:function_name}(${2:Arguments})${3: where {${4:T}}}
 	$0
 end # function
 endsnippet
 
-snippet fun "function definition" b
-function ${1:function_name}(${2:Arguments})
-	${3:#
-	# ${4: Comments}
-	#}$0
+snippet "(def|fun)+f" "function definition" br
+function ${1:function_name}(${2:Arguments})${3: where {${4:T}}}
+	$0
 end # function
 endsnippet
 
@@ -141,10 +105,6 @@ endsnippet
 ##### Includes ######
 #####################
 
-snippet inc "Includes" b
-include("${1:Include}")$0
-endsnippet
-
-snippet include "Includes" b
+snippet "inc(lude)?" "Includes" br
 include("${1:Include}")$0
 endsnippet

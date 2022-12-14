@@ -5,25 +5,29 @@
 priority -50
 
 snippet fn "fn name(?) -> ? {}"
-fn ${1:function_name}(${2:arguments}) ${3:-> ${4:Result<Some, Error>}}{
+fn ${1:function_name}(${2:arguments})${3: -> ${4:Result<Some, Error>}} {
 	$0
 }
 endsnippet
 
+snippet fni "fn name(?) -> ?;"
+fn ${1:function_name}(${2:arguments})${3: -> ${4:Result<Some, Error>}};
+endsnippet
+
 snippet pfn "pub fn name(?) -> ? {}"
-pub fn ${1:function_name}(${2:arguments}) ${3:-> ${4:Result<Some, Error>}}{
+pub fn ${1:function_name}(${2:arguments})${3: -> ${4:Result<Some, Error>}} {
 	$0
 }
 endsnippet
 
 snippet afn "async fn name(?) -> ? {}"
-async fn ${1:function_name}(${2:arguments}) ${3:-> ${4:Result<Some, Error>}}{
+async fn ${1:function_name}(${2:arguments})${3: -> ${4:Result<Some, Error>}} {
 	$0
 }
 endsnippet
 
 snippet pafn "pub async fn name(?) -> ? {}"
-pub async fn ${1:function_name}(${2:arguments}) ${3:-> ${4:Result<Some, Error>}}{
+pub async fn ${1:function_name}(${2:arguments})${3: -> ${4:Result<Some, Error>}} {
 	$0
 }
 endsnippet
@@ -50,10 +54,34 @@ struct ${1:StructName}${2:<${3:T}>} {
 }
 endsnippet
 
+snippet "pst(ruct)?" "public Struct" br
+pub struct ${1:StructName}${2:<${3:T}>} {
+	$0
+}
+endsnippet
+
 snippet "en(um)?" "enum" br
 enum ${1:EnumName}${2:<${3:T}>} {
-	${2:Variants}
-}$0
+	$0
+}
+endsnippet
+
+snippet "pen(um)?" "public enum" br
+pub enum ${1:EnumName}${2:<${3:T}>} {
+	$0
+}
+endsnippet
+
+snippet "tr(ait)?" "trait" br
+trait ${1:TraitName} {
+	$0
+}
+endsnippet
+
+snippet "ptr(ait)?" "public trait" br
+pub trait ${1:TraitName} {
+	$0
+}
 endsnippet
 
 snippet impl "Struct/Trait implementation" b
