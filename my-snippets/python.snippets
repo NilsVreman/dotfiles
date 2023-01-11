@@ -502,56 +502,56 @@ endsnippet
 snippet deff "function without docstring"
 def ${1:fname}(`!p
 if snip.indent:
-	snip.rv = 'self'`${2})${3: -> ReturnClass}:
-	${4:pass}
+	snip.rv = 'self'`${2})${3: -> ${4:ReturnClass}}:
+	${5:pass}
 endsnippet
 
 snippet def "function with docstrings" b
 def ${1:function}(`!p
 if snip.indent:
-	snip.rv = 'self'`${2})${3: -> ReturnClass}:
+	snip.rv = 'self'`${2})${3: -> ${4:ReturnClass}}:
 	`!p snip.rv = triple_quotes(snip)`
-	${4:TODO: Docstring for $1.}`!p
+	${5:TODO: Docstring for $1.}`!p
 write_function_docstring(t, snip) `
-	${5:${VISUAL:pass}}
+	${6:${VISUAL:pass}}
 endsnippet
 
 snippet adeff "abstract function without docstring"
 @abstractmethod
 def ${1:fname}(`!p
 if snip.indent:
-	snip.rv = 'self'`${2})${3: -> ReturnClass}:
-	${4:pass}
+	snip.rv = 'self'`${2})${3: -> ${4:ReturnClass}}:
+	${5:pass}
 endsnippet
 
 snippet adef "abstract function with docstrings" b
 @abstractmethod
 def ${1:function}(`!p
 if snip.indent:
-	snip.rv = 'self'`${2})${3: -> ReturnClass}:
+	snip.rv = 'self'`${2})${3: -> ${4:ReturnClass}}:
 	`!p snip.rv = triple_quotes(snip)`
-	${4:TODO: Docstring for $1.}`!p
+	${5:TODO: Docstring for $1.}`!p
 write_function_docstring(t, snip) `
-	${5:${VISUAL:pass}}
+	${6:${VISUAL:pass}}
 endsnippet
 
 snippet defc "class method with docstrings" b
 @classmethod
 def ${1:function}(`!p
 if snip.indent:
-	snip.rv = 'cls' + (", " if len(t[2]) else "")`${2:arg1})${3: -> ReturnClass}:
-	`!p snip.rv = triple_quotes(snip)`${4:TODO: Docstring for $1.}`!p
+	snip.rv = 'cls' + (", " if len(t[2]) else "")`${2:arg1})${3: -> ${4:ReturnClass}}:
+	`!p snip.rv = triple_quotes(snip)`${5:TODO: Docstring for $1.}`!p
 write_function_docstring(t, snip) `
-	${5:${VISUAL:pass}}
+	${6:${VISUAL:pass}}
 endsnippet
 
 
 snippet defs "static method with docstrings" b
 @staticmethod
-def ${1:function}(${2:arg1})${3: -> ReturnClass}:
-	`!p snip.rv = triple_quotes(snip)`${4:TODO: Docstring for $1.}`!p
+def ${1:function}(${2:arg1})${3: -> ${4:ReturnClass}}:
+	`!p snip.rv = triple_quotes(snip)`${5:TODO: Docstring for $1.}`!p
 write_function_docstring(t, snip) `
-	${5:${VISUAL:pass}}
+	${6:${VISUAL:pass}}
 endsnippet
 
 
