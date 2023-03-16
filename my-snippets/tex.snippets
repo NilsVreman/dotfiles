@@ -187,7 +187,7 @@ $0
 endsnippet
 
 snippet "in(put)?" "\input{}" br
-\input{${1:InputFile.ext}} $0
+\input{${1:InputFile.ext}}%$0
 endsnippet
 
 # Smaller statements
@@ -293,22 +293,22 @@ endsnippet
 #### Equation related
 # Equation
 snippet eq "equation environment" b
-\begin{equation}
+\begin{equation}%
 	$0
 \end{equation}
 endsnippet
 
 # Labeled Equation
 snippet eql "Labeled equation environment" b
-\begin{equation}
-	\label{eq:${1}}
+\begin{equation}%
+	\label{eq:${1}}%
 	$0
 \end{equation}
 endsnippet
 
 # Unnumbered Equation
 snippet eq* "unnumbered equation environment" b
-\begin{equation*}
+\begin{equation*}%
 	$0
 \end{equation*}
 endsnippet
@@ -399,8 +399,8 @@ endsnippet
 
 #### Beamer
 snippet "f(rame)?" "\begin{frame} \end{frame}" br
-\begin{frame}
-\frametitle{${1:Title}}
+\begin{frame}%
+\frametitle{${1:Title}}%
 %
 $0
 \end{frame}

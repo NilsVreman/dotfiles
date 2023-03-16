@@ -83,7 +83,7 @@ nmap <silent> <C-k> :ALEPreviousWrap<CR>
 let g:ale_linters = {
             \ 'rust': ['rustc', 'rls'],
             \ 'java': ['javac', 'checkstyle'],
-            \ 'python': ['flake8'],
+            \ 'python': ['flake8', 'black'],
             \ 'markdown': ['alex'],
             \ 'latex': ['alex'],
             \}

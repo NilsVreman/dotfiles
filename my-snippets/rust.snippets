@@ -49,15 +49,15 @@ snippet .it ".iter()" i
 endsnippet
 
 snippet "st(ruct)?" "Struct" br
-struct ${1:StructName}${2:<${3:T}>} {
+struct ${1:StructName}${2:<${3:T}>}${4: {
 	$0
-}
+}}
 endsnippet
 
 snippet "pst(ruct)?" "public Struct" br
-pub struct ${1:StructName}${2:<${3:T}>} {
+pub struct ${1:StructName}${2:<${3:T}>}${4: {
 	$0
-}
+}}
 endsnippet
 
 snippet "en(um)?" "enum" br
