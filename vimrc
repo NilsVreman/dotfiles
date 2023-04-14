@@ -135,7 +135,7 @@ set autoindent
 set wrap
 set linebreak
 set breakindent
-set textwidth=80
+set textwidth=100
 
 " -------------------------------------------
 "  Line numbering
@@ -240,13 +240,12 @@ autocmd! FileType python nnoremap <leader>p :exec '!python' shellescape(@%, 1)<c
 nnoremap <Leader>m :!make<CR>
 
 " Run cargo in folder
-nnoremap <Leader>r :!cargo run<CR>
+nnoremap <Leader>cr :!cargo run<CR>
+nnoremap <Leader>ct :!cargo test<CR>
+nnoremap <Leader>cb :!cargo build<CR>
 
 " Run linter
 nnoremap <Leader>at :ALEToggle<CR>
-
-" Has to do with line highlighting
-nnoremap <Leader>c :set cursorline!<CR>
 
 " Remove highlighting when pressing space+n after search
 nnoremap <leader>n :noh<CR>
@@ -255,7 +254,7 @@ nnoremap <leader>n :noh<CR>
 map <Leader>s :setlocal spell! spelllang=en_gb<CR>
 
 " Toggle line wrapping
-nnoremap <Leader>w :execute "set textwidth=" . (&textwidth == "0" ? "80" : "0")<CR>
+nnoremap <Leader>w :execute "set textwidth=" . (&textwidth == "0" ? "100" : "0")<CR>
 
 " MOVEMENT ----------------------------------
 "
