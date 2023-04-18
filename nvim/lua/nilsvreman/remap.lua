@@ -46,3 +46,7 @@ vim.keymap.set("n", "<leader>vq", ":cclose<CR>")
 
 -- change all occurrences under cursor
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+
+-- Open terminal in split window
+vim.keymap.set("n", "<leader>th", ":sp<CR><C-w>j:term<CR>A")
+vim.keymap.set("n", "<leader>tv", ":vsp<CR>:term<CR>A")
