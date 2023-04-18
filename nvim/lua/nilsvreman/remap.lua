@@ -12,9 +12,10 @@ vim.keymap.set("n", "<C-k>", "<C-u>zz")             -- Half page jumping up
 vim.keymap.set("n", "n", "nzzzv")                   -- Keep search in middle
 vim.keymap.set("n", "N", "Nzzzv")                   -- Keep search in middle
 
-vim.keymap.set("n", "H", "^")
-vim.keymap.set("n", "L", "$")
-vim.keymap.set("n", "M", "%")
+vim.keymap.set({"n", "v"}, "H", "^")
+vim.keymap.set({"n", "v"}, "L", "$")
+vim.keymap.set({"n", "v"}, "M", "%")
+vim.keymap.set("n", "<leader>m", "ma%mb%x`bx`a")    -- Remove inner parenthesis
 
 ---- Copy-Pasting
 vim.keymap.set({"n", "v"}, "<leader>y", "\"+y")     -- Copy to clipboard using <leader>y
@@ -28,10 +29,15 @@ vim.keymap.set("n", "gn", ":bn<CR>")
 vim.keymap.set("n", "gl", ":ls<CR>")
 vim.keymap.set("n", "gc", ":bp<bar>sp<bar>bn<bar>bd<CR>")
 
----- Additional
-vim.keymap.set("n", "Q", "<nop>")
+---- Insert
 vim.keymap.set("n", "<leader>o", "mzo<Esc>`zh")
 vim.keymap.set("n", "<leader>O", "mzO<Esc>`zh")
+
+vim.keymap.set("i", "\"", "\"\"<left>")
+vim.keymap.set("i", "`",  "``<left>")
+
+---- Additional
+vim.keymap.set("n", "Q", "<nop>")
 
 vim.keymap.set("n", "<leader>n", ":noh<CR>")
 

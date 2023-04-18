@@ -1,9 +1,6 @@
 local lsp = require('lsp-zero').preset({})
----- To add when snippets are reintroduced
---local cmp_action = require('lsp-zero').cmp_action()
---['<C-n>'] = cmp_action.luasnip_jump_forward(),          -- jump in snippet back and forward
---['<C-p>'] = cmp_action.luasnip_jump_backward(),
 
+-- Language servers
 lsp.ensure_installed({
 	'tsserver',
 	'eslint',
@@ -12,6 +9,9 @@ lsp.ensure_installed({
 	'pyright',
 	'lua_ls',
 })
+
+-- Configure lua language server for neovim
+require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
 
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
@@ -25,13 +25,11 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
 cmp_mappings['<Tab>'] = nil
 cmp_mappings['<S-Tab>'] = nil
 
-lsp.set_preferences({
-	sign_icons = { }
-})
-
 lsp.setup_nvim_cmp({
 	mapping = cmp_mappings
 })
+
+lsp.set_preferences({ })
 
 lsp.on_attach(function(_, bufnr)
     local opts = { buffer = bufnr, remap = false }
@@ -45,7 +43,8 @@ lsp.on_attach(function(_, bufnr)
     vim.keymap.set("n", "<leader>vn", function() vim.lsp.buf.rename() end, opts)      -- rename ref
 end)
 
--- (Optional) Configure lua language server for neovim
-require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
-
 lsp.setup()
+
+vim.diagnostic.config({
+    virtual_text = true
+})

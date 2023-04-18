@@ -31,6 +31,6 @@ vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 
 -- Misc
-vim.opt.updatetime = 50
+vim.opt.updatetime = 250
 
 vim.g.mapleader = " "
