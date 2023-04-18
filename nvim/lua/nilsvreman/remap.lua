@@ -3,10 +3,10 @@ vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)       -- Go back to netrw mode
 ---- Movement
 -- visual
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")        -- Move visual marked up and down
-vim.keymap.set("v", "K", ":m '>-2<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- normal
-vim.keymap.set("n", "J", "mzJ`z")
+vim.keymap.set("n", "J", "maJ`a")
 vim.keymap.set("n", "<C-j>", "<C-d>zz")             -- Half page jumping down
 vim.keymap.set("n", "<C-k>", "<C-u>zz")             -- Half page jumping up
 vim.keymap.set("n", "n", "nzzzv")                   -- Keep search in middle
