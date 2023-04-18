@@ -46,5 +46,9 @@ end)
 lsp.setup()
 
 vim.diagnostic.config({
-    virtual_text = true
+    underline = false,
+    virtual_text = {
+        spacing = 8,
+        severity = "Error",
+    },
 })
