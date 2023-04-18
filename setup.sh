@@ -4,22 +4,20 @@ echo "Initializing parameters and updating submodules..."
 
 ## Paths
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SNIPPETSOURCE=${BASEDIR}/my-snippets
-SNIPPETTARGET=~/.vim/bundle/vim-snippets/UltiSnips
 
 ## Update submodules
 git submodule update --init --recursive
 
-echo "Generating symbolic links..."
-
 ## Symlinks
-# Vim
-ln -sT ${BASEDIR}/vimrc ~/.vimrc
-ln -sT ${BASEDIR}/vim/ ~/.vim
+echo "Generating symbolic links..."
 
 # Bash
 ln -sT ${BASEDIR}/bashrc ~/.bashrc
 ln -sT ${BASEDIR}/bash_profile ~/.bash_profile
+source ~/.bashrc
+
+# Vim
+ln -sT ${BASEDIR}/nvim/ ~/.config/nvim
 
 # Tmux
 ln -sT ${BASEDIR}/tmux.conf ~/.tmux.conf
@@ -34,26 +32,5 @@ ln -sT ${BASEDIR}/gitconfig ~/.gitconfig
 # SSH
 mkdir -p ~/.ssh
 ln -sT ${BASEDIR}/sshconfig ~/.ssh/config
-
-echo "Installing vim plugins..."
-
-## Plugin installation for vim
-vim +PluginInstall +qall &>/dev/null
-
-echo "Adding snippet links to correct path..."
-
-## symlink my-snippets to correct place
-# Remove all symlinks in target dir
-for TFILE in ${SNIPPETTARGET}/*.snippets; do
-    if [[ -L ${TFILE} ]]; then
-        unlink ${TFILE}
-    fi
-done
-# Add new symlinks
-for SFILE in ${SNIPPETSOURCE}/*.snippets; do
-    TARGETPATH="${SNIPPETTARGET}/$(basename ${SFILE} .snippets).snippets"
-    rm -rf ${TARGETPATH}
-    ln -sT ${SFILE} ${TARGETPATH}
-done
 
 echo "Done!"

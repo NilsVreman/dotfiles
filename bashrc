@@ -64,9 +64,6 @@ function parse_git_branch {
 
 # To get gruvbox terminal colours: bash -c  "$(wget -qO- https://git.io/vQgMr)"
 
-# Command prompt color and look
-PS1="${debian_chroot:+($debian_chroot)}\001$COLOR_HOST\002\u@\h\001$COLOR_RESET\002:\001$COLOR_PATH\002./\W\$(parse_git_branch)\001$COLOR_RESET\002\$ "
-
 ### Aliases
 # enable color support of ls and also add handy aliases
 alias ls='ls --color=auto'
@@ -96,18 +93,15 @@ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.9.11-0.fc33.x86_64/
 # Make vim default editor
 # --------------------------------
 
-export EDITOR='vim'
-export VISUAL='vim'
+export EDITOR='nvim'
+export VISUAL='nvim'
+alias vim='nvim'
 
 # --------------------------------
 # Commands
 # --------------------------------
 # Language aliases
 alias python='python3'
-alias matlab16='VERSION=R2016a matlab &'
-alias matlab20='VERSION=R2020b matlab &'
-alias julia15='~/.julia/v1.5.4/bin/julia'
-alias julia17='~/.julia/v1.7.0/bin/julia'
 
 # some more ls aliases
 alias ll='ls -alF'
@@ -137,3 +131,6 @@ bind "set show-all-if-ambiguous on"
 
 # Rust related
 . "$HOME/.cargo/env"
+
+# Command prompt color and look
+PS1="${debian_chroot:+($debian_chroot)}\001$COLOR_HOST\002\u@\h\001$COLOR_RESET\002:\001$COLOR_PATH\002./\W\$(parse_git_branch)\001$COLOR_RESET\002\$ "
