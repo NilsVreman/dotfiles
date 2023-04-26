@@ -1,5 +1,6 @@
 -- Cursor
 vim.opt.guicursor = "" 		-- For fat cursor in insertmode
+vim.opt.cursorline = true
 
 -- Numbering
 vim.opt.nu = true
