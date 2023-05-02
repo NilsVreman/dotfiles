@@ -4,6 +4,8 @@ echo "Initializing parameters and updating submodules..."
 
 ## Paths
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TMUXDIR="${BASEDIR}/tmux"
+NVIMDIR="${BASEDIR}/nvim"
 
 ## Update submodules
 git submodule update --init --recursive
@@ -16,13 +18,14 @@ ln -sT ${BASEDIR}/bashrc ~/.bashrc
 ln -sT ${BASEDIR}/bash_profile ~/.bash_profile
 source ~/.bashrc
 
-# Vim
-ln -sT ${BASEDIR}/nvim/ ~/.config/nvim
+# NeoVim
+ln -sT ${NVIMDIR}/ ~/.config/nvim
 
 # Tmux
-ln -sT ${BASEDIR}/tmux/ ~/.tmux
-tmux source ~/.tmux/tmux.conf
-#ln -sT ${BASEDIR}/tmux.conf ~/.tmux.conf
+mkdir -p ~/.tmux/plugins/
+ln -sT ${TMUXDIR}/tpm ~/.tmux/plugins/tpm
+ln -sT ${TMUXDIR}/tmux.conf ~/.tmux.conf
+tmux source ~/.tmux.conf
 
 # Julia
 mkdir -p ~/.julia/config/

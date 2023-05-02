@@ -38,7 +38,7 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-### Command Prompt setup
+## Command Prompt setup
 # Color definition
 COLOR_HOST="\e[38;5;2m"
 COLOR_PATH="\e[38;5;3m"

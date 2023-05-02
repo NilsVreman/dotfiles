@@ -35,3 +35,5 @@ vim.g.netrw_winsize = 25
 vim.opt.updatetime = 250
 
 vim.g.mapleader = " "
+
+vim.opt.wrap = true
