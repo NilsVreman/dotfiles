@@ -36,4 +36,5 @@ vim.opt.updatetime = 250
 
 vim.g.mapleader = " "
 
-vim.opt.wrap = true
+vim.wo.wrap = true
+vim.wo.linebreak = true
