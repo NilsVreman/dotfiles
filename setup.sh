@@ -20,7 +20,9 @@ source ~/.bashrc
 ln -sT ${BASEDIR}/nvim/ ~/.config/nvim
 
 # Tmux
-ln -sT ${BASEDIR}/tmux.conf ~/.tmux.conf
+ln -sT ${BASEDIR}/tmux/ ~/.tmux
+tmux source ~/.tmux/tmux.conf
+#ln -sT ${BASEDIR}/tmux.conf ~/.tmux.conf
 
 # Julia
 mkdir -p ~/.julia/config/

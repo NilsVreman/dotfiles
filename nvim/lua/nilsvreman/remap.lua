@@ -15,7 +15,7 @@ vim.keymap.set("n", "N", "Nzzzv")                   -- Keep search in middle
 vim.keymap.set({"n", "v"}, "H", "^")
 vim.keymap.set({"n", "v"}, "L", "$")
 vim.keymap.set({"n", "v"}, "M", "%")
-vim.keymap.set("n", "<leader>m", "ma%mb%x`bx`a")    -- Remove inner parenthesis
+vim.keymap.set("n", "<leader>m", "ma%mb%x`bhx`a")    -- Remove inner parenthesis
 
 ---- Copy-Pasting
 vim.keymap.set({"n", "v"}, "<leader>y", "\"+y")     -- Copy to clipboard using <leader>y
