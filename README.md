@@ -1,7 +1,7 @@
 # Dotfiles
 
 This repo holds my dotfiles. They are specific to my needs but if you are a
-Python, Java, Ruby, Matlab or Bash programmer you might find something useful
+Rust, Python, Julia, C, Lua, or Bash programmer you might find something useful
 here.
 
 ## Installation
@@ -10,13 +10,8 @@ here.
     sh setup.sh
 ```
 
-This symlinks the dotfiles, folders, and files into your home folder and
-installs all important packages in vim using vundle.
+This symlinks the dotfiles, folders, and files into your home folder.
+To install the vim plugins, there are some extra steps that I'll have to upload at some point
 
-## ToDo
-
-### Fixed
-* ~Fix Installation script~
-* ~Added snippets correctly~
-* ~Installed Plugins correctly~
-* ~Linking of snippets not correct.~
+### NeoVim Installation:
+__TODO__
