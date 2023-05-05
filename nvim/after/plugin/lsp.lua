@@ -16,8 +16,6 @@ require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
 local cmp_mappings = lsp.defaults.cmp_mappings({
-	['<C-k>'] = cmp.mapping.select_prev_item(cmp_select),   -- iterate up and down in lsp list
-	['<C-j>'] = cmp.mapping.select_next_item(cmp_select),
 	['<CR>'] = cmp.mapping.confirm({ select = false }),     -- select=false to confirm if selected
 	['<C-Space>'] = cmp.mapping.complete(),
 })
