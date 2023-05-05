@@ -121,10 +121,6 @@ alias gl='git pull'
 cdw() { cd ~/"$1" && clear; }
 alias t='tree'
 
-# XClip aliases
-alias c='xclip'
-alias v='xclip -o'
-
 # Bind autocompletion here to overwrite the one in /etc/inputrc
 bind "set completion-ignore-case on"
 bind "set show-all-if-ambiguous on"
