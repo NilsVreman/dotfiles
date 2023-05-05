@@ -25,7 +25,7 @@ local function mode()
     return string.format("%s", modes[current_mode])
 end
 
-vim.cmd("highlight NormalColour guifg=Grey85 guibg=Grey30")
+vim.cmd("highlight NormalColour guifg=Grey88 guibg=Grey30")
 vim.cmd("highlight InsertColour guifg=Black guibg=#d79921")
 vim.cmd("highlight CommandColour guifg=Black guibg=LightCoral")
 vim.cmd("highlight ReplaceColour guifg=Black guibg=#b16286")
@@ -52,6 +52,7 @@ local function update_mode_colors()
     return mode_color
 end
 
+
 -- Info from the lsp about the current buffer
 local function lsp()
     local count = {}
@@ -66,25 +67,32 @@ local function lsp()
         count[k] = vim.tbl_count(vim.diagnostic.get(0, { severity = level }))
     end
 
-    local errors = string.format("E: %d", count["errors"])
-    local warnings = string.format("W: %d", count["warnings"])
-    local hints = string.format("H: %d", count["hints"])
-    local info = string.format("I: %d", count["info"])
+    if count["errors"] == 0 and count["warnings"] == 0 and count["info"] == 0 and count["hints"] == 0 then
+        return ""
+    end
 
-    return string.format("[%s | %s | %s | %s]", errors, warnings, info, hints)
+    local result = {}
+    for k, v in pairs(count) do
+        if v ~= 0 then
+            table.insert(result, string.format("%s: %d", string.upper(string.sub(k, 1, 1)), v))
+        end
+    end
+
+    return string.format("[%s]", table.concat(result, " | "))
 end
 
-function update_status_line()
+function Update_Status_Line()
     return table.concat {
         update_mode_colors(),
-        " %f > [%Y : %n]",
+        " %f > [%Y]",
         "%{&modified ? ' > [+]' : ''}",
         "%=",
         lsp(),
-        " | [%l/%L] (%c) | ",
+        "%=",
+        " [%l/%L] (%c) | ",
         mode(),
         " "
     }
 end
 
-vim.o.statusline = "%!luaeval('update_status_line()')"
+vim.o.statusline = "%!luaeval('Update_Status_Line()')"
