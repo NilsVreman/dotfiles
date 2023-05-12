@@ -7,8 +7,6 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- normal
 vim.keymap.set("n", "J", "maJ`a")
-vim.keymap.set({"n", "v"}, "<C-j>", "<C-d>zz")             -- Half page jumping down
-vim.keymap.set({"n", "v"}, "<C-k>", "<C-u>zz")             -- Half page jumping up
 vim.keymap.set("n", "n", "nzzzv")                   -- Keep search in middle
 vim.keymap.set("n", "N", "Nzzzv")                   -- Keep search in middle
 
