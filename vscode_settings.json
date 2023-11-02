@@ -1,0 +1,140 @@
+{
+    // Cursor / Cursorline
+    "editor.cursorStyle": "block",
+    "editor.renderLineHighlight": "all",
+    "workbench.colorCustomizations": {
+        "editor.lineHighlightBackground": "#333333"
+    },
+
+    // linenumbers
+    "editor.lineNumbers": "relative",
+
+    // Vim specific settings
+    "vim.easymotion": true,
+    "vim.incsearch": true,
+    "vim.useSystemClipboard": true,
+    "vim.useCtrlKeys": true,
+    "vim.hlsearch": true,
+    "vim.changeWordIncludesWhitespace": true,
+    "vim.leader": "<space>",
+
+    // Normal mode
+    "vim.normalModeKeyBindings": [
+        {
+            "before": ["<C-w>"],
+            "after": ["<nop>"]
+        },
+        {
+            "before": ["<leader>", "o"],
+            "after": ["m", "z", "o", "<esc>", "`", "z", "h"]
+        },
+        {
+            "before": ["<leader>", "O"],
+            "after": ["m", "z", "O", "<esc>", "`", "z", "h"]
+        },
+        {
+            "before": ["L"],
+            "after": ["$"]
+        },
+        {
+            "before": ["H"],
+            "after": ["^"]
+        },
+        {
+            "before": ["<leader>", "O"],
+            "after": ["m", "z", "O", "<esc>", "`", "z", "h"]
+        },
+        // Navigation
+        { 
+            "before": ["g", "n"],
+            "after": [":", "b", "n", "<cr>"]
+        },
+        {
+            "before": ["g", "p"],
+            "after": [":", "b", "p", "<cr>"]
+        },
+        {
+            "before": ["g", "c"],
+            "after": [":", "b", "d", "<cr>"]
+        },
+        {
+            "before": ["g", "d"],
+            "commands": ["editor.action.goToDeclaration"]
+        },
+        {
+            "before": ["g", "r"],
+            "commands": ["editor.action.goToReferences"]
+        },
+        {
+            "before": ["g", "i"],
+            "commands": ["editor.action.goToImplementation"]
+        },
+        {
+            "before": ["<C-n>"],
+            "commands": ["workbench.view.explorer"]
+        },
+        {
+            "before": ["=", "="],
+            "commands": ["editor.action.formatDocument"]
+        },
+        // Searches
+        {
+            "before": ["<C-f>"],
+            "commands": ["workbench.view.search"]
+        },
+        {
+            "before": ["<leader>", "/", "/"],
+            "commands": ["workbench.action.showCommands"]
+        },
+        // Split windows
+        {
+            "before": ["s", "v"],
+            "after": [":", "v", "s", "p", "<cr>"]
+        },
+        {
+            "before": ["s", "h"],
+            "after": [":", "s", "p", "<cr>"]
+        },
+        {
+            "before": ["s", "m", "h"],
+            "commands": ["workbench.action.moveEditorToLeftGroup"]
+        },
+        {
+            "before": ["s", "m", "j"],
+            "commands": ["workbench.action.moveEditorToBelowGroup"]
+        },
+        {
+            "before": ["s", "m", "k"],
+            "commands": ["workbench.action.moveEditorToAboveGroup"]
+        },
+        {
+            "before": ["s", "m", "l"],
+            "commands": ["workbench.action.moveEditorToRightGroup"]
+        },
+    ],
+
+    // Visual Mode
+    "vim.visualModeKeybindings": [
+        {
+            "before": ["<C-k>"],
+            "commands": ["editor.action.moveLinesUpAction"]
+        },
+        {
+            "before": ["<C-j>"],
+            "commands": ["editor.action.moveLinesDownAction"]
+        },
+        {
+            "before": ["L"],
+            "after": ["$"]
+        },
+        {
+            "before": ["H"],
+            "after": ["^"]
+        },
+    ],
+
+    // Formatter default
+    "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+}
