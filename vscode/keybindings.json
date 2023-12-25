@@ -3,7 +3,11 @@
     {
         "key": "escape escape",
         "command": "workbench.action.focusActiveEditorGroup",
-        "when": "sideBarFocus"
+        "when": "sideBarFocus || terminalFocus"
+    },
+    {
+        "key": "ctrl+e",
+        "command": "workbench.action.focusActiveEditorGroup"
     },
     {
         "key": "ctrl+i",

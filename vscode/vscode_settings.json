@@ -35,7 +35,7 @@
         },
         {
             "before": ["<leader>", "m"],
-            "after": ["editor.action.removeBrackets"]
+            "commands": ["editor.action.removeBrackets"]
         },
         {
             "before": ["L"],
@@ -58,6 +58,10 @@
         {
             "before": ["<leader>", "h", "m"],
             "commands": ["editor.action.showContextMenu"]
+        },
+        {
+            "before": ["K"],
+            "commands": ["editor.action.showHover"]
         },
         {
             "before": ["<leader>", "h", "a"],
@@ -151,11 +155,16 @@
         },
         {
             "before": ["<leader>", "c", "c"],
-            "commands": ["workbench.action.openQuickChat.copilot"]
+            "commands": ["workbench.panel.chat.view.copilot.focus"]
         },
         {
             "before": ["<leader>", "c", "i"],
             "commands": ["inlineChat.start"]
+        },
+        ///// Terminal /////
+        {
+            "before": ["<leader>", "t", "t"],
+            "commands": ["workbench.action.terminal.focus"]
         }
     ],
 
@@ -193,6 +202,10 @@
         {
             "before": ["<leader>", "h", "m"],
             "commands": ["editor.action.showContextMenu"]
+        },
+        {
+            "before": ["K"],
+            "commands": ["editor.action.showHover"]
         },
         {
             "before": ["<leader>", "h", "a"],
