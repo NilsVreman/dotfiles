@@ -8,7 +8,6 @@ TMUXDIR="$BASEDIR/tmux"
 NVIMDIR="$BASEDIR/nvim"
 CODEDIR="$BASEDIR/vscode"
 CONFDIR="$HOME/.config"
-echo $CONFDIR
 
 ## Update Submodules
 git submodule update --init --recursive
