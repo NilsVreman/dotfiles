@@ -12,3 +12,10 @@ here.
 
 This symlinks the dotfiles, folders, and files into your home folder.
 To install the vim plugins, there are some extra steps that I'll have to upload at some point
+
+## Dependencies
+To be installed before doing anything else:
+
+* `npm`
+* `packer` repo
+* `vscode`
