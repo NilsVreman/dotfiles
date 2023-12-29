@@ -4,38 +4,53 @@ echo "Initializing parameters and updating submodules..."
 
 ## Paths
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-TMUXDIR="${BASEDIR}/tmux"
-NVIMDIR="${BASEDIR}/nvim"
+TMUXDIR="$BASEDIR/tmux"
+NVIMDIR="$BASEDIR/nvim"
+CONFDIR="$HOME/.config"
+echo $CONFDIR
 
-## Update submodules
+## Update Submodules
 git submodule update --init --recursive
 
 ## Symlinks
 echo "Generating symbolic links..."
 
 # Bash
-ln -sT ${BASEDIR}/bashrc ~/.bashrc
-ln -sT ${BASEDIR}/bash_profile ~/.bash_profile
-source ~/.bashrc
+if [ -e "$HOME/.bashrc" ] ; then
+	rm $HOME/.bashrc		# Cleaning up old links
+fi
+ln -sT $BASEDIR/bashrc $HOME/.bashrc
+source $HOME/.bashrc
+if [ -e "$HOME/.bash_profile" ] ; then
+	rm $HOME/.bash_profile		# Cleaning up old links
+fi
+ln -sT $BASEDIR/bash_profile $HOME/.bash_profile
 
 # NeoVim
-ln -sT ${NVIMDIR}/ ~/.config/nvim
+if [ -d "$CONFDIR/nvim" ] ; then
+	rm $CONFDIR/nvim		# Cleaning up old links
+fi
+ln -sT $NVIMDIR/ $CONFDIR/nvim
+# 1. Install nvim
+# 2. Clone the repository:
+#   git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+# 3. Open nvim and execute `:PackerInstall`
 
 # Tmux
-mkdir -p ~/.tmux/plugins/
-ln -sT ${TMUXDIR}/tpm ~/.tmux/plugins/tpm
-ln -sT ${TMUXDIR}/tmux.conf ~/.tmux.conf
-tmux source ~/.tmux.conf
+mkdir -p $CONFDIR/tmux
+if [ -e "$CONFDIR/tmux/tmux.conf" ] ; then
+	rm $CONFDIR/tmux/tmux.conf	# Cleaning up old links
+fi
+ln -sT $TMUXDIR/tmux.conf $CONFDIR/tmux/tmux.conf
+tmux source $CONFDIR/tmux/tmux.conf
 
 # Julia
-mkdir -p ~/.julia/config/
-ln -sT ${BASEDIR}/startup.jl ~/.julia/config/startup.jl
+mkdir -p $HOME/.julia/config
+rm $HOME/.julia/config/startup.jl
+ln -sT $BASEDIR/startup.jl $HOME/.julia/config/startup.jl
 
 # Git
-ln -sT ${BASEDIR}/gitconfig ~/.gitconfig
-
-# SSH
-mkdir -p ~/.ssh
-ln -sT ${BASEDIR}/sshconfig ~/.ssh/config
+rm $HOME/.gitconfig
+ln -sT $BASEDIR/gitconfig $HOME/.gitconfig
 
 echo "Done!"
