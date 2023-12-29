@@ -1,11 +1,6 @@
 // Place your key bindings in this file to override the defaults
 [
     {
-        "key": "escape escape",
-        "command": "workbench.action.focusActiveEditorGroup",
-        "when": "sideBarFocus || terminalFocus"
-    },
-    {
         "key": "ctrl+e",
         "command": "workbench.action.focusActiveEditorGroup"
     },
