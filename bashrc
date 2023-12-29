@@ -65,9 +65,6 @@ function parse_git_branch {
 # To get gruvbox terminal colours: bash -c  "$(wget -qO- https://git.io/vQgMr)"
 
 ### Aliases
-# enable color support of ls and also add handy aliases
-alias ls='ls --color=auto'
-
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
@@ -84,38 +81,22 @@ if ! shopt -oq posix; then
 fi
 
 # --------------------------------
-# Link java
-# --------------------------------
-
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.9.11-0.fc33.x86_64/
-
-# --------------------------------
 # Make vim default editor
 # --------------------------------
 
 export EDITOR='nvim'
 export VISUAL='nvim'
-alias vim='nvim'
 
 # --------------------------------
 # Commands
 # --------------------------------
-# Language aliases
-alias python='python3'
 
-# some more ls aliases
+# enable color support of ls and also add handy aliases
+alias ls='ls --color=auto'
+
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -1'
-
-# Git Aliases
-alias glog='git log --graph --oneline -n30'
-alias gd='git diff'
-alias gs='git status'
-alias ga='git add'
-alias gc='git commit'
-alias gp='git push'
-alias gl='git pull'
 
 # My aliases
 cdw() { cd ~/"$1" && clear; }
