@@ -6,6 +6,7 @@ echo "Initializing parameters and updating submodules..."
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TMUXDIR="$BASEDIR/tmux"
 NVIMDIR="$BASEDIR/nvim"
+CODEDIR="$BASEDIR/vscode"
 CONFDIR="$HOME/.config"
 echo $CONFDIR
 
@@ -52,5 +53,15 @@ ln -sT $BASEDIR/startup.jl $HOME/.julia/config/startup.jl
 # Git
 rm $HOME/.gitconfig
 ln -sT $BASEDIR/gitconfig $HOME/.gitconfig
+
+# VsCode
+if [ -e "$CONFDIR/Code/User/settings.json" ] ; then
+	rm $CONFDIR/Code/User/settings.json	# Cleaning up old links
+fi
+ln -sT $CODEDIR/settings.json $CONFDIR/Code/User/settings.json
+if [ -e "$CONFDIR/Code/User/keybindings.json" ] ; then
+	rm $CONFDIR/Code/User/keybindings.json	# Cleaning up old links
+fi
+ln -sT $CODEDIR/keybindings.json $CONFDIR/Code/User/keybindings.json
 
 echo "Done!"
