@@ -37,12 +37,14 @@ ln -sT $NVIMDIR/ $CONFDIR/nvim
 # 3. Open nvim and execute `:PackerInstall`
 
 # Tmux
-mkdir -p $CONFDIR/tmux
-if [ -e "$CONFDIR/tmux/tmux.conf" ] ; then
-	rm $CONFDIR/tmux/tmux.conf	# Cleaning up old links
+if [ -d "$CONFDIR/tmux" ] ; then
+	rm $CONFDIR/tmux	    # Cleaning up old links
 fi
-ln -sT $TMUXDIR/tmux.conf $CONFDIR/tmux/tmux.conf
+ln -sT $TMUXDIR $CONFDIR/tmux
 tmux source $CONFDIR/tmux/tmux.conf
+# 1. Install tpm by running:
+#   git clone https://github.com/tmux-plugins/tpm $TMUXDIR/plugins/tpm
+# 2. Open a tmux session and press `prefix + I` (capital i, as in Install) to fetch the plugins.
 
 # Julia
 mkdir -p $HOME/.julia/config
