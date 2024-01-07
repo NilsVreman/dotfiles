@@ -1,7 +1,7 @@
 return {
   "rcarriga/nvim-notify",
   opts = {
-    timeout = 2000,
+    timeout = 1000, -- don't know why this doesn't work
   },
   keys = {
     { "<leader>un", false },
