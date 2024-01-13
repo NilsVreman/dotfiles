@@ -16,29 +16,31 @@ git submodule update --init --recursive
 echo "Generating symbolic links..."
 
 # Bash
-if [ -e "$HOME/.bashrc" ] ; then
-	rm $HOME/.bashrc		# Cleaning up old links
+if [ -e "$HOME/.bashrc" ]; then
+	rm $HOME/.bashrc # Cleaning up old links
 fi
 ln -sT $BASEDIR/bashrc $HOME/.bashrc
 source $HOME/.bashrc
-if [ -e "$HOME/.bash_profile" ] ; then
-	rm $HOME/.bash_profile		# Cleaning up old links
+if [ -e "$HOME/.bash_profile" ]; then
+	rm $HOME/.bash_profile # Cleaning up old links
 fi
 ln -sT $BASEDIR/bash_profile $HOME/.bash_profile
 
 # NeoVim
-if [ -d "$CONFDIR/nvim" ] ; then
-	rm $CONFDIR/nvim		# Cleaning up old links
+if [ -d "$CONFDIR/nvim" ]; then
+	rm $CONFDIR/nvim # Cleaning up old links
 fi
 ln -sT $NVIMDIR/ $CONFDIR/nvim
 # 1. Install nvim
 # 2. Clone the repository:
 #   git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 # 3. Open nvim and execute `:PackerInstall`
+# Note: if the fons aren't loading properly check this reddit thread:
+# https://www.reddit.com/r/Fedora/comments/u2fmwm/font_rendering_isnt_good_as_win_11/
 
 # Tmux
-if [ -d "$CONFDIR/tmux" ] ; then
-	rm $CONFDIR/tmux	    # Cleaning up old links
+if [ -d "$CONFDIR/tmux" ]; then
+	rm $CONFDIR/tmux # Cleaning up old links
 fi
 ln -sT $TMUXDIR $CONFDIR/tmux
 tmux source $CONFDIR/tmux/tmux.conf
@@ -56,12 +58,12 @@ rm $HOME/.gitconfig
 ln -sT $BASEDIR/gitconfig $HOME/.gitconfig
 
 # VsCode
-if [ -e "$CONFDIR/Code/User/settings.json" ] ; then
-	rm $CONFDIR/Code/User/settings.json	# Cleaning up old links
+if [ -e "$CONFDIR/Code/User/settings.json" ]; then
+	rm $CONFDIR/Code/User/settings.json # Cleaning up old links
 fi
 ln -sT $CODEDIR/settings.json $CONFDIR/Code/User/settings.json
-if [ -e "$CONFDIR/Code/User/keybindings.json" ] ; then
-	rm $CONFDIR/Code/User/keybindings.json	# Cleaning up old links
+if [ -e "$CONFDIR/Code/User/keybindings.json" ]; then
+	rm $CONFDIR/Code/User/keybindings.json # Cleaning up old links
 fi
 ln -sT $CODEDIR/keybindings.json $CONFDIR/Code/User/keybindings.json
 
