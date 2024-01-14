@@ -62,6 +62,8 @@ function parse_git_branch {
 	fi
 }
 
+# Command prompt color and look
+PS1="${debian_chroot:+($debian_chroot)}\001$COLOR_HOST\002\u@\h\001$COLOR_RESET\002:\001$COLOR_PATH\002./\W\$(parse_git_branch)\001$COLOR_RESET\002\n\001$COLOR_PATH\002[\D{%b %d | %H:%M:%S}]\001$COLOR_RESET\002\$ "
 # To get gruvbox terminal colours: bash -c  "$(wget -qO- https://git.io/vQgMr)"
 
 ### Aliases
@@ -102,14 +104,14 @@ alias l='ls -1'
 cdw() { cd ~/"$1" && clear; }
 alias t='tree'
 
+# Tmux
+alias tmux='TERM=xterm-256color tmux'
+
 # Bind autocompletion here to overwrite the one in /etc/inputrc
 bind "set completion-ignore-case on"
 bind "set show-all-if-ambiguous on"
 
 # Rust related
 . "$HOME/.cargo/env"
-
-# Command prompt color and look
-PS1="${debian_chroot:+($debian_chroot)}\001$COLOR_HOST\002\u@\h\001$COLOR_RESET\002:\001$COLOR_PATH\002./\W\$(parse_git_branch)\001$COLOR_RESET\002\$ "
 
 source $HOME/alacritty/extra/completions/alacritty.bash
