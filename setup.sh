@@ -32,9 +32,7 @@ if [ -d "$CONFDIR/nvim" ]; then
 fi
 ln -sT $NVIMDIR/ $CONFDIR/nvim
 # 1. Install nvim
-# 2. Clone the repository:
-#   git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-# 3. Open nvim and execute `:PackerInstall`
+# 3. Open nvim and execute `<leader>l` followed by `I`
 # Note: if the fons aren't loading properly check this reddit thread:
 # https://www.reddit.com/r/Fedora/comments/u2fmwm/font_rendering_isnt_good_as_win_11/
 
