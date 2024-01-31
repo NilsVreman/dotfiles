@@ -46,35 +46,54 @@ COLOR_GIT="\e[38;5;11m"
 COLOR_CHANGE="\e[38;5;9m"
 COLOR_RESET="\e[0m"
 
-# Pick the branch we are on
+# Format the git information
 function parse_git_branch {
-	local git_status="$(git status 2>/dev/null)"
-	local on_branch="On branch ([^${IFS}]*)"
-	local staged="Changes to be committed:"
-	local unstaged="Changes not staged for commit:"
-	local untracked="Untracked files:"
-	local ahead="Your branch is ahead of"
+	# Check if we are in a git repo
+	if [ -d .git ] || git rev-parse --is-inside-work-tree &>/dev/null; then
+		local git_status="$(git status --porcelain=v1 2>/dev/null)"
 
-	if [[ $git_status =~ $on_branch ]]; then
-		local branch=${BASH_REMATCH[1]}
-		local staged_changes=$(echo "$git_status" | grep "$staged" | wc -l)
-		local unstaged_changes=$(echo "$git_status" | grep "$unstaged" | wc -l)
-		local untracked_files=$(echo "$git_status" | grep "$untracked" | wc -l)
+		function _count_git_pattern() {
+			echo "$(grep "^$1" <<<$git_status | wc -l)"
+		}
+
+		local branch="$(git branch 2>/dev/null | sed -e "/^[^*]/d" -e "s/* \(.*\)/\1/")"
+		local staged_modified=$(_count_git_pattern "M ")
+		local unstaged_modified=$(_count_git_pattern " M")
+		local staged_deleted=$(_count_git_pattern "D ")
+		local unstaged_deleted=$(_count_git_pattern " D")
+		local staged_renamed=$(_count_git_pattern "R ")
+		local unstaged_renamed=$(_count_git_pattern " R")
+		local added_files=$(_count_git_pattern "A ")
+		local untracked_files=$(_count_git_pattern "??")
 		local ahead_commits=$(git rev-list --count HEAD@{u}..HEAD 2>/dev/null)
 
 		local git_info="[$branch"
 
 		if [[ -n "$ahead_commits" && "$ahead_commits" -gt 0 ]]; then
-			git_info="${git_info}/\x01$COLOR_HOST\x02${ahead_commits}\x01$COLOR_GIT\x02"
+			git_info="${git_info} | C: \x01$COLOR_HOST\x02${ahead_commits}\x01$COLOR_GIT\x02"
 		fi
 
-		if [[ $staged_changes -gt 0 || $unstaged_changes -gt 0 || $untracked_files -gt 0 ]]; then
-			git_info="${git_info}/\x01$COLOR_CHANGE\x02${staged_changes}\x01$COLOR_GIT\x02/\x01$COLOR_CHANGE\x02${unstaged_changes}\x01$COLOR_GIT\x02/\x01$COLOR_CHANGE\x02${untracked_files}"
+		if [[ $staged_renamed -gt 0 || $unstaged_renamed -gt 0 ]]; then
+			git_info="${git_info} | R: \x01$COLOR_HOST\x02${staged_renamed}\x01$COLOR_GIT\x02/\x01$COLOR_CHANGE\x02${unstaged_renamed}\x01$COLOR_GIT\x02"
 		fi
 
-		git_info="${git_info}\x01$COLOR_GIT\x02]"
+		if [[ $staged_deleted -gt 0 || $unstaged_deleted -gt 0 ]]; then
+			git_info="${git_info} | D: \x01$COLOR_HOST\x02${staged_deleted}\x01$COLOR_GIT\x02/\x01$COLOR_CHANGE\x02${unstaged_deleted}\x01$COLOR_GIT\x02"
+		fi
+
+		if [[ $staged_modified -gt 0 || $unstaged_modified -gt 0 ]]; then
+			git_info="${git_info} | M: \x01$COLOR_HOST\x02${staged_modified}\x01$COLOR_GIT\x02/\x01$COLOR_CHANGE\x02${unstaged_modified}\x01$COLOR_GIT\x02"
+		fi
+
+		if [[ $untracked_files -gt 0 || $added_files -gt 0 ]]; then
+			git_info="${git_info} | U: \x01$COLOR_HOST\x02${added_files}\x01$COLOR_GIT\x02/\x01$COLOR_CHANGE\x02${untracked_files}\x01$COLOR_GIT\x02"
+		fi
+
+		git_info="${git_info}]"
 
 		echo -e " $git_info"
+	else
+		echo ""
 	fi
 }
 
