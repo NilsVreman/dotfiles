@@ -50,15 +50,31 @@ COLOR_RESET="\e[0m"
 function parse_git_branch {
 	local git_status="$(git status 2>/dev/null)"
 	local on_branch="On branch ([^${IFS}]*)"
+	local staged="Changes to be committed:"
+	local unstaged="Changes not staged for commit:"
+	local untracked="Untracked files:"
+	local ahead="Your branch is ahead of"
 
 	if [[ $git_status =~ $on_branch ]]; then
 		local branch=${BASH_REMATCH[1]}
+		local staged_changes=$(echo "$git_status" | grep "$staged" | wc -l)
+		local unstaged_changes=$(echo "$git_status" | grep "$unstaged" | wc -l)
+		local untracked_files=$(echo "$git_status" | grep "$untracked" | wc -l)
+		local ahead_commits=$(git rev-list --count HEAD@{u}..HEAD 2>/dev/null)
 
-		if [[ $git_status =~ "Your branch is up to date with" && $git_status =~ "nothing to commit" ]]; then
-			echo -e " \x01$COLOR_GIT\x02[$branch]"
-		else
-			echo -e " \x01$COLOR_GIT\x02[$branch\x01$COLOR_CHANGE\x02*\x01$COLOR_GIT\x02]"
+		local git_info="[$branch"
+
+		if [[ -n "$ahead_commits" && "$ahead_commits" -gt 0 ]]; then
+			git_info="${git_info}/\x01$COLOR_HOST\x02${ahead_commits}\x01$COLOR_GIT\x02"
 		fi
+
+		if [[ $staged_changes -gt 0 || $unstaged_changes -gt 0 || $untracked_files -gt 0 ]]; then
+			git_info="${git_info}/\x01$COLOR_CHANGE\x02${staged_changes}\x01$COLOR_GIT\x02/\x01$COLOR_CHANGE\x02${unstaged_changes}\x01$COLOR_GIT\x02/\x01$COLOR_CHANGE\x02${untracked_files}"
+		fi
+
+		git_info="${git_info}\x01$COLOR_GIT\x02]"
+
+		echo -e " $git_info"
 	fi
 }
 
