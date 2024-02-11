@@ -57,6 +57,7 @@ function parse_git_branch {
 		}
 
 		local branch="$(git branch 2>/dev/null | sed -e "/^[^*]/d" -e "s/* \(.*\)/\1/")"
+		local remote_branch="origin/$branch"
 		local staged_modified=$(_count_git_pattern "M ")
 		local unstaged_modified=$(_count_git_pattern " M")
 		local staged_deleted=$(_count_git_pattern "D ")
@@ -65,7 +66,7 @@ function parse_git_branch {
 		local unstaged_renamed=$(_count_git_pattern " R")
 		local added_files=$(_count_git_pattern "A ")
 		local untracked_files=$(_count_git_pattern "??")
-		local ahead_commits=$(git rev-list --count HEAD@{u}..HEAD 2>/dev/null)
+		local ahead_commits=$(git rev-list --count ${remote_branch}..${branch} 2>/dev/null)
 
 		local git_info="[$branch"
 
