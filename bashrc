@@ -150,4 +150,7 @@ bind "set show-all-if-ambiguous on"
 # Rust related
 . "$HOME/.cargo/env"
 
+# Zoxide
+eval "$(zoxide init --cmd cd bash)"
+
 source $HOME/alacritty/extra/completions/alacritty.bash
