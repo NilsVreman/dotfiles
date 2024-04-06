@@ -42,7 +42,6 @@ fi
 # Color definition
 COLOR_HOST="\e[38;5;2m"
 COLOR_PATH="\e[38;5;3m"
-COLOR_GIT="\e[38;5;11m"
 COLOR_CHANGE="\e[38;5;9m"
 COLOR_RESET="\e[0m"
 
@@ -60,6 +59,7 @@ function parse_git_branch {
 		local remote_branch="origin/$branch"
 		local staged_modified=$(_count_git_pattern "M ")
 		local unstaged_modified=$(_count_git_pattern " M")
+		local both_modified=$(_count_git_pattern "MM")
 		local staged_deleted=$(_count_git_pattern "D ")
 		local unstaged_deleted=$(_count_git_pattern " D")
 		local staged_renamed=$(_count_git_pattern "R ")
@@ -67,27 +67,28 @@ function parse_git_branch {
 		local added_files=$(_count_git_pattern "A ")
 		local untracked_files=$(_count_git_pattern "??")
 		local ahead_commits=$(git rev-list --count ${remote_branch}..${branch} 2>/dev/null)
+		local behind_commits=$(git rev-list --count ${branch}..${remote_branch} 2>/dev/null)
 
 		local git_info="[$branch"
 
-		if [[ -n "$ahead_commits" && "$ahead_commits" -gt 0 ]]; then
-			git_info="${git_info} | C: \x01$COLOR_HOST\x02${ahead_commits}\x01$COLOR_GIT\x02"
+		if [[ "$ahead_commits" -gt 0 || "$behind_commits" -gt 0 ]]; then
+			git_info="${git_info} | C: \x01$COLOR_HOST\x02${ahead_commits}\x01$COLOR_PATH\x02/\x01$COLOR_CHANGE\x02${behind_commits}\x01$COLOR_PATH\x02"
 		fi
 
 		if [[ $staged_renamed -gt 0 || $unstaged_renamed -gt 0 ]]; then
-			git_info="${git_info} | R: \x01$COLOR_HOST\x02${staged_renamed}\x01$COLOR_GIT\x02/\x01$COLOR_CHANGE\x02${unstaged_renamed}\x01$COLOR_GIT\x02"
+			git_info="${git_info} | R: \x01$COLOR_HOST\x02${staged_renamed}\x01$COLOR_PATH\x02/\x01$COLOR_CHANGE\x02${unstaged_renamed}\x01$COLOR_PATH\x02"
 		fi
 
 		if [[ $staged_deleted -gt 0 || $unstaged_deleted -gt 0 ]]; then
-			git_info="${git_info} | D: \x01$COLOR_HOST\x02${staged_deleted}\x01$COLOR_GIT\x02/\x01$COLOR_CHANGE\x02${unstaged_deleted}\x01$COLOR_GIT\x02"
+			git_info="${git_info} | D: \x01$COLOR_HOST\x02${staged_deleted}\x01$COLOR_PATH\x02/\x01$COLOR_CHANGE\x02${unstaged_deleted}\x01$COLOR_PATH\x02"
 		fi
 
-		if [[ $staged_modified -gt 0 || $unstaged_modified -gt 0 ]]; then
-			git_info="${git_info} | M: \x01$COLOR_HOST\x02${staged_modified}\x01$COLOR_GIT\x02/\x01$COLOR_CHANGE\x02${unstaged_modified}\x01$COLOR_GIT\x02"
+		if [[ $staged_modified -gt 0 || $unstaged_modified -gt 0 || $both_modified -gt 0 ]]; then
+			git_info="${git_info} | M: \x01$COLOR_HOST\x02$((staged_modified + both_modified))\x01$COLOR_PATH\x02/\x01$COLOR_CHANGE\x02$((unstaged_modified + both_modified))\x01$COLOR_PATH\x02"
 		fi
 
 		if [[ $untracked_files -gt 0 || $added_files -gt 0 ]]; then
-			git_info="${git_info} | U: \x01$COLOR_HOST\x02${added_files}\x01$COLOR_GIT\x02/\x01$COLOR_CHANGE\x02${untracked_files}\x01$COLOR_GIT\x02"
+			git_info="${git_info} | U: \x01$COLOR_HOST\x02${added_files}\x01$COLOR_PATH\x02/\x01$COLOR_CHANGE\x02${untracked_files}\x01$COLOR_PATH\x02"
 		fi
 
 		git_info="${git_info}]"
