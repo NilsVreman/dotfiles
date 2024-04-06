@@ -1,8 +1,13 @@
 # Dotfiles
 
-This repo holds my dotfiles. They are specific to my needs but if you are a
-Rust, Python, Julia, C, Lua, or Bash programmer you might find something useful
-here.
+This repo holds my dotfiles. They are specific to my needs but if you are a:
+
+- Rust,
+- Python,
+- Lua, or
+- Bash programmer
+
+you might find something useful here.
 
 ## Installation
 
@@ -10,12 +15,14 @@ here.
     sh setup.sh
 ```
 
-This symlinks the dotfiles, folders, and files into your home folder.
-To install the vim plugins, there are some extra steps that I'll have to upload at some point
+This symlinks the dotfiles, folders, and files into your home folder and backups the old ones to a folder `$HOME/backup`.
 
 ## Dependencies
+
 To be installed before doing anything else:
 
-* `npm`
-* `packer` repo
-* `vscode`
+- `npm`
+- `neovim`
+- `ripgrep`
+- `zoxide`
+- `fd-find`
