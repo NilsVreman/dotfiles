@@ -7,10 +7,12 @@ BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TMUXDIR="$BASEDIR/tmux"
 NVIMDIR="$BASEDIR/nvim"
 CONFDIR="$HOME/.config"
+OMPDIR="$CONFDIR/ohmyposh"
 BAKDIR="$HOME/backups"
 
 mkdir -p $CONFDIR
 mkdir -p $BAKDIR
+mkdir -p $OMPDIR
 
 ## Update Submodules
 git submodule update --init --recursive
@@ -30,6 +32,13 @@ if [ -e "$HOME/.bash_profile" ]; then
 	rm $HOME/.bash_profile # Cleaning up old links
 fi
 ln -sT $BASEDIR/bash_profile $HOME/.bash_profile
+
+# Oh-my-posh
+if [ -e "$OMPDIR/ohmyposh.toml" ]; then
+	cp -r $OMPDIR/ohmyposh.toml $BAKDIR/ohmyposh.toml.bak
+	rm $OMPDIR/ohmyposh.toml
+fi
+ln -sT $BASEDIR/ohmyposh.toml $OMPDIR/ohmyposh.toml
 
 # NeoVim
 if [ -d "$CONFDIR/nvim" ]; then
