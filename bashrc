@@ -123,6 +123,7 @@ fi
 # Make vim default editor
 # --------------------------------
 
+alias nvim='~/neovim/bin/nvim'
 export EDITOR='nvim'
 export VISUAL='nvim'
 
