@@ -1,0 +1,88 @@
+#:schema https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+
+# Credit to [Dreams of Autonomy](https://youtu.be/9U8LCjuQzdc?si=2xDQAay2mBaPUN-G)
+
+# Documentation
+# Templates: https://ohmyposh.dev/docs/configuration/templates
+
+
+version = 2
+final_space = true
+console_title_template = "{{ .Shell }} in {{ .Folder }}"
+
+[[blocks]]
+  type = "prompt"
+  alignment = "left"
+  newline = true
+
+  [[blocks.segments]]
+    type = "session"
+    style = "plain"
+    background = "transparent"
+    foreground = "green"
+    template = "{{ .UserName }}@{{ .HostName }}: "
+
+  [[blocks.segments]]
+    type = "path"
+    style = "plain"
+    background = "transparent"
+    foreground = "blue"
+    template = "{{ .Path }}"
+
+    [blocks.segments.properties]
+      style = "full"
+
+  [[blocks.segments]]  # [HEAD | C: <ahead>/<behind> | M: <staged>/<unstaged> | U: <added>/<untracked>]
+    type = "git"
+    style = "plain"
+    background = "transparent"
+    foreground = "yellow"
+    template = " [{{ .HEAD }}{{ if or (gt .Ahead 0) (gt .Behind 0) }} | C: <green>{{ .Ahead }}</>/<red>{{ .Behind }}</>{{ end }}{{ if or (gt .Working.Deleted 0) (gt .Staging.Deleted 0) }} | D: <green>{{ .Staging.Deleted }}</>/<red>{{ .Working.Deleted }}</>{{ end }}{{ if or (gt .Working.Modified 0) (gt .Staging.Modified 0) }} | M: <green>{{ .Staging.Modified }}</>/<red>{{ .Working.Modified }}</>{{ end }}{{ if or (gt .Working.Untracked 0) (gt .Staging.Added 0) }} | U: <green>{{ .Staging.Added }}</>/<red>{{ .Working.Untracked }}</>{{ end }}]"
+
+    [blocks.segments.properties]
+      branch_icon = ""
+      fetch_status = true
+
+
+[[blocks]]
+  type = "rprompt"
+  overflow = "hidden"
+
+  [[blocks.segments]]
+    type = "executiontime"
+    style = "plain"
+    background = "transparent"
+    foreground = "yellow"
+    template = "{{ .FormattedMs }}"
+
+    [blocks.segments.properties]
+      threshold = 5000
+  
+  
+
+[[blocks]]
+  type = "prompt"
+  alignment = "left"
+  newline = true
+
+  [[blocks.segments]]
+    type = "text"
+    style = "plain"
+    background = "transparent"
+    foreground_templates = [
+      "{{if gt .Code 0}}red{{else}}magenta{{end}}"
+    ]
+    template = "❯"
+
+
+# Currently only works in fish, nu, zsh, powershell, and cmd
+[transient_prompt]
+  foreground = "magenta"
+  background = "transparent"
+  template = "❯"
+
+# Currently only works in zsh, powershell, and bash
+[secondary_prompt]
+background = "transparent"
+foreground = "magenta"
+template = "❯❯ "
