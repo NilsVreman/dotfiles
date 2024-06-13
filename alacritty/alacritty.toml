@@ -5,13 +5,19 @@ import = [
 ]
 live_config_reload = true
 
+[window]
+decorations = "full"
+dynamic_title = true
+startup_mode = "Maximized"
+
 [shell]
-program = "/bin/bash"
+program = "/bin/zsh"
 
 [env]
 term = "xterm-256color"
 
 [font]
 normal = {family = "FiraCode Nerd Font Mono", style = "Regular"}
+bold = {family = "FiraCode Nerd Font Mono", style = "Bold"}
 size = 10
 
