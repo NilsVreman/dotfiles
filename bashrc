@@ -100,17 +100,12 @@ function parse_git_branch {
 }
 
 # Setup oh-my-posh if exists, otherwise use normal bash-prompt
-if command -v oh-my-posh &> /dev/null; then
+if command -v oh-my-posh &>/dev/null; then
 	eval "$(oh-my-posh init bash --config $HOME/.config/ohmyposh/ohmyposh.toml)"
 else
 	PS1="${debian_chroot:+($debian_chroot)}\001$COLOR_HOST\002\u@\h\001$COLOR_RESET\002:\001$COLOR_PATH\002./\W\$(parse_git_branch)\001$COLOR_RESET\002\n\001$COLOR_PATH\002[\D{%b %d | %H:%M:%S}]\001$COLOR_RESET\002\$ "
 fi
 # To get gruvbox terminal colours: bash -c  "$(wget -qO- https://git.io/vQgMr)"
-
-### Aliases
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -132,22 +127,16 @@ export EDITOR='nvim'
 export VISUAL='nvim'
 
 # --------------------------------
-# Commands
+# Aliases
 # --------------------------------
 
-# enable color support of ls and also add handy aliases
-alias ls='ls --color=auto'
+if [ -f ~/.aliases ]; then
+	. ~/.aliases
+fi
 
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -1'
-
-# My aliases
-cdw() { cd ~/"$1" && clear; }
-alias t='tree'
-
-# Tmux
-alias tmux='TERM=xterm-256color tmux'
+# --------------------------------
+# Commands
+# --------------------------------
 
 # Bind autocompletion here to overwrite the one in /etc/inputrc
 bind "set completion-ignore-case on"

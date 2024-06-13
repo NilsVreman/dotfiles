@@ -20,25 +20,42 @@ git submodule update --init --recursive
 ## Symlinks
 echo "Generating symbolic links..."
 
-# Bash
-if [ -e "$HOME/.bashrc" ]; then
-	cp -r $HOME/.bashrc $BAKDIR/bashrc.bak
-	rm $HOME/.bashrc # Cleaning up old links
-fi
-ln -sT $BASEDIR/bashrc $HOME/.bashrc
-source $HOME/.bashrc
-if [ -e "$HOME/.bash_profile" ]; then
-	cp -r $HOME/.bash_profile $BAKDIR/bash_profile.bak
-	rm $HOME/.bash_profile # Cleaning up old links
-fi
-ln -sT $BASEDIR/bash_profile $HOME/.bash_profile
-
 # Oh-my-posh
 if [ -e "$OMPDIR/ohmyposh.toml" ]; then
 	cp -r $OMPDIR/ohmyposh.toml $BAKDIR/ohmyposh.toml.bak
 	rm $OMPDIR/ohmyposh.toml
 fi
 ln -sT $BASEDIR/ohmyposh.toml $OMPDIR/ohmyposh.toml
+
+# Aliases
+# NOTE: This has to be done before sourcing $HOME/.bashrc
+if [ -e "$HOME/.aliases" ]; then
+	cp -r $HOME/.aliases $BAKDIR/aliases.bak
+	rm $HOME/.aliases # Cleaning up old links
+fi
+ln -sT $BASEDIR/aliases $HOME/.aliases
+
+# Bash
+if [ -e "$HOME/.bashrc" ]; then
+	cp -r $HOME/.bashrc $BAKDIR/bashrc.bak
+	rm $HOME/.bashrc # Cleaning up old links
+fi
+ln -sT $BASEDIR/bashrc $HOME/.bashrc
+if [ -e "$HOME/.bash_profile" ]; then
+	cp -r $HOME/.bash_profile $BAKDIR/bash_profile.bak
+	rm $HOME/.bash_profile # Cleaning up old links
+fi
+ln -sT $BASEDIR/bash_profile $HOME/.bash_profile
+
+# Zsh
+if [ -e "$HOME/.zshrc" ]; then
+	cp -r $HOME/.zshrc $BAKDIR/zshrc.bak
+	rm $HOME/.zshrc # Cleaning up old links
+fi
+ln -sT $BASEDIR/zshrc $HOME/.zshrc
+
+# Which shell to use
+source $HOME/.bashrc
 
 # NeoVim
 if [ -d "$CONFDIR/nvim" ]; then
