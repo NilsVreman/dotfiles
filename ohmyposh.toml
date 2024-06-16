@@ -31,7 +31,7 @@ console_title_template = "{{ .Shell }} in {{ .Folder }}"
     style = "plain"
     background = "transparent"
     foreground = "green"
-    template = "{{ .UserName }}@{{ .HostName }}: "
+    template = "\u27e8{{ .Shell }}\u27e9 {{ .UserName }}@{{ .HostName }}: "
 
   [[blocks.segments]]
     type = "path"
@@ -88,9 +88,11 @@ console_title_template = "{{ .Shell }} in {{ .Folder }}"
 
 # Currently only works in fish, nu, zsh, powershell, and cmd
 [transient_prompt]
-  foreground = "magenta"
+  foreground_templates = [
+    "{{if gt .Code 0}}red{{else}}magenta{{end}}"
+  ]
   background = "transparent"
-  template = "❯"
+  template = "❯ "
 
 # Currently only works in zsh, powershell, and bash
 [secondary_prompt]
