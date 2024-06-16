@@ -92,7 +92,7 @@ console_title_template = "{{ .Shell }} in {{ .Folder }}"
     "{{if gt .Code 0}}red{{else}}magenta{{end}}"
   ]
   background = "transparent"
-  template = "\n❯ "
+  template = "❯ "
 
 # Currently only works in zsh, powershell, and bash
 [secondary_prompt]
