@@ -35,6 +35,7 @@ bindkey "^[[B" down-line-or-beginning-search # Down
 (( ${+ZSH_HIGHLIGHT_STYLES} )) || typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[path]=none
 ZSH_HIGHLIGHT_STYLES[path_prefix]=none
+ZSH_HIGHLIGHT_STYLES[precommand]="fg=green"
 
 # History settings
 HISTSIZE=5000
