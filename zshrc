@@ -64,6 +64,9 @@ if [ -f ~/.aliases ]; then
 fi
 alias nvim="~/neovim/bin/nvim"
 
+# Rust related
+. "$HOME/.cargo/env"
+
 # Shell integration
-#eval "$(fzf --zsh)"
+eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
