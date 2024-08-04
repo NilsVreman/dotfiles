@@ -9,6 +9,8 @@
 	editor = vim
 	autocrlf = input
 [alias]
-	glog = log --graph --oneline -n30
+	glog = log --graph --oneline -n20
 	rom = rebase origin/main
 	romr = rebase origin/master
+[init]
+	defaultBranch = main
