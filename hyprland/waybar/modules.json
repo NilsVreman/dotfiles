@@ -1,0 +1,82 @@
+{
+  "custom/power_button": {
+    "format": "",
+    "on-click": "wlogout",
+    "tooltip": false
+  },
+  "custom/lock_screen": {
+    "format": "",
+    "on-click": "swaylock",
+    "tooltip": false
+  },
+  "hyprland/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
+    "on-click": "activate"
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "󰛐",
+      "deactivated": "󰛑"
+    },
+    "tooltip": true
+  },
+  "clock": {
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "format-alt": "{:%Y-%m-%d}"
+  },
+  "tray": {
+    "icon-size": 18,
+    "spacing": 10
+  },
+  "hyprland/language": {
+    "format": "<span font='20' rise='-3000'></span> {}"
+  },
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "<span font='18' rise='-2000'>{icon}</span> {capacity}%",
+    "format-charging": "<span font='18' rise='-2000'></span> {capacity}%",
+    "format-plugged": "<span font='18' rise='-2000'></span> {capacity}%",
+    "format-alt": "<span font='18' rise='-2000'>{icon}</span> {time}",
+    "format-icons": [" ", " ", " ", " ", " "]
+  },
+
+  // Pulseaudio
+  "pulseaudio": {
+    "format": "<span font='20' rise='-3000'>{icon}</span> {volume}%",
+    "format-muted": "<span font='20' rise='-3000'>\udb81\udf5f</span>",
+    "on-click": "~/.config/hyprland-media-scripts/sound_volume.sh --toggle",
+    "on-click-right": "pavucontrol",
+    "on-scroll-up": "~/.config/hyprland-media-scripts/sound_volume.sh --inc",
+    "on-scroll-down": "~/.config/hyprland-media-scripts/sound_volume.sh --dec",
+    "scroll-step": 5,
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", "", ""]
+    },
+    "tooltip": true,
+    "tooltip-format": "{icon} at {volume}%"
+  },
+
+  "pulseaudio#microphone": {
+    "format": "{format_source}",
+    "format-source": "<span font='16' rise='-1000'></span> {volume}%",
+    "format-source-muted": "<span font='16' rise='-1000'></span>",
+    "on-click": "~/.config/hyprland-media-scripts/mic_volume.sh --toggle",
+    "on-click-right": "pavucontrol",
+    "on-scroll-up": "~/.config/hyprland-media-scripts/mic_volume.sh --inc",
+    "on-scroll-down": "~/.config/hyprland-media-scripts/mic_volume.sh --dec",
+    "scroll-step": 5,
+    "tooltip": true,
+    "tooltip-format": " at {volume}%"
+  }
+}
