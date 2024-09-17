@@ -31,7 +31,7 @@ console_title_template = "{{ .Shell }} in {{ .Folder }}"
     style = "plain"
     background = "transparent"
     foreground = "green"
-    template = "\u27e8{{ .Shell }}\u27e9 {{ .UserName }}@{{ .HostName }}: "
+    template = "{{ .UserName }}@{{ .HostName }}: "
 
   [[blocks.segments]]
     type = "path"

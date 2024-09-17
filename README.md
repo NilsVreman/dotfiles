@@ -38,3 +38,7 @@ This starts an interactive setup script for
 - `fd-find`
 - `oh-my-posh`
 - `npm`
+
+## Good to know
+
+- For future reference: If your formatters/linters/lsps aren't automatically activating; don't forget to update `nvim/plugin/{formatting,nvim_lspconfig,linting}.lua`
