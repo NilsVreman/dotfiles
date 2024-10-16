@@ -20,7 +20,7 @@ prep_stage=(
 install_stage=(
   mako     # Notification daemon for Wayland
   waybar   # Statusbar
-  swaylock # swaylock-effects doesn't work due to the "input inhibit handling"
+  hyprlock # swaylock-effects doesn't work due to the "input inhibit handling"
   wofi     # appliaction launcher for wayland
   wlogout  # systemctl hibernate does currently not work due to "swap memory to small"
   xdg-desktop-portal-hyprland
@@ -207,7 +207,6 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
   echo -e "$CNT - Copying config files..."
   backup_and_link "hypr" "hypr"
   backup_and_link "waybar" "waybar"
-  backup_and_link "swaylock" "swaylock"
   backup_and_link "wlogout" "wlogout"
   backup_and_link "wofi" "wofi"
   backup_and_link "hyprland-media-scripts" "hyprland-media-scripts"
