@@ -1,23 +1,48 @@
 @import "catppuccin_mocha.css";
 
 * {
-  font-family: "FiraCode Nerd Font Mono", "Font Awesome 6 Free",
-    "Font Awesome 6 Brands", monospace;
+  font-family: "FiraCode Nerd Font Mono";
   font-size: 16px;
   font-weight: bold;
-  border: none;
-  border-radius: 0;
   min-height: 0;
 }
 
 window#waybar {
-  background: @mantle;
+  background: transparent;
+  background-color: @crust;
+  color: @overlay0;
+  transition-property: background-color;
+  transition-duration: 0.1s;
+}
+
+button {
+  color: rgba(255, 255, 255, 0.3);
+  border: none;
+  border-radius: 2px;
+  margin: 2px 2px;
+}
+
+button:hover {
+  background: rgba(0, 0, 0, 0.3);
   color: @text;
+  border-top: 2px solid @red;
+  border-bottom: 2px solid @red;
+}
+
+#workspaces button:first-child {
+  margin-left: 20px;
+}
+
+#workspaces button.active {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: @text;
+  border-top: 2px solid @green;
+  border-bottom: 2px solid @green;
 }
 
 tooltip {
   background: @surface0;
-  opacity: 0.9;
+  opacity: 0.75;
   border-radius: 10px;
   border-width: 2px;
   border-style: solid;
@@ -28,55 +53,48 @@ tooltip label {
   color: @text;
 }
 
-#custom-lock_screen,
-#custom-power_button,
 #clock,
 #battery,
-#pulseaudio,
+#audio,
 #network,
-#tray,
-#idle_inhibitor {
-  padding: 0px 1px;
-  margin: 0px 0px;
+#language,
+#tray {
+  padding: 0px 0px;
+  margin: 2px 2px;
   border: 0px;
 }
 
-#custom-lock_screen,
-#custom-power_button {
-  font-size: 20px;
+#tray {
+  color: @blue;
+  border-bottom: 2px solid @blue;
 }
 
-#idle_inhibitor {
-  font-size: 25px;
+#pulseaudio {
+  margin: 0px 6px;
+}
+
+#audio {
+  color: @teal;
+  border-bottom: 3px solid @teal;
+}
+
+#language {
+  color: @green;
+  border-bottom: 2px solid @green;
 }
 
 #battery {
-  margin-right: 10px;
+  color: @peach;
+  border-bottom: 2px solid @peach;
 }
 
-#workspaces {
-  padding-right: 0px;
-  padding-left: 5px;
+#clock {
+  margin-right: 20px;
+  color: @red;
+  border-bottom: 2px solid @red;
 }
 
-#workspaces button {
-  padding: 5px;
-  margin-right: 5px;
-  color: @text;
-}
-
-#workspaces button.active {
-  color: @base;
-  background: @green;
-  border-radius: 10px;
-}
-
-#workspaces button:hover {
-  background: @red;
-  color: @base;
-  border-radius: 10px;
-}
-
-#custom-power_button {
-  margin-left: 10px;
+#clock.date {
+  color: @red;
+  border-bottom: 2px solid @red;
 }

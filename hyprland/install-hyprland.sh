@@ -206,6 +206,8 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 
   echo -e "$CNT - Copying config files..."
   backup_and_link "hypr" "hypr"
+  backup_and_link "backgrounds" "backgrounds"
+  backup_and_link "swappy" "swappy"
   backup_and_link "waybar" "waybar"
   backup_and_link "wlogout" "wlogout"
   backup_and_link "wofi" "wofi"

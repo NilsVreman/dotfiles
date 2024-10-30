@@ -1,26 +1,8 @@
 {
-  "custom/power_button": {
-    "format": "",
-    "on-click": "wlogout",
-    "tooltip": false
-  },
-  "custom/lock_screen": {
-    "format": "",
-    "on-click": "swaylock",
-    "tooltip": false
-  },
   "hyprland/workspaces": {
     "disable-scroll": true,
     "all-outputs": true,
     "on-click": "activate"
-  },
-  "idle_inhibitor": {
-    "format": "{icon}",
-    "format-icons": {
-      "activated": "󰛐",
-      "deactivated": "󰛑"
-    },
-    "tooltip": true
   },
   "clock": {
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
@@ -28,7 +10,7 @@
   },
   "tray": {
     "icon-size": 18,
-    "spacing": 10
+    "spacing": 8
   },
   "hyprland/language": {
     "format": "<span font='20' rise='-3000'></span> {}"
@@ -38,17 +20,32 @@
       "warning": 30,
       "critical": 15
     },
-    "format": "<span font='18' rise='-2000'>{icon}</span> {capacity}%",
-    "format-charging": "<span font='18' rise='-2000'></span> {capacity}%",
-    "format-plugged": "<span font='18' rise='-2000'></span> {capacity}%",
-    "format-alt": "<span font='18' rise='-2000'>{icon}</span> {time}",
+    "format": "<span size='18000' rise='-2000'>{icon}</span> {capacity}%",
+    "format-warning": "<span size='18000' rise='-2000'>{icon}</span> {capacity}%",
+    "format-critical": "<span size='18000' rise='-2000'>{icon}</span> {capacity}%",
+    "format-charging": "<span size='18000' rise='-2000'></span> {capacity}%",
+    "format-plugged": "<span size='18000' rise='-2000'></span> {capacity}%",
+    "format-alt": "<span size='18000' rise='-2000'>{icon}</span> {time}",
+    "format-full": "<span size='18000' rise='-2000'></span> {capacity}%",
     "format-icons": [" ", " ", " ", " ", " "]
   },
 
-  // Pulseaudio
+  "network": {
+    "format-wifi": "<span size='18000' foreground='#F5E0DC'>  </span>{essid}",
+    "format-ethernet": "<span size='18000' foreground='#F5E0DC'>󰤭  </span> Disconnected",
+    "format-linked": "{ifname} (No IP) ",
+    "format-disconnected": "<span size='18000' foreground='#F5E0DC'>  </span>Disconnected",
+    "tooltip-format-wifi": "Signal Strenght: {signalStrength}%"
+  },
+
+  "group/audio": {
+    "orientation": "horizontal",
+    "modules": ["pulseaudio", "pulseaudio#microphone"]
+  },
+
   "pulseaudio": {
-    "format": "<span font='20' rise='-3000'>{icon}</span> {volume}%",
-    "format-muted": "<span font='20' rise='-3000'>\udb81\udf5f</span>",
+    "format": "<span size='20000' rise='-3000'>{icon}</span> {volume}%",
+    "format-muted": "<span size='20000' rise='-3000'>\udb81\udf5f</span>",
     "on-click": "~/.config/hyprland-media-scripts/sound_volume.sh --toggle",
     "on-click-right": "pavucontrol",
     "on-scroll-up": "~/.config/hyprland-media-scripts/sound_volume.sh --inc",
@@ -69,8 +66,8 @@
 
   "pulseaudio#microphone": {
     "format": "{format_source}",
-    "format-source": "<span font='16' rise='-1000'></span> {volume}%",
-    "format-source-muted": "<span font='16' rise='-1000'></span>",
+    "format-source": "<span size='16000' rise='-1000'></span> {volume}%",
+    "format-source-muted": "<span size='16000' rise='-1000'></span>",
     "on-click": "~/.config/hyprland-media-scripts/mic_volume.sh --toggle",
     "on-click-right": "pavucontrol",
     "on-scroll-up": "~/.config/hyprland-media-scripts/mic_volume.sh --inc",
