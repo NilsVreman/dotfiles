@@ -1,0 +1,19 @@
+{
+    "layer": "top",
+    "margin-left": 0,
+    "margin-right": 0,
+    "spacing": 20,
+
+    "include": [
+        "~/.config/waybar/modules.json"
+    ],
+    // Note that wlr/workspaces doesn't work unless `ext_workspace_unstable_v1` is set
+    "modules-left": ["hyprland/workspaces"],
+    "modules-right": [
+        "tray",
+        "group/audio",
+        "hyprland/language",
+        "battery",
+        "clock"
+    ]
+}
