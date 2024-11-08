@@ -1,14 +1,17 @@
-#:schema https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
-
-# Credit to [Dreams of Autonomy](https://youtu.be/9U8LCjuQzdc?si=2xDQAay2mBaPUN-G)
-
-# Documentation
-# Templates: https://ohmyposh.dev/docs/configuration/templates
-
-
-version = 2
-final_space = true
 console_title_template = "{{ .Shell }} in {{ .Folder }}"
+version = 3
+final_space = true
+
+[secondary_prompt]
+  template = "❯❯ "
+  foreground = "blue"
+  background = "transparent"
+
+[transient_prompt]
+  template = "❯ "
+  newline = true
+  background = "transparent"
+  foreground_templates = ["{{if gt .Code 0}}red{{else}}blue{{end}}"]
 
 [[blocks]]
   type = "prompt"
@@ -16,60 +19,64 @@ console_title_template = "{{ .Shell }} in {{ .Folder }}"
   newline = true
 
   [[blocks.segments]]
+    foreground = "white"
+    background = "transparent"
     type = "python"
     style = "plain"
-    background = "transparent"
-    foreground = "white"
     template = "{{ if .Venv }}({{ .Venv }}) {{ end }}"
 
     [blocks.segments.properties]
-      fetch_virtual_env = true
+      cache_duration = "none"
       display_mode = "context"
+      fetch_virtual_env = true
 
   [[blocks.segments]]
+    template = "{{ .UserName }}@{{ .HostName }}: "
+    foreground = "green"
+    background = "transparent"
     type = "session"
     style = "plain"
-    background = "transparent"
-    foreground = "green"
-    template = "{{ .UserName }}@{{ .HostName }}: "
-
-  [[blocks.segments]]
-    type = "path"
-    style = "plain"
-    background = "transparent"
-    foreground = "blue"
-    template = "{{ .Path }}"
 
     [blocks.segments.properties]
+      cache_duration = "none"
+
+  [[blocks.segments]]
+    template = "{{ .Path }}"
+    foreground = "blue"
+    background = "transparent"
+    type = "path"
+    style = "plain"
+
+    [blocks.segments.properties]
+      cache_duration = "none"
       style = "full"
 
-  [[blocks.segments]]  # [HEAD | C: <ahead>/<behind> | M: <staged>/<unstaged> | U: <added>/<untracked>]
+  [[blocks.segments]]
+    template = " [{{ .HEAD }}{{ if or (gt .Ahead 0) (gt .Behind 0) }} | C: <green>{{ .Ahead }}</>/<red>{{ .Behind }}</>{{ end }}{{ if or (gt .Working.Deleted 0) (gt .Staging.Deleted 0) }} | D: <green>{{ .Staging.Deleted }}</>/<red>{{ .Working.Deleted }}</>{{ end }}{{ if or (gt .Working.Modified 0) (gt .Staging.Modified 0) }} | M: <green>{{ .Staging.Modified }}</>/<red>{{ .Working.Modified }}</>{{ end }}{{ if or (gt .Working.Untracked 0) (gt .Staging.Added 0) }} | U: <green>{{ .Staging.Added }}</>/<red>{{ .Working.Untracked }}</>{{ end }}]"
+    foreground = "yellow"
+    background = "transparent"
     type = "git"
     style = "plain"
-    background = "transparent"
-    foreground = "yellow"
-    template = " [{{ .HEAD }}{{ if or (gt .Ahead 0) (gt .Behind 0) }} | C: <green>{{ .Ahead }}</>/<red>{{ .Behind }}</>{{ end }}{{ if or (gt .Working.Deleted 0) (gt .Staging.Deleted 0) }} | D: <green>{{ .Staging.Deleted }}</>/<red>{{ .Working.Deleted }}</>{{ end }}{{ if or (gt .Working.Modified 0) (gt .Staging.Modified 0) }} | M: <green>{{ .Staging.Modified }}</>/<red>{{ .Working.Modified }}</>{{ end }}{{ if or (gt .Working.Untracked 0) (gt .Staging.Added 0) }} | U: <green>{{ .Staging.Added }}</>/<red>{{ .Working.Untracked }}</>{{ end }}]"
 
     [blocks.segments.properties]
       branch_icon = ""
+      cache_duration = "none"
       fetch_status = true
-
 
 [[blocks]]
   type = "rprompt"
   overflow = "hidden"
 
   [[blocks.segments]]
+    template = "{{ .FormattedMs }}"
+    foreground = "yellow"
+    background = "transparent"
     type = "executiontime"
     style = "plain"
-    background = "transparent"
-    foreground = "yellow"
-    template = "{{ .FormattedMs }}"
 
     [blocks.segments.properties]
+      cache_duration = "none"
       threshold = 5000
-  
-  
 
 [[blocks]]
   type = "prompt"
@@ -77,25 +84,11 @@ console_title_template = "{{ .Shell }} in {{ .Folder }}"
   newline = true
 
   [[blocks.segments]]
+    template = "❯"
+    background = "transparent"
     type = "text"
     style = "plain"
-    background = "transparent"
-    foreground_templates = [
-      "{{if gt .Code 0}}red{{else}}magenta{{end}}"
-    ]
-    template = "❯"
+    foreground_templates = ["{{if gt .Code 0}}red{{else}}blue{{end}}"]
 
-
-# Currently only works in fish, nu, zsh, powershell, and cmd
-[transient_prompt]
-  foreground_templates = [
-    "{{if gt .Code 0}}red{{else}}magenta{{end}}"
-  ]
-  background = "transparent"
-  template = "\n❯ "
-
-# Currently only works in zsh, powershell, and bash
-[secondary_prompt]
-background = "transparent"
-foreground = "magenta"
-template = "❯❯ "
+    [blocks.segments.properties]
+      cache_duration = "none"
