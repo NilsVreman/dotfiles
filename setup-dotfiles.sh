@@ -12,6 +12,7 @@ TMUXDIR="$BASEDIR/tmux"
 NVIMDIR="$BASEDIR/nvim"
 CONFDIR="$HOME/.config"
 OMPDIR="$CONFDIR/ohmyposh"
+ALADIR="$CONFDIR/alacritty"
 BAKDIR="$HOME/backups"
 
 # Initialize directories
@@ -20,6 +21,7 @@ init_dirs() {
   mkdir -p $CONFDIR
   mkdir -p $BAKDIR
   mkdir -p $OMPDIR
+  mkdir -p $ALADIR
 }
 
 # Backup and create symlink
@@ -85,7 +87,7 @@ install_zsh() {
 install_nvim() {
   read -rep $'[\e[1;33mACTION\e[0m] - Do you want to install NeoVim configuration? (y/n) ' -n 1 CONTINST
   if [[ $CONTINST =~ ^[Yy]$ ]]; then
-    backup_and_link "$NVIMDIR/" "$CONFDIR/nvim" "nvim"
+    backup_and_link "$NVIMDIR" "$CONFDIR/nvim" "nvim"
     echo -e "$CAT - Don't forget to install nvim."
     echo -e "$CAT - Mason (LSP/Linters/Formatters) need npm installed."
     echo -e "$CAT - Also, install rg (ripgrep) and fd (fd-find)."
@@ -109,7 +111,7 @@ install_tmux() {
 install_alacritty() {
   read -rep $'[\e[1;33mACTION\e[0m] - Do you want to install Alacritty configuration? (y/n) ' -n 1 CONTINST
   if [[ $CONTINST =~ ^[Yy]$ ]]; then
-    backup_and_link "$BASEDIR/alacritty/alacritty.toml" "$CONFDIR/alacritty/alacritty.toml" "alacritty"
+    backup_and_link "$BASEDIR/alacritty" "$CONFDIR/alacritty" "alacritty"
   fi
 }
 

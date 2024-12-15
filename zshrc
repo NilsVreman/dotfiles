@@ -62,10 +62,6 @@ zstyle ":fzf-tab:complete:__zoxide_z:*" fzf-preview "ls --color $realpath"
 if [ -f ~/.aliases ]; then
   . ~/.aliases
 fi
-alias nvim="~/neovim/bin/nvim"
-
-# Rust related
-. "$HOME/.cargo/env"
 
 # Shell integration
 eval "$(fzf --zsh)"

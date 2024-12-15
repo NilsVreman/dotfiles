@@ -1,7 +1,8 @@
 
 # ColourScheme
+[general]
 import = [
-    "~/.config/alacritty/themes/themes/catppuccin_mocha.toml"
+    "~/.config/alacritty/catppuccin-mocha.toml"
 ]
 live_config_reload = true
 
@@ -16,13 +17,13 @@ lines = 80
 x = 5
 y = 5
 
-[shell]
+[terminal.shell]
 program = "/bin/zsh"
 
 [env]
 term = "xterm-256color"
 
 [font]
-normal = {family = "FiraCode Nerd Font Mono", style = "Regular"}
+normal = {family = "JetBrains Mono Nerd Font Mono", style = "Regular"}
 size = 10
 offset.y = 1
