@@ -66,8 +66,8 @@
 
   "pulseaudio#microphone": {
     "format": "{format_source}",
-    "format-source": "<span size='16000' rise='-1000'></span> {volume}%",
-    "format-source-muted": "<span size='16000' rise='-1000'></span>",
+    "format-source": "<span size='20000' rise='-1000'></span> {volume}%",
+    "format-source-muted": "<span size='20000' rise='-1000'></span>",
     "on-click": "~/.config/hyprland-media-scripts/mic_volume.sh --toggle",
     "on-click-right": "pavucontrol",
     "on-scroll-up": "~/.config/hyprland-media-scripts/mic_volume.sh --inc",
