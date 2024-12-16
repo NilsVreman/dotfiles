@@ -18,11 +18,12 @@ prep_stage=(
 
 #the main packages
 install_stage=(
-  mako     # Notification daemon for Wayland
-  waybar   # Statusbar
-  hyprlock # swaylock-effects doesn't work due to the "input inhibit handling"
-  wofi     # appliaction launcher for wayland
-  wlogout  # systemctl hibernate does currently not work due to "swap memory to small"
+  mako      # Notification daemon for Wayland
+  waybar    # Statusbar
+  hyprpaper # hyprland wallpaper manager
+  hyprlock  # swaylock-effects doesn't work due to the "input inhibit handling"
+  wofi      # appliaction launcher for wayland
+  wlogout   # systemctl hibernate does currently not work due to "swap memory to small"
   xdg-desktop-portal-hyprland
   swappy      # Wayland snapshot editing tool
   grim        # Screenshot tool for Sway
