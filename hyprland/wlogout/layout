@@ -1,35 +1,34 @@
 {
-    "label" : "lock",
-    "action" : "swaylock",
-    "text" : "Lock"
-}
-
-{
-    "label" : "suspend",
-    "action" : "systemctl suspend",
-    "text" : "Suspend"
-}
-
-{
     "label" : "logout",
     "action" : "hyprctl dispatch exit 0",
-    "text" : "Logout"
+    "text" : "     ",
+    "keybind" : "o"
+}
+
+{
+    "label" : "lock",
+    "action" : "hyprlock",
+    "text" : "     ",
+    "keybind" : "l"
 }
 
 {
     "label" : "shutdown",
     "action" : "systemctl poweroff",
-    "text" : "Shutdown"
-}
-
-{
-    "label" : "hibernate",
-    "action" : "systemctl hibernate",
-    "text" : "Hibernate"
+    "text" : "     ",
+    "keybind" : "s"
 }
 
 {
     "label" : "reboot",
     "action" : "systemctl reboot",
-    "text" : "Reboot"
+    "text" : "     ",
+    "keybind" : "r"
+}
+
+{
+    "label" : "suspend",
+    "action" : "systemctl suspend",
+    "text" : "     ",
+    "keybind" : "u"
 }
