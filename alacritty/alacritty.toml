@@ -24,6 +24,6 @@ program = "/bin/zsh"
 term = "xterm-256color"
 
 [font]
-normal = {family = "JetBrains Mono Nerd Font Mono", style = "Regular"}
+normal = {family = "JetBrains Mono Nerd Font Mono"}
 size = 10
 offset.y = 1
