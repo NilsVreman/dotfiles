@@ -7,7 +7,7 @@ return {
       vue = { "eslint_d" },
       javascriptreact = { "eslint_d" },
       typescriptreact = { "eslint_d" },
-      python = { "mypy", "pylint", "flake8" },
+      python = { "ruff", "mypy" },
     },
   },
 }
