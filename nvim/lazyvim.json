@@ -2,6 +2,8 @@
   "extras": [
     "lazyvim.plugins.extras.coding.mini-surround",
     "lazyvim.plugins.extras.coding.yanky",
+    "lazyvim.plugins.extras.editor.mini-files",
+    "lazyvim.plugins.extras.lang.markdown",
     "lazyvim.plugins.extras.util.project"
   ],
   "news": {
