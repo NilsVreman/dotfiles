@@ -7,3 +7,7 @@ vim.opt.wrap = true -- Wrap lines
 vim.opt.breakindent = true -- Wrapped lines keep indentation intelligently (based on autocmds.lua)
 
 vim.g.snacks_animate = false -- Remove animations from snacks.nvim
+
+-- LSP Server to use for Python
+vim.g.lazyvim_python_lsp = "pyright"
+vim.g.lazyvim_python_ruff = "ruff"
