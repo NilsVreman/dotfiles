@@ -13,7 +13,6 @@ require("lazy").setup({
     -- import any extras modules here
     -- { import = "lazyvim.plugins.extras.coding.yanky" },
     { import = "lazyvim.plugins.extras.ai.copilot" },
-    { import = "lazyvim.plugins.extras.editor.leap" },
     -- import/override with your plugins
     { import = "plugins" },
   },
