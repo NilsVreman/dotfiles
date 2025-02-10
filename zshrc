@@ -66,3 +66,5 @@ fi
 # Shell integration
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
+
+. "$HOME/.local/bin/env"
