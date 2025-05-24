@@ -9,5 +9,3 @@ alias la='ls -A'
 alias l='ls -1'
 
 alias t='tree'
-
-alias tmux='TERM=xterm-256color tmux'
