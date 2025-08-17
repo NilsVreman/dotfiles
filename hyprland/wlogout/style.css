@@ -22,7 +22,8 @@ button {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 35%;
-  margin: 250px 5px;
+  min-height: 100px;
+  margin: 100px 5px;
   text-shadow: 0px 0px;
   box-shadow: 0px 0px;
 }
