@@ -31,3 +31,7 @@ vim.keymap.set({ "n", "v" }, "<C-d>", "<C-d>zz", { desc = "Scroll down 1/2 page"
 vim.keymap.set({ "n", "v" }, "<C-u>", "<C-u>zz", { desc = "Scroll up 1/2 page", remap = true })
 vim.keymap.set("n", "<leader>o", "m`o<Esc>``")
 vim.keymap.set("n", "<leader>O", "m`O<Esc>``")
+
+-- Center cursorline on movement
+vim.keymap.set("n", "n", "nzz", { desc = "Next search result" })
+vim.keymap.set("n", "N", "Nzz", { desc = "Prev search result" })

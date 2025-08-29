@@ -1,6 +1,6 @@
 return {
   {
-    "echasnovski/mini.surround",
+    "nvim-mini/mini.surround",
     opts = {
       highlight_duration = 1000,
       mappings = {
@@ -15,7 +15,7 @@ return {
     },
   },
   {
-    "echasnovski/mini.files",
+    "nvim-mini/mini.files",
     opts = {
       windows = {
         width_focus = 50,
