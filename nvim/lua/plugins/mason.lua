@@ -1,11 +1,14 @@
 return {
-  "williamboman/mason.nvim",
-  opts = function(_, opts)
-    -- formatters
-    table.insert(opts.ensure_installed, "prettier")
-    table.insert(opts.ensure_installed, "prettierd")
-
-    -- linters
-    table.insert(opts.ensure_installed, "eslint_d")
-  end,
+  "mason-org/mason.nvim",
+  opts_extend = { "ensure_installed" },
+  opts = {
+    ensure_installed = {
+      -- formatters
+      "prettierd",
+      "ruff",
+      -- linters
+      "eslint_d",
+      "mypy",
+    },
+  },
 }
