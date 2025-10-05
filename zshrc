@@ -62,9 +62,11 @@ zstyle ":fzf-tab:complete:__zoxide_z:*" fzf-preview "ls --color $realpath"
 if [ -f ~/.aliases ]; then
   . ~/.aliases
 fi
+# Environment variables
+. "$HOME/.local/bin/env"
 
 # Shell integration
+eval "$(uv generate-shell-completion zsh)"
+eval "$(uvx --generate-shell-completion zsh)"
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
-
-. "$HOME/.local/bin/env"
