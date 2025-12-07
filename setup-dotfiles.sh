@@ -115,6 +115,30 @@ install_alacritty() {
   fi
 }
 
+install_kitty_bin() {
+  read -rep $'[\e[1;33mACTION\e[0m] - Do you want to install the Kitty binary? (y/n) ' -n 1 CONTINST
+  if [[ $CONTINST =~ ^[Yy]$ ]]; then
+    KITTYDIR="$HOME/.local/kitty.app"
+    # Fetch Kitty
+    curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+    # create symlinks for kitty and kitten
+    ln -sf "$KITTYDIR/bin/kitty" "$KITTYDIR/bin/kitten" ~/.local/bin/
+    # Place the kitty.desktop files where it can be found by the OS
+    cp "$KITTYDIR/share/applications/kitty.desktop" "$KITTYDIR/share/applications/kitty-open.desktop" ~/.local/share/applications/
+    # Update the paths ot the kitty and its icon in the kitty desktop files
+    sed -i "s|Icon=kitty|Icon=$(readlink -f ~)/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" ~/.local/share/applications/kitty*.desktop
+    sed -i "s|Exec=kitty|Exec=$(readlink -f ~)/.local/kitty.app/bin/kitty|g" ~/.local/share/applications/kitty*.desktop
+  fi
+}
+
+# Install Kitty configuration
+install_kitty() {
+  read -rep $'[\e[1;33mACTION\e[0m] - Do you want to install Kitty configuration? (y/n) ' -n 1 CONTINST
+  if [[ $CONTINST =~ ^[Yy]$ ]]; then
+    backup_and_link "$BASEDIR/kitty" "$CONFDIR/kitty" "kitty"
+  fi
+}
+
 # Install Git configuration
 install_git() {
   read -rep $'[\e[1;33mACTION\e[0m] - Do you want to install Git configuration? (y/n) ' -n 1 CONTINST
@@ -135,6 +159,8 @@ install_zsh
 install_nvim
 install_tmux
 install_alacritty
+install_kitty_bin
+install_kitty
 install_git
 
 echo -e "$COK - Done!"
