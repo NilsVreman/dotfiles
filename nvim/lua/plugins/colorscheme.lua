@@ -6,10 +6,6 @@ return {
     },
   },
   {
-    "folke/tokyonight.nvim",
-    enabled = false,
-  },
-  {
     "catppuccin/nvim",
     lazy = true,
     name = "catppuccin",
