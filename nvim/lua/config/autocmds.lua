@@ -9,3 +9,13 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.breakindentopt = "shift:" .. tabstop
   end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "kitty-scrollback" },
+  callback = function(ev)
+    vim.keymap.set("v", "<leader><CR>", "<Plug>(KsbExecuteVisualCmd)", { buffer = ev.buf, silent = true })
+    vim.keymap.set({ "n", "i" }, "<leader><CR>", "<Plug>(KsbExecuteCmd)", { buffer = ev.buf, silent = true })
+    vim.keymap.set("v", "<leader>p", "<Plug>(KsbPasteVisualCmd)", { buffer = ev.buf, silent = true })
+    vim.keymap.set({ "n", "i" }, "<leader>p", "<Plug>(KsbPasteCmd)", { buffer = ev.buf, silent = true })
+  end,
+})
