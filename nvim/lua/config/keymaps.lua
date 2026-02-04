@@ -7,6 +7,9 @@ local Util = require("lazyvim.util")
 -- Deletes
 vim.keymap.del("n", "<leader>ft")
 
+-- Copy entire file
+vim.keymap.set("n", "<leader>y=", "m`ggyG``", { desc = "Yank entire file" })
+
 -- Formatting
 vim.keymap.set({ "n", "v" }, "==", function()
   Util.format({ force = true })

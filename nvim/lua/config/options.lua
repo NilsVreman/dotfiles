@@ -11,3 +11,6 @@ vim.g.snacks_animate = false -- Remove animations from snacks.nvim
 -- LSP Server to use for Python
 vim.g.lazyvim_python_lsp = "pyright"
 vim.g.lazyvim_python_ruff = "ruff"
+
+-- disable tmux navigation when zoomed
+vim.g.tmux_navigator_disable_when_zoomed = 1
