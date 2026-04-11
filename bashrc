@@ -35,7 +35,7 @@ shopt -s extglob
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-	debian_chroot=$(cat /etc/debian_chroot)
+  debian_chroot=$(cat /etc/debian_chroot)
 fi
 
 ## Command Prompt setup
@@ -47,63 +47,63 @@ COLOR_RESET="\e[0m"
 
 # Format the git information
 function parse_git_branch {
-	# Check if we are in a git repo
-	if [ -d .git ] || git rev-parse --is-inside-work-tree &>/dev/null; then
-		local git_status="$(git status --porcelain=v1 2>/dev/null)"
+  # Check if we are in a git repo
+  if [ -d .git ] || git rev-parse --is-inside-work-tree &>/dev/null; then
+    local git_status="$(git status --porcelain=v1 2>/dev/null)"
 
-		function _count_git_pattern() {
-			echo "$(grep "^$1" <<<$git_status | wc -l)"
-		}
+    function _count_git_pattern() {
+      echo "$(grep "^$1" <<<$git_status | wc -l)"
+    }
 
-		local branch="$(git branch 2>/dev/null | sed -e "/^[^*]/d" -e "s/* \(.*\)/\1/")"
-		local remote_branch="origin/$branch"
-		local staged_modified=$(_count_git_pattern "M ")
-		local unstaged_modified=$(_count_git_pattern " M")
-		local both_modified=$(_count_git_pattern "MM")
-		local staged_deleted=$(_count_git_pattern "D ")
-		local unstaged_deleted=$(_count_git_pattern " D")
-		local staged_renamed=$(_count_git_pattern "R ")
-		local unstaged_renamed=$(_count_git_pattern " R")
-		local added_files=$(_count_git_pattern "A ")
-		local untracked_files=$(_count_git_pattern "??")
-		local ahead_commits=$(git rev-list --count ${remote_branch}..${branch} 2>/dev/null)
-		local behind_commits=$(git rev-list --count ${branch}..${remote_branch} 2>/dev/null)
+    local branch="$(git branch 2>/dev/null | sed -e "/^[^*]/d" -e "s/* \(.*\)/\1/")"
+    local remote_branch="origin/$branch"
+    local staged_modified=$(_count_git_pattern "M ")
+    local unstaged_modified=$(_count_git_pattern " M")
+    local both_modified=$(_count_git_pattern "MM")
+    local staged_deleted=$(_count_git_pattern "D ")
+    local unstaged_deleted=$(_count_git_pattern " D")
+    local staged_renamed=$(_count_git_pattern "R ")
+    local unstaged_renamed=$(_count_git_pattern " R")
+    local added_files=$(_count_git_pattern "A ")
+    local untracked_files=$(_count_git_pattern "??")
+    local ahead_commits=$(git rev-list --count ${remote_branch}..${branch} 2>/dev/null)
+    local behind_commits=$(git rev-list --count ${branch}..${remote_branch} 2>/dev/null)
 
-		local git_info="[$branch"
+    local git_info="[$branch"
 
-		if [[ "$ahead_commits" -gt 0 || "$behind_commits" -gt 0 ]]; then
-			git_info="${git_info} | C: \x01$COLOR_HOST\x02${ahead_commits}\x01$COLOR_PATH\x02/\x01$COLOR_CHANGE\x02${behind_commits}\x01$COLOR_PATH\x02"
-		fi
+    if [[ "$ahead_commits" -gt 0 || "$behind_commits" -gt 0 ]]; then
+      git_info="${git_info} | C: \x01$COLOR_HOST\x02${ahead_commits}\x01$COLOR_PATH\x02/\x01$COLOR_CHANGE\x02${behind_commits}\x01$COLOR_PATH\x02"
+    fi
 
-		if [[ $staged_renamed -gt 0 || $unstaged_renamed -gt 0 ]]; then
-			git_info="${git_info} | R: \x01$COLOR_HOST\x02${staged_renamed}\x01$COLOR_PATH\x02/\x01$COLOR_CHANGE\x02${unstaged_renamed}\x01$COLOR_PATH\x02"
-		fi
+    if [[ $staged_renamed -gt 0 || $unstaged_renamed -gt 0 ]]; then
+      git_info="${git_info} | R: \x01$COLOR_HOST\x02${staged_renamed}\x01$COLOR_PATH\x02/\x01$COLOR_CHANGE\x02${unstaged_renamed}\x01$COLOR_PATH\x02"
+    fi
 
-		if [[ $staged_deleted -gt 0 || $unstaged_deleted -gt 0 ]]; then
-			git_info="${git_info} | D: \x01$COLOR_HOST\x02${staged_deleted}\x01$COLOR_PATH\x02/\x01$COLOR_CHANGE\x02${unstaged_deleted}\x01$COLOR_PATH\x02"
-		fi
+    if [[ $staged_deleted -gt 0 || $unstaged_deleted -gt 0 ]]; then
+      git_info="${git_info} | D: \x01$COLOR_HOST\x02${staged_deleted}\x01$COLOR_PATH\x02/\x01$COLOR_CHANGE\x02${unstaged_deleted}\x01$COLOR_PATH\x02"
+    fi
 
-		if [[ $staged_modified -gt 0 || $unstaged_modified -gt 0 || $both_modified -gt 0 ]]; then
-			git_info="${git_info} | M: \x01$COLOR_HOST\x02$((staged_modified + both_modified))\x01$COLOR_PATH\x02/\x01$COLOR_CHANGE\x02$((unstaged_modified + both_modified))\x01$COLOR_PATH\x02"
-		fi
+    if [[ $staged_modified -gt 0 || $unstaged_modified -gt 0 || $both_modified -gt 0 ]]; then
+      git_info="${git_info} | M: \x01$COLOR_HOST\x02$((staged_modified + both_modified))\x01$COLOR_PATH\x02/\x01$COLOR_CHANGE\x02$((unstaged_modified + both_modified))\x01$COLOR_PATH\x02"
+    fi
 
-		if [[ $untracked_files -gt 0 || $added_files -gt 0 ]]; then
-			git_info="${git_info} | U: \x01$COLOR_HOST\x02${added_files}\x01$COLOR_PATH\x02/\x01$COLOR_CHANGE\x02${untracked_files}\x01$COLOR_PATH\x02"
-		fi
+    if [[ $untracked_files -gt 0 || $added_files -gt 0 ]]; then
+      git_info="${git_info} | U: \x01$COLOR_HOST\x02${added_files}\x01$COLOR_PATH\x02/\x01$COLOR_CHANGE\x02${untracked_files}\x01$COLOR_PATH\x02"
+    fi
 
-		git_info="${git_info}]"
+    git_info="${git_info}]"
 
-		echo -e " $git_info"
-	else
-		echo ""
-	fi
+    echo -e " $git_info"
+  else
+    echo ""
+  fi
 }
 
 # Setup oh-my-posh if exists, otherwise use normal bash-prompt
 if command -v oh-my-posh &>/dev/null; then
-	eval "$(oh-my-posh init bash --config $HOME/.config/ohmyposh/ohmyposh.toml)"
+  eval "$(oh-my-posh init bash --config $HOME/.config/ohmyposh/ohmyposh.toml)"
 else
-	PS1="${debian_chroot:+($debian_chroot)}\001$COLOR_HOST\002\u@\h\001$COLOR_RESET\002:\001$COLOR_PATH\002./\W\$(parse_git_branch)\001$COLOR_RESET\002\n\001$COLOR_PATH\002[\D{%b %d | %H:%M:%S}]\001$COLOR_RESET\002\$ "
+  PS1="${debian_chroot:+($debian_chroot)}\001$COLOR_HOST\002\u@\h\001$COLOR_RESET\002:\001$COLOR_PATH\002./\W\$(parse_git_branch)\001$COLOR_RESET\002\n\001$COLOR_PATH\002[\D{%b %d | %H:%M:%S}]\001$COLOR_RESET\002\$ "
 fi
 # To get gruvbox terminal colours: bash -c  "$(wget -qO- https://git.io/vQgMr)"
 
@@ -111,18 +111,17 @@ fi
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-	if [ -f /usr/share/bash-completion/bash_completion ]; then
-		. /usr/share/bash-completion/bash_completion
-	elif [ -f /etc/bash_completion ]; then
-		. /etc/bash_completion
-	fi
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
 fi
 
 # --------------------------------
 # Make vim default editor
 # --------------------------------
 
-alias nvim='~/neovim/bin/nvim'
 export EDITOR='nvim'
 export VISUAL='nvim'
 
@@ -131,8 +130,10 @@ export VISUAL='nvim'
 # --------------------------------
 
 if [ -f ~/.aliases ]; then
-	. ~/.aliases
+  . ~/.aliases
 fi
+
+. $HOME/.local/bin/env
 
 # --------------------------------
 # Commands
@@ -142,10 +143,5 @@ fi
 bind "set completion-ignore-case on"
 bind "set show-all-if-ambiguous on"
 
-# Rust related
-. "$HOME/.cargo/env"
-
 # Zoxide
 eval "$(zoxide init --cmd cd bash)"
-
-source $HOME/alacritty/extra/completions/alacritty.bash
