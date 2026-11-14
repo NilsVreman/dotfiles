@@ -162,8 +162,11 @@ def write_environment(directory):
 def manager_environment():
     """Read only desktop keys; never print the manager's unrelated secrets."""
     # Text output is shell-escaped; JSON preserves spaces/quotes in socket paths.
-    entries = json.loads(systemctl("show-environment", "--output=json").stdout)
-    values = dict(entry.split("=", 1) for entry in entries)
+    values = json.loads(systemctl("show-environment", "--output=json").stdout)
+    if values is None:
+        values = {}
+    require(isinstance(values, dict) and all(isinstance(value, str) for value in values.values()),
+            "Unexpected systemd environment JSON; expected a variable/value mapping")
     return {name: values.get(name, "") for name in ENVIRONMENT}
 
 

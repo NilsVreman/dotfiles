@@ -118,7 +118,7 @@ if name == "systemctl":
         sys.exit(0 if active == "active" else 3)
     if verb == "show-environment":
         values = [f"{key}={value}" for key, value in state["environment"].items()]
-        print(json.dumps(values) if "--output=json" in sys.argv else "\\n".join(values))
+        print(json.dumps(state["environment"]) if "--output=json" in sys.argv else "\\n".join(values))
     elif verb == "show":
         if "--property=LoadState" in sys.argv:
             print("loaded")
@@ -457,6 +457,15 @@ elif name == "dbus-update-activation-environment":
         self.assertIn("helper exited", result.stderr)
         self.assertFalse(json.loads(self.cli("status").stdout)["active"])
         self.assertEqual(json.loads(self.cli("status").stdout)["helpers"], {})
+
+    def test_status_reads_systemd_json_mapping_without_leaking_unrelated_values(self):
+        subprocess.run([str(self.bin / "systemctl"), "--user", "set-environment",
+                        "WAYLAND_DISPLAY=display with spaces=and-equals",
+                        "UNRELATED_SECRET=must-not-appear"], env=self.env, check=True)
+        result = self.cli("status")
+        self.assertEqual(json.loads(result.stdout)["environment"]["WAYLAND_DISPLAY"],
+                         "display with spaces=and-equals")
+        self.assertNotIn("must-not-appear", result.stdout)
 
 
 if __name__ == "__main__":

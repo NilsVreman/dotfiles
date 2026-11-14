@@ -104,7 +104,8 @@ including empty values for the previous desktop's identifiers; it never imports
 the whole shell environment. D-Bus and systemd updates are separate checked
 calls: `dbus-update-activation-environment --systemd` can warn and still exit 0
 when its manager update failed. We verify systemd's values through JSON output,
-which preserves spaces/quotes, and clear the D-Bus half-import on failure even
+an object mapping names to values (not the D-Bus property's string array), which
+preserves spaces/quotes, and clear the D-Bus half-import on failure even
 if the manager still has its previous values. Failed clearing retains evidence.
 Cleanup compares the **whole** desktop identity, not just a potentially inherited
 Sway socket, before clearing values. We do **not** restore old, dead Hyprland
