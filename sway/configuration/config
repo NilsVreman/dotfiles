@@ -1,0 +1,70 @@
+# Minimal standard-Sway candidate for #57, NOT the complete #55 desktop.
+# Read ../README.md before any authorized deployment/login. No global includes:
+# distro autostart fragments could give the same helpers a second owner.
+set $mod Mod4
+font pango:monospace 10
+default_border pixel 2
+focus_follows_mouse yes
+focus_on_window_activation smart
+floating_modifier $mod normal
+
+input type:keyboard {
+    xkb_layout gb,se
+    xkb_options grp:alt_shift_toggle
+    repeat_delay 250
+    repeat_rate 40
+}
+input type:touchpad {
+    natural_scroll disabled
+}
+
+# exec, not exec_always: reload leaves the target and helper PIDs alone.
+# Shell expansion handles both the default and an explicit XDG_CONFIG_HOME.
+exec python3 "${XDG_CONFIG_HOME:-$HOME/.config}/sway/scripts/session.py" start
+
+bindsym $mod+Return exec kitty
+bindsym $mod+space exec sh "${XDG_CONFIG_HOME:-$HOME/.config}/sway/scripts/menu.sh" launcher
+bindsym $mod+p exec sh "${XDG_CONFIG_HOME:-$HOME/.config}/sway/scripts/menu.sh" power
+bindsym $mod+Shift+r reload
+bindsym $mod+q kill
+
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+bindsym $mod+f fullscreen toggle
+bindsym $mod+Shift+f floating toggle
+bindsym $mod+Shift+t layout toggle split tabbed
+
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+# Deliberately no direct-exit/restart binding, X11 helpers, clipboard capture,
+# idle/suspend policy, output profiles, or application identity guesses.
+# Logout is the explicitly Sway-configured Wlogout action; the guard owns cleanup.

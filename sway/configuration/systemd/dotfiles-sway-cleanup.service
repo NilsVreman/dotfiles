@@ -1,0 +1,13 @@
+[Unit]
+Description=Dotfiles Sway activation-environment cleanup
+PartOf=dotfiles-sway-session.target
+# Reverse stop order: helpers, target, guard, then activation environment.
+Before=dotfiles-sway-guard.service dotfiles-sway-session.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+EnvironmentFile=%t/dotfiles-sway-session/environment
+ExecStart=/usr/bin/true
+ExecStop=/usr/bin/python3 ${DOTFILES_SWAY_CONFIG}/scripts/session.py cleanup
+TimeoutStopSec=60

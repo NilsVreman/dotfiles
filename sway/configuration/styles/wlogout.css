@@ -1,0 +1,4 @@
+/* Text buttons avoid sharing Hyprland-specific icons/actions. */
+window { background: rgba(30, 30, 46, 0.9); }
+button { background: #313244; color: #cdd6f4; border: 2px solid #89b4fa; margin: 24px; }
+button:focus, button:hover { background: #45475a; }

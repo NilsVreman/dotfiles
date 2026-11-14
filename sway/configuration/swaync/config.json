@@ -1,0 +1,9 @@
+{
+  "positionX": "right",
+  "positionY": "top",
+  "control-center-layer": "overlay",
+  "widgets": ["title", "dnd", "notifications"],
+  "widget-config": {
+    "title": {"text": "Notifications", "clear-all-button": true}
+  }
+}

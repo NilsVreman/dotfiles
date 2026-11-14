@@ -1,0 +1,17 @@
+# Explicitly selected by menu.sh; no personal Hyprland Wofi file is loaded.
+width=40%
+height=50%
+location=center
+prompt=Applications
+allow_markup=false
+allow_images=false
+exec_search=false
+no_custom_entry=true
+no_actions=true
+insensitive=true
+hide_scroll=true
+gtk_dark=true
+key_up=Up,Ctrl-k
+key_down=Down,Ctrl-j
+key_submit=Return
+key_exit=Escape

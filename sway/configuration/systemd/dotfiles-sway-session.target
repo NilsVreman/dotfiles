@@ -1,0 +1,5 @@
+[Unit]
+Description=Dotfiles Sway session-owned helpers
+# Guard loss (including IPC EOF after a compositor crash) stops this target.
+BindsTo=dotfiles-sway-guard.service
+After=dotfiles-sway-guard.service

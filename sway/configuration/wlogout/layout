@@ -1,0 +1,6 @@
+{
+  "label": "logout",
+  "action": "swaymsg exit",
+  "text": "Log out of Sway",
+  "keybind": "o"
+}

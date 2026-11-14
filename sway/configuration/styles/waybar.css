@@ -1,0 +1,7 @@
+/* Sway-only minimal Mocha palette; no compositor-specific global imports. */
+* { font-family: monospace; font-size: 13px; border-radius: 0; }
+window#waybar { background: #1e1e2e; color: #cdd6f4; }
+#workspaces button { color: #cdd6f4; padding: 0 8px; }
+#workspaces button.focused { background: #45475a; color: #89b4fa; }
+#workspaces button.urgent { background: #f38ba8; color: #1e1e2e; }
+#language, #tray, #clock { padding: 0 10px; }

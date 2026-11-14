@@ -1,4 +1,9 @@
-"""Narrow Sway symlink deployment. No package/service mutation or desktop control."""
+"""Verified snapshots and narrow Sway symlink deployment, not a desktop installer.
+
+Public interface: deploy.sh. Recovery instructions: README.md. The snapshot graph,
+write-ahead journal, and refusal rules are explained in DEVELOPING.md. No function
+here installs packages, changes services, or controls the graphical session.
+"""
 import argparse
 import datetime
 import hashlib
@@ -31,6 +36,7 @@ def digest(data):
 
 
 def write_json(path, value):
+    """Replace one private record atomically; callers coordinate the two copies."""
     temporary = path.with_suffix(".tmp")
     temporary.write_text(json.dumps(value, indent=2) + "\n")
     temporary.chmod(0o600)
@@ -38,6 +44,7 @@ def write_json(path, value):
 
 
 def private_dir(path):
+    """Create private storage, but never silently chmod an existing user directory."""
     path.mkdir(parents=True, exist_ok=True, mode=0o700)
     require(not path.is_symlink() and path.stat().st_uid == os.getuid(),
             f"Not an owned private directory: {path}")
@@ -46,6 +53,12 @@ def private_dir(path):
 
 
 class Snapshot:
+    """Capture paths as a graph so exact link text AND each referent survive.
+
+    IDs refer to payload objects, not original paths. Active recursion detects
+    cycles; seen paths allow shared referents. Relocation is used only to compare
+    a displaced original during reversal, including absolute links inside it.
+    """
     def __init__(self, directory, relocation=None):
         self.directory = directory
         self.relocation = relocation
@@ -84,9 +97,10 @@ class Snapshot:
         self.nodes[key] = node
         self.active.add(path)
         if path.is_symlink():
-            node.update(kind="link", link=os.readlink(path))
+            link_text = os.readlink(path)
+            node.update(kind="link", link=link_text)
             # Follow one hop, not resolve(): every intermediate link is evidence.
-            link_target = Path(node["link"])
+            link_target = Path(link_text)
             if not link_target.is_absolute():
                 link_target = path.parent / link_target
             node["target"] = self.capture(link_target)
@@ -140,6 +154,7 @@ def isolated_restore(run, manifest, destination):
 
 
 def load(run):
+    """Check snapshot ownership and manifest integrity before trusting its graph."""
     require(run.is_dir() and not run.is_symlink(), "Snapshot directory missing")
     require(run.stat().st_uid == os.getuid()
             and stat.S_IMODE(run.stat().st_mode) == 0o700,
@@ -151,6 +166,7 @@ def load(run):
 
 
 def verify(run):
+    """Reconstruct and verify in isolation; never restore onto live originals."""
     manifest = load(run)
     with tempfile.TemporaryDirectory(prefix="restore-", dir=run) as temporary:
         isolated_restore(run, manifest, Path(temporary) / "objects")
@@ -158,6 +174,7 @@ def verify(run):
 
 
 def query(command):
+    """Record read-only inventory honestly, including unavailable/failed queries."""
     try:
         result = subprocess.run(command, capture_output=True, text=True, timeout=20)
         return {"command": command, "returncode": result.returncode,
@@ -173,6 +190,7 @@ def journal(run, state):
 
 
 def backup_root(external):
+    """Require a second private location outside the checkout, not just another path."""
     external = external.expanduser().absolute()
     require(not external.resolve().is_relative_to(REPO),
             "External backup must be outside checkout")
@@ -255,6 +273,11 @@ def checklist(external):
 
 
 def prepare(external):
+    """Snapshot candidate, reference, target and referents; verify BOTH copies.
+
+    Capture and isolated restore are prerequisites, not evidence of a working
+    desktop. Any failure keeps the live target unchanged and retains diagnostics.
+    """
     source = SWAY / "configuration"
     require(source.is_dir() and not source.is_symlink()
             and (source / "config").is_file(),
@@ -314,6 +337,7 @@ def prepare(external):
 
 
 def unchanged(run, manifest, roots, relocation=None):
+    """Compare reachable content/link graphs rather than capture-specific node IDs."""
     with tempfile.TemporaryDirectory(prefix="compare-", dir=run) as temporary:
         snapshot = Snapshot(Path(temporary), relocation)
         current = {name: snapshot.capture(Path(path)) for name, path in roots.items()}
@@ -335,6 +359,7 @@ def unchanged(run, manifest, roots, relocation=None):
 
 
 def deploy(run, authorized):
+    """Journal intent in both locations before renaming the single affected path."""
     require(authorized, "Deployment requires --apply and separate live-machine authorization")
     manifest = verify(run)
     state = json.loads((run / "deployment.json").read_text())
@@ -361,6 +386,11 @@ def deploy(run, authorized):
 
 
 def reverse(run, authorized):
+    """Undo only our recorded link/rename, refusing later edits or ambiguous state.
+
+    Intent phases make interrupted renames retryable. This is not a transaction
+    against concurrent outside writers, and does not reverse package/service work.
+    """
     require(authorized, "Reversal requires --apply")
     manifest = verify(run)
     state = json.loads((run / "deployment.json").read_text())
@@ -397,6 +427,7 @@ def reverse(run, authorized):
 
 
 def check_config_identity(config, state):
+    """Do not mutate a replacement configuration home created after preparation."""
     require(not config.is_symlink()
             and [config.stat().st_dev, config.stat().st_ino] == state["config_identity"],
             "Configuration home changed since snapshot; refusing mutation")
