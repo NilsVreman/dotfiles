@@ -233,8 +233,9 @@ and screenshot fallback, even if the installed Hyprland `.portal` advertises Swa
 The paired `hyprland-portals.conf` explicitly selects Hyprland with GTK fallback.
 It never overwrites global portal or helper files.
 
-Transitions stop only active, explicitly named portal frontend/wlr/GTK/Hyprland
-units and start the chosen providers after importing the new environment.
+Transitions stop/join available, explicitly named portal frontend/wlr/GTK/Hyprland
+units (including pending activations) and start the chosen providers after
+separately updating D-Bus and verifying the systemd environment.
 These brokers are shared resources, not owned helper cgroups; stopping them can
 interrupt portal requests. This is why transitions belong to logout/login,
 not arbitrary reload. Verify actual provider use and new display connections;
@@ -260,8 +261,10 @@ backs up/reverses only Sway deployment, not this optional edit. Remove the
 recorded source line before reversing the Sway link. Manual refresh avoids
 editing Hyprland at all and is the initial trial route.
 
-Sway cleanup removes its unchanged runtime portal drop-in and clears only its
-own desktop activation values, never restoring stale old display sockets.
+Sway cleanup verifies owned cgroups are empty before removing its unchanged
+runtime helper files/portal drop-in and clearing only its own complete desktop
+activation identity, never restoring stale old display sockets. A failed
+half-import is cleared or retained as failed recovery evidence, not success.
 Hyprland refresh leaves the paired runtime portal override until the next Sway
 cleanup or user-runtime teardown; it is not a persistent installed override.
 After checkout/link loss, do not restart the portals against a missing candidate:

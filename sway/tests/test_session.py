@@ -76,6 +76,10 @@ class Session(unittest.TestCase):
         self.config = self.root / "configuration"
         if CONFIGURATION.exists():
             shutil.copytree(CONFIGURATION, self.config)
+        definitions = self.config / "helpers.json"
+        helpers = json.loads(definitions.read_text())
+        helpers["authentication"] = ["auth-test"]
+        definitions.write_text(json.dumps(helpers))
         self.runtime = self.root / "runtime"
         self.runtime.mkdir(mode=0o700)
         self.bin = self.root / "bin"
@@ -91,26 +95,44 @@ class Session(unittest.TestCase):
         }
         substitute = self.root / "command.py"
         substitute.write_text('''#!/usr/bin/python3
-import json, os, pathlib, sys
+import json, os, pathlib, socket, sys
 name, args = pathlib.Path(sys.argv[0]).name, sys.argv[1:]
 with open(os.environ["COMMAND_LOG"], "a") as log:
     log.write(json.dumps([name, *args]) + "\\n")
 path = pathlib.Path(os.environ["FAKE_MANAGER"])
 state = json.loads(path.read_text()) if path.exists() else {
     "units": {"unrelated.service": "active"}, "environment": {}}
+if os.environ.get("OLD_PORTAL_ACTIVATING") and not path.exists():
+    state["units"]["xdg-desktop-portal.service"] = "activating"
 if name == "systemctl":
     args = [arg for arg in args if not arg.startswith("--")]
     verb, values = args[0], args[1:]
+    if verb == "link" and os.environ.get("START_GATE"):
+        with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as gate:
+            gate.connect(os.environ["START_GATE"])
+            gate.sendall(b"startup before units")
+            gate.recv(1)
     if verb == "is-active":
         active = state["units"].get(values[0], "inactive")
         print(active)
         sys.exit(0 if active == "active" else 3)
     if verb == "show-environment":
-        print("\\n".join(f"{key}={value}" for key, value in state["environment"].items()))
+        values = [f"{key}={value}" for key, value in state["environment"].items()]
+        print(json.dumps(values) if "--output=json" in sys.argv else "\\n".join(values))
     elif verb == "show":
-        print("loaded" if "--property=LoadState" in sys.argv
-              else state["units"].get(values[0], "inactive"))
+        if "--property=LoadState" in sys.argv:
+            print("loaded")
+        elif "--property=ActiveState,MainPID,ControlPID,ControlGroup,TasksCurrent" in sys.argv:
+            active = state["units"].get(values[0], "inactive")
+            residual = values[0] == f"dotfiles-sway-helper@{os.environ.get('SURVIVING_HELPER')}.service"
+            tasks = active == "active" or residual
+            print(f"ActiveState={active}\\nMainPID=0\\nControlPID=0\\n"
+                  f"ControlGroup={'/controlled-owned-cgroup' if tasks else ''}\\nTasksCurrent={1 if tasks else 0}")
+        else:
+            print(state["units"].get(values[0], "inactive"))
     elif verb == "set-environment":
+        if os.environ.get("FAIL_MANAGER_IMPORT") and "XDG_CURRENT_DESKTOP=sway" in values:
+            sys.exit(24)
         state["environment"].update(value.split("=", 1) for value in values)
     elif verb == "unset-environment":
         for value in values:
@@ -120,6 +142,9 @@ if name == "systemctl":
             sys.exit(19)
         for value in values:
             state["units"][value] = "active"
+        exited = f"dotfiles-sway-helper@{os.environ.get('EARLY_HELPER_EXIT')}.service"
+        if exited in values:
+            state["units"][exited] = "failed"
     elif verb == "stop":
         for value in values:
             state["units"][value] = "inactive"
@@ -130,6 +155,9 @@ if name == "systemctl":
     elif verb in ("list-unit-files", "list-units"):
         print(os.environ.get("FAKE_UNIT_FILES", ""))
     path.write_text(json.dumps(state))
+    if verb == "stop" and os.environ.get("STOP_NOTICE"):
+        with socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM) as notice:
+            notice.sendto(b"stop reached manager", os.environ["STOP_NOTICE"])
 elif name == "ps":
     print(os.environ.get("FAKE_PROCESSES", ""))
 elif name == "busctl":
@@ -137,13 +165,20 @@ elif name == "busctl":
 elif name == "dbus-update-activation-environment":
     if os.environ.get("FAIL_DBUS"):
         sys.exit(23)
-    state["environment"].update(value.split("=", 1) for value in args if "=" in value)
+    updates = dict(value.split("=", 1) for value in args if "=" in value)
+    state.setdefault("bus_environment", {}).update(updates)
+    if "--systemd" in args:
+        if os.environ.get("FAIL_MANAGER_IMPORT"):
+            print("warning: unable to update systemd activation environment", file=sys.stderr)
+        else:
+            state["environment"].update(updates)
     if os.environ.get("LOSE_TARGET_DURING_IMPORT"):
         state["units"]["dotfiles-sway-session.target"] = "inactive"
     path.write_text(json.dumps(state))
 ''')
         substitute.chmod(0o700)
-        for name in ("systemctl", "dbus-update-activation-environment", "busctl", "ps", "waybar", "swaync"):
+        for name in ("systemctl", "dbus-update-activation-environment", "busctl", "ps",
+                     "waybar", "swaync", "swaybg", "nm-applet", "auth-test"):
             (self.bin / name).symlink_to(substitute)
 
     def cli(self, *args, ok=True, env=None):
@@ -290,15 +325,18 @@ elif name == "dbus-update-activation-environment":
                             and "start" in command for command in self.commands()))
         self.assertEqual(status["helpers"], {})
 
-    def test_failed_activation_unwinds_runtime_override_and_owned_target(self):
+    def test_failed_activation_retains_evidence_until_both_environments_can_be_cleared(self):
         self.compositor()
         self.cli("start", ok=False, env=dict(self.env, FAIL_DBUS="1"))
         status = json.loads(self.cli("status").stdout)
         self.assertFalse(status["active"])
-        self.assertEqual(status["helpers"], {})
+        self.assertTrue(status["helpers"])
+        self.assertTrue(all(value == "inactive" for value in status["helpers"].values()))
         dropin = (self.runtime / "systemd/user/xdg-desktop-portal.service.d"
                   / "90-dotfiles-desktop.conf")
         self.assertFalse(dropin.exists())
+        self.cli("stop")
+        self.assertEqual(json.loads(self.cli("status").stdout)["helpers"], {})
 
     def test_unowned_helper_is_not_replaced_or_duplicated(self):
         self.compositor()
@@ -308,12 +346,14 @@ elif name == "dbus-update-activation-environment":
                              for command in self.commands()))
 
     def test_helpers_receive_sway_paths_not_shared_hyprland_defaults(self):
-        self.cli("run-helper", "waybar")
-        self.cli("run-helper", "swaync")
-        self.assertIn(["waybar", "--config", str(self.config / "waybar/config.jsonc"),
-                       "--style", str(self.config / "styles/waybar.css")], self.commands())
-        self.assertIn(["swaync", "--config", str(self.config / "swaync/config.json"),
-                       "--style", str(self.config / "styles/swaync.css")], self.commands())
+        self.compositor()
+        self.cli("start")
+        units = self.runtime / "systemd/user"
+        for helper, configuration in (("waybar", "waybar/config.jsonc"), ("swaync", "swaync/config.json")):
+            command = next(line for line in (units / f"dotfiles-sway-helper@{helper}.service").read_text().splitlines()
+                           if line.startswith("ExecStart="))
+            self.assertIn(f'ExecStart="{self.bin / helper}" "--config" "{self.config / configuration}"', command)
+            self.assertIn(f'"--style" "{self.config / f"styles/{helper}.css"}"', command)
 
     def test_helper_start_failure_unwinds_ownership_and_allows_a_clean_retry(self):
         self.compositor()
@@ -331,6 +371,92 @@ elif name == "dbus-update-activation-environment":
         self.assertFalse(status["active"])
         self.assertEqual(status["helpers"], {})
         self.assertEqual(status["environment"]["SWAYSOCK"], "")
+
+    def test_partial_dbus_import_is_not_a_successful_session_start(self):
+        self.compositor()
+        self.cli("start", ok=False, env=dict(self.env, FAIL_MANAGER_IMPORT="1"))
+        status = json.loads(self.cli("status").stdout)
+        self.assertFalse(status["active"])
+        self.assertEqual(status["helpers"], {})
+        # The manager never acquired Sway's socket, but the separate D-Bus
+        # environment still needs clearing after its successful half-import.
+        self.assertTrue(any(command[0] == "dbus-update-activation-environment"
+                            and "SWAYSOCK=" in command for command in self.commands()))
+
+    def test_delayed_cleanup_does_not_clear_hyprland_with_a_stale_sway_socket(self):
+        self.compositor()
+        self.cli("start")
+        subprocess.run([str(self.bin / "systemctl"), "--user", "set-environment",
+                        "XDG_CURRENT_DESKTOP=Hyprland", "WAYLAND_DISPLAY=wayland-new"],
+                       env=self.env, check=True)
+        self.cli("stop")
+        environment = json.loads(self.cli("status").stdout)["environment"]
+        self.assertEqual(environment["XDG_CURRENT_DESKTOP"], "Hyprland")
+        self.assertEqual(environment["WAYLAND_DISPLAY"], "wayland-new")
+
+    def test_portal_transition_stops_an_old_inflight_activation(self):
+        self.compositor()
+        self.cli("start", env=dict(self.env, OLD_PORTAL_ACTIVATING="1"))
+        self.assertTrue(any("stop" in command and "xdg-desktop-portal.service" in command
+                            for command in self.commands()))
+
+    def test_concurrent_stop_waits_for_start_before_stopping_its_helpers(self):
+        self.compositor()
+        gate = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        notice = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
+        self.addCleanup(gate.close)
+        self.addCleanup(notice.close)
+        gate.bind(str(self.runtime / "start-gate"))
+        gate.listen()
+        gate.settimeout(5)
+        notice.bind(str(self.runtime / "stop-notice"))
+        notice.settimeout(0.5)
+        entry = ["/usr/bin/python3", str(self.config / "scripts/session.py")]
+        start = subprocess.Popen([*entry, "start"], env=dict(self.env, START_GATE=str(self.runtime / "start-gate")),
+                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        connection, _ = gate.accept()
+        self.addCleanup(connection.close)
+        self.assertEqual(connection.recv(100), b"startup before units")
+        stop = subprocess.Popen([*entry, "stop"], env=dict(self.env, STOP_NOTICE=str(self.runtime / "stop-notice")),
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        # The old bug reaches stop before startup has created any units. The
+        # fixed command waits for the startup lock; allow either observation,
+        # then check the final public outcome, not a lock implementation.
+        try:
+            notice.recv(100)
+        except socket.timeout:
+            pass
+        connection.sendall(b"x")
+        for process in (start, stop):
+            stdout, stderr = process.communicate(timeout=10)
+            self.assertEqual(process.returncode, 0, stdout + stderr)
+        status = json.loads(self.cli("status").stdout)
+        self.assertFalse(status["active"])
+        self.assertEqual(status["helpers"], {})
+
+    def test_surviving_owned_writer_keeps_recovery_evidence_and_blocks_a_new_owner(self):
+        self.compositor()
+        self.cli("start")
+        result = self.cli("stop", ok=False, env=dict(self.env, SURVIVING_HELPER="waybar"))
+        self.assertIn("owned processes", result.stderr)
+        self.assertTrue(json.loads(self.cli("status").stdout)["helpers"])
+        self.cli("start", ok=False)
+        self.cli("stop")  # The controlled residual is gone on this retry.
+        self.assertEqual(json.loads(self.cli("status").stdout)["helpers"], {})
+
+    def test_missing_helper_executable_fails_before_any_session_resource_starts(self):
+        self.compositor()
+        (self.bin / "waybar").unlink()
+        result = self.cli("start", ok=False)
+        self.assertIn("executable", result.stderr)
+        self.assertFalse(any("start" in command for command in self.commands()))
+
+    def test_helper_exit_after_exec_is_reported_and_unwound(self):
+        self.compositor()
+        result = self.cli("start", ok=False, env=dict(self.env, EARLY_HELPER_EXIT="swaync"))
+        self.assertIn("helper exited", result.stderr)
+        self.assertFalse(json.loads(self.cli("status").stdout)["active"])
+        self.assertEqual(json.loads(self.cli("status").stdout)["helpers"], {})
 
 
 if __name__ == "__main__":

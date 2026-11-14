@@ -6,7 +6,7 @@
 | --- | --- |
 | `deploy.sh` → `deployment.py` | Private snapshots, verification, and one reversible Sway directory link. Never desktop/service/package control. |
 | `configuration/config` | Minimal native Sway controls and a single `exec … session.py start`. No distro/global autostart includes. |
-| `configuration/scripts/session.py` | Session control interface: `start`, `stop`, `status`, `refresh-hyprland`. Also implements internal systemd commands `guard`, `cleanup`, `run-helper NAME`. |
+| `configuration/scripts/session.py` | Session control interface: `start`, `stop`, `status`, `refresh-hyprland`. Also implements internal systemd commands `guard` and `cleanup`. |
 | `configuration/systemd/` | Lifetime/dependency ordering and bounded helper cgroup cleanup. Runtime-linked, never enabled globally. |
 | `configuration/session.json` | Enabled helpers and one authentication owner. Changes take effect on the next login, not Sway reload. |
 | `configuration/helpers.json` | Exact argument arrays for foreground helpers. `@CONFIG@` expands to this candidate's resolved directory, not a shell fragment. |
@@ -30,15 +30,20 @@ processes, required portal units, and conflicting runtime overrides.
 
 Only `$XDG_RUNTIME_DIR/dotfiles-sway-session/` contains our session state:
 
-- `session.json`: owning socket, selected helpers, explicit environment and its
-  previous desktop keys. No credentials, clipboard data or arbitrary environment.
+- `session.json`: owning socket, selected helpers, stopping flag, exact runtime
+  helper-unit texts, explicit environment and its previous desktop keys.
+  No credentials, clipboard data or arbitrary environment.
 - `environment`: private systemd `EnvironmentFile` with this login's display/IPC
   values and the exact configuration directory.
 - `lock`: serializes `start`, `refresh-hyprland`, and finalization.
 
-The unit files are linked using `systemctl --user link --runtime` without force,
-then loaded. They have no `[Install]`/automatic login enablement. The dependency
-graph is intentionally small:
+Lifecycle unit files are linked using `systemctl --user link --runtime` without
+force. Helpers get runtime instance files rendered from the shared template:
+their executable paths are checked first, and `ExecStart` runs the tool directly,
+not a Python/shell launcher. This lets `Type=exec` detect the tool's exec failure.
+Files have no `[Install]`/automatic login enablement; edited runtime files are
+preserved, and unchanged owned instance files are removed after verified cleanup.
+The dependency graph is intentionally small:
 
 ```text
 cleanup.service (oneshot, remains active until stop)
@@ -71,14 +76,22 @@ stop allows up to 90 seconds for the ordered transaction. Failure is reported
 and recovery state retained, not called a completed cleanup.
 
 `stop` requests only recorded helper instances and the three lifecycle units.
-It does not hold the startup lock while waiting: the finalizer must not deadlock
-on its caller. Startup releases its lock **before** invoking synchronous failure
+It first waits for startup's lock, records a stopping flag, then releases the lock
+before waiting for systemd: the finalizer must not deadlock on its caller.
+Otherwise a stop could finish before startup had even created its units.
+Startup releases its lock **before** invoking synchronous failure
 cleanup. The finalizer takes the lock so it cannot finish while startup is still
 importing a dying compositor's environment. `cleanup` is idempotent and also handles partial startup.
 Do not invoke the internal hook while helpers are active; use `stop`.
 
+Before clearing ownership, cleanup checks helper/guard state, main/control PIDs
+and descendant task accounting. A remaining populated or unverifiable cgroup
+retains the ownership record and blocks another login owner, even if systemd's
+stop job itself succeeded. No escalation beyond the owned cgroup is attempted.
+
 Reload executes neither startup nor helper restart. A second `start` for the
-same active target is a no-op; it is not an automatic repair of a crashed helper.
+same healthy target is a no-op; a failed helper is reported rather than silently
+called a healthy session. It is not an automatic repair of a crashed helper.
 Inspect `status` and the relevant user journal, then explicitly start an affected
 owned helper if appropriate during the authorized trial. Service activity is not
 proof of GUI or authentication readiness.
@@ -88,9 +101,14 @@ proof of GUI or authentication readiness.
 D-Bus activation and the systemd user manager outlive graphical logins.
 `import_environment` sends only the listed desktop/display/IPC keys to both,
 including empty values for the previous desktop's identifiers; it never imports
-the whole shell environment. On cleanup we compare the manager's socket with
-the recorded owner before clearing values. We do **not** restore old, dead
-Hyprland sockets. A delayed cleanup must not overwrite a newer desktop.
+the whole shell environment. D-Bus and systemd updates are separate checked
+calls: `dbus-update-activation-environment --systemd` can warn and still exit 0
+when its manager update failed. We verify systemd's values through JSON output,
+which preserves spaces/quotes, and clear the D-Bus half-import on failure even
+if the manager still has its previous values. Failed clearing retains evidence.
+Cleanup compares the **whole** desktop identity, not just a potentially inherited
+Sway socket, before clearing values. We do **not** restore old, dead Hyprland
+sockets. A delayed cleanup must not overwrite a newer desktop.
 
 `portal_override` uses one named **runtime** drop-in for
 `xdg-desktop-portal.service`, setting its `XDG_CONFIG_HOME` to our portal-only
@@ -104,7 +122,9 @@ Only named portal brokers are stopped on transitions. No PipeWire, WirePlumber,
 keyring, network daemon, authority, global graphical target, or unrelated service
 is stopped. Provider selection requires an actual new frontend process; just
 updating activation environment does not change already-running brokers.
-Real same-user concurrent graphical sessions are deliberately unsupported.
+Synchronous stops include available named brokers which are still activating
+or deactivating; `is-active` alone would miss those old jobs. Real same-user
+concurrent graphical sessions are deliberately unsupported.
 
 Authentication selection never uses a replacement flag or stops an existing
 owner. The default conservative inventory can produce a refusal even for a

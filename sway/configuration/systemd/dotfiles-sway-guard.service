@@ -13,4 +13,5 @@ ExecStart=/usr/bin/python3 ${DOTFILES_SWAY_CONFIG}/scripts/session.py guard
 TimeoutStartSec=10
 TimeoutStopSec=10
 KillMode=control-group
+TasksAccounting=yes
 Restart=no

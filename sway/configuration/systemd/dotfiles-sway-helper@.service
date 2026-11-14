@@ -7,9 +7,12 @@ After=dotfiles-sway-session.target
 [Service]
 Type=exec
 EnvironmentFile=%t/dotfiles-sway-session/environment
-ExecStart=/usr/bin/python3 ${DOTFILES_SWAY_CONFIG}/scripts/session.py run-helper %i
+# start renders runtime instance files with a direct, resolved tool ExecStart.
+# This unconfigured template must never launch a tool with implicit defaults.
+ExecStart=/usr/bin/false
 TimeoutStopSec=5
 # Also reaps child writers/watchers; no user-wide process matching or killing.
 KillMode=control-group
+TasksAccounting=yes
 SendSIGKILL=yes
 Restart=no
