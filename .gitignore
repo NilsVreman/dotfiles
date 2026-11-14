@@ -1,2 +1,4 @@
 *.swp
 nvim/pack/*
+/sway/.private/
+/sway/**/__pycache__/
