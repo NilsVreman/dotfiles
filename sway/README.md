@@ -62,8 +62,10 @@ symlink text, and actual files behind links. It records hashes, modes, package
 versions, service state, and a deployment journal. Directories are private (0700),
 records/payloads are private (0600). Both timestamped copies are restored into
 isolated temporary destinations and checked before deployment is possible.
-Special files, cycles, and common secret/clipboard paths are refused rather than
-silently omitted. This is **not** a universal secret classifier: inspect affected
+Every direct symlink hop is captured. Special files, cycles, symlinked ancestor
+directories, and common secret/clipboard paths are refused rather than silently
+omitted; they require a separate backup decision. This is **not** a universal
+secret classifier: inspect affected
 trees first; do not point it at a home directory or credential/history store.
 Preparation failure leaves originals unchanged and may retain an incomplete
 snapshot for diagnosis; never deploy from it.

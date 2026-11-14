@@ -174,6 +174,70 @@ class Deployment(unittest.TestCase):
         self.cli("deploy", run, "--apply", ok=False)
         self.assertFalse((self.config / "sway").exists())
 
+    def test_snapshot_preserves_intermediate_symlink_hops(self):
+        self.candidate()
+        actual = self.root / "actual"
+        actual.write_text("old config\n")
+        intermediate = self.root / "intermediate"
+        intermediate.symlink_to("actual")
+        (self.config / "sway").symlink_to(intermediate)
+        run = self.prepare()
+        manifest = json.loads((run / "manifest.json").read_text())
+        first = manifest["nodes"][manifest["roots"]["target"]]
+        second = manifest["nodes"][first["target"]]
+        self.assertEqual(second["kind"], "link")
+        self.assertEqual(second["link"], "actual")
+        other = self.root / "identical"
+        other.write_text("old config\n")
+        intermediate.unlink()
+        intermediate.symlink_to(other)
+        self.cli("deploy", run, "--apply", ok=False)
+
+    def test_symlinked_ancestor_is_refused_instead_of_omitted(self):
+        self.candidate()
+        actual = self.root / "actual-directory"
+        actual.mkdir()
+        (actual / "config").write_text("old config\n")
+        alias = self.root / "alias-directory"
+        alias.symlink_to(actual)
+        target = self.config / "sway"
+        target.symlink_to(alias / "config")
+        self.cli("prepare", "--external", self.external, ok=False)
+        self.assertEqual(os.readlink(target), str(alias / "config"))
+        self.assertEqual((actual / "config").read_text(), "old config\n")
+
+    def test_parent_traversal_cannot_hide_a_symlinked_ancestor(self):
+        self.candidate()
+        nested = self.root / "nested"
+        (nested / "directory").mkdir(parents=True)
+        (nested / "config").write_text("actual live contents\n")
+        (self.root / "config").write_text("wrong lexical contents\n")
+        alias = self.root / "alias"
+        alias.symlink_to(nested / "directory")
+        target = self.config / "sway"
+        target.symlink_to(alias / ".." / "config")
+        self.assertEqual(target.read_text(), "actual live contents\n")
+        self.cli("prepare", "--external", self.external, ok=False)
+        self.assertEqual(target.read_text(), "actual live contents\n")
+
+    def test_reversal_handles_internal_absolute_symlinks_and_detects_edits(self):
+        self.candidate()
+        target = self.config / "sway"
+        target.mkdir()
+        (target / "config").write_text("prior config\n")
+        (target / "alias").symlink_to(target / "config")
+        run = self.prepare()
+        self.cli("deploy", run, "--apply")
+        state = json.loads((run / "deployment.json").read_text())
+        saved = Path(state["displaced"]) / "config"
+        saved.write_text("a real later edit\n")
+        self.cli("reverse", run, "--apply", ok=False)
+        self.assertEqual(saved.read_text(), "a real later edit\n")
+        saved.write_text("prior config\n")
+        self.cli("reverse", run, "--apply")
+        self.assertEqual((target / "alias").read_text(), "prior config\n")
+        self.assertEqual(os.readlink(target / "alias"), str(target / "config"))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -46,13 +46,25 @@ def private_dir(path):
 
 
 class Snapshot:
-    def __init__(self, directory):
+    def __init__(self, directory, relocation=None):
         self.directory = directory
+        self.relocation = relocation
         self.nodes = {}
         self.seen = {}
         self.active = set()
 
     def capture(self, path):
+        path = Path(path)
+        if not path.is_absolute():
+            path = Path.cwd() / path
+        if self.relocation:
+            original, displaced = self.relocation
+            if path.is_relative_to(original):
+                path = displaced / path.relative_to(original)
+        require(not any(parent.is_symlink() for parent in path.parents),
+                f"Symlinked ancestor needs separate backup review: {path}")
+        # Only collapse '..' after checking the literal path's ancestors.
+        # alias/../file follows alias first on the real filesystem.
         path = Path(os.path.abspath(path))
         require(path not in self.active, f"Symlink cycle: {path}")
         if path in self.seen:
@@ -73,7 +85,11 @@ class Snapshot:
         self.active.add(path)
         if path.is_symlink():
             node.update(kind="link", link=os.readlink(path))
-            node["target"] = self.capture(path.resolve(strict=False))
+            # Follow one hop, not resolve(): every intermediate link is evidence.
+            link_target = Path(node["link"])
+            if not link_target.is_absolute():
+                link_target = path.parent / link_target
+            node["target"] = self.capture(link_target)
         elif path.is_dir():
             node.update(kind="directory", children={
                 child.name: self.capture(child) for child in sorted(path.iterdir())
@@ -156,13 +172,18 @@ def journal(run, state):
         write_json(copy / "deployment.json", state)
 
 
-def checklist(external):
-    """Keep issue text, actual topology and all results out of version control."""
+def backup_root(external):
     external = external.expanduser().absolute()
     require(not external.resolve().is_relative_to(REPO),
-            "External checklist must be outside checkout")
+            "External backup must be outside checkout")
     private_dir(external)
     private_dir(SWAY / ".private")
+    return external
+
+
+def checklist(external):
+    """Keep issue text, actual topology and all results out of version control."""
+    external = backup_root(external)
     destination = SWAY / ".private" / "trial-checklist.md"
     require(not present(destination) and not present(external / destination.name),
             "Checklist already exists; preserve results and update manually")
@@ -243,11 +264,7 @@ def prepare(external):
             "Create/review a real absolute XDG_CONFIG_HOME before preparation")
     config = config.resolve()
     require(not config.is_relative_to(REPO), "Configuration home must be outside checkout")
-    external = external.expanduser().absolute()
-    require(not external.resolve().is_relative_to(REPO),
-            "External backup must be outside checkout")
-    private_dir(external)
-    private_dir(SWAY / ".private")
+    external = backup_root(external)
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
     run = SWAY / ".private" / stamp
     run.mkdir(mode=0o700)
@@ -274,6 +291,9 @@ def prepare(external):
                 "packages": query(["pacman", "-Q"]),
                 "system_services": query(["systemctl", "list-unit-files", "--no-pager"]),
                 "user_services": query(["systemctl", "--user", "list-unit-files", "--no-pager"]),
+                "active_system_services": query(["systemctl", "list-units", "--all", "--no-pager"]),
+                "active_user_services": query(["systemctl", "--user", "list-units",
+                                               "--all", "--no-pager"]),
                 "gdm": query(["systemctl", "is-active", "gdm"]),
             },
         }
@@ -293,9 +313,9 @@ def prepare(external):
     print(run)
 
 
-def unchanged(run, manifest, roots):
+def unchanged(run, manifest, roots, relocation=None):
     with tempfile.TemporaryDirectory(prefix="compare-", dir=run) as temporary:
-        snapshot = Snapshot(Path(temporary))
+        snapshot = Snapshot(Path(temporary), relocation)
         current = {name: snapshot.capture(Path(path)) for name, path in roots.items()}
         # Compare only the reachable subgraph: IDs can differ across captures.
         def tree(nodes, key):
@@ -361,7 +381,8 @@ def reverse(run, authorized):
             "Target changed since deployment; refusing to overwrite user work")
     if manifest["roots"]["target"] is not None:
         require(present(displaced), "Prior object missing; use verified backup for manual recovery")
-        unchanged(run, manifest, {"target": str(displaced)})
+        unchanged(run, manifest, {"target": str(displaced)},
+                  relocation=(target, displaced))
     else:
         require(not present(displaced), "Unexpected displaced object")
     state["phase"] = "reverse-intent"
