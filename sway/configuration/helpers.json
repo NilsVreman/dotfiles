@@ -1,0 +1,7 @@
+{
+  "waybar": ["waybar", "--config", "@CONFIG@/waybar/config.jsonc", "--style", "@CONFIG@/styles/waybar.css"],
+  "swaync": ["swaync", "--config", "@CONFIG@/swaync/config.json", "--style", "@CONFIG@/styles/swaync.css"],
+  "swaybg": ["swaybg", "--color", "#1e1e2e"],
+  "nm-applet": ["nm-applet", "--indicator"],
+  "authentication": ["/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"]
+}

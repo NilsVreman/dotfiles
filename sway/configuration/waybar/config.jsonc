@@ -1,0 +1,9 @@
+{
+  "layer": "top",
+  "position": "top",
+  "modules-left": ["sway/workspaces", "sway/mode"],
+  "modules-right": ["sway/language", "tray", "clock"],
+  "sway/language": {"format": "{short}"},
+  "clock": {"format": "{:%a %d %b %H:%M}"},
+  "tray": {"spacing": 8}
+}

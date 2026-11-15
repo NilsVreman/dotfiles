@@ -1,0 +1,7 @@
+/* Wofi/GTK CSS, not a Rofi theme. */
+window { background: #1e1e2e; color: #cdd6f4; border: 2px solid #89b4fa; }
+#outer-box { margin: 12px; }
+#input { margin-bottom: 8px; background: #313244; color: #cdd6f4; }
+#entry { padding: 6px; }
+#entry:selected { background: #45475a; }
+#text { color: #cdd6f4; }

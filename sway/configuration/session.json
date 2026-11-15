@@ -1,0 +1,4 @@
+{
+  "helpers": ["waybar", "swaync", "swaybg", "nm-applet"],
+  "authentication": {"owner": "session"}
+}

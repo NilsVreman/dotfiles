@@ -1,0 +1,99 @@
+{
+  "manifest": {
+    "roots": {
+      "reference-config": "0",
+      "reference-rofi": null,
+      "reference-scripts": null,
+      "source": "1",
+      "target": "3"
+    },
+    "nodes": {
+      "0": {
+        "path": "@ROOT@/checkout/sway/config",
+        "mode": 420,
+        "kind": "file",
+        "sha256": "bdd09c0ae03ac8f321f922af6ef8646644b0079e3ce19afe69631101d97c6c49"
+      },
+      "1": {
+        "path": "@ROOT@/checkout/sway/configuration",
+        "mode": 493,
+        "kind": "directory",
+        "children": {
+          "config": "2"
+        }
+      },
+      "2": {
+        "path": "@ROOT@/checkout/sway/configuration/config",
+        "mode": 420,
+        "kind": "file",
+        "sha256": "1c04981b17ec06794718839d0b4809c3d0e20306474247091f18d612eac2a38a"
+      },
+      "3": {
+        "path": "@ROOT@/home/.config/sway",
+        "mode": 511,
+        "kind": "link",
+        "link": "@ROOT@/old-sway",
+        "target": "4"
+      },
+      "4": {
+        "path": "@ROOT@/old-sway",
+        "mode": 420,
+        "kind": "file",
+        "sha256": "758ef02dccc556573809fd2c7ee21161f87c05652e7a28ae4602f2b2ebff7e8e"
+      }
+    }
+  },
+  "journal": {
+    "source": "@ROOT@/checkout/sway/configuration",
+    "target": "@ROOT@/home/.config/sway",
+    "config_identity": ["@DEVICE@", "@INODE@"],
+    "displaced": "@ROOT@/home/.config/.sway.before-legacy-snapshot",
+    "external": "@ROOT@/outside/legacy-snapshot",
+    "phase": "deployed",
+    "package_changes": [],
+    "service_changes": [],
+    "prior_state": {
+      "packages": {
+        "command": ["pacman", "-Q"],
+        "returncode": 0,
+        "stdout": "controlled state\n",
+        "stderr": ""
+      },
+      "system_services": {
+        "command": ["systemctl", "list-unit-files", "--no-pager"],
+        "returncode": 0,
+        "stdout": "controlled state\n",
+        "stderr": ""
+      },
+      "user_services": {
+        "command": ["systemctl", "--user", "list-unit-files", "--no-pager"],
+        "returncode": 0,
+        "stdout": "controlled state\n",
+        "stderr": ""
+      },
+      "active_system_services": {
+        "command": ["systemctl", "list-units", "--all", "--no-pager"],
+        "returncode": 0,
+        "stdout": "controlled state\n",
+        "stderr": ""
+      },
+      "active_user_services": {
+        "command": ["systemctl", "--user", "list-units", "--all", "--no-pager"],
+        "returncode": 0,
+        "stdout": "controlled state\n",
+        "stderr": ""
+      },
+      "gdm": {
+        "command": ["systemctl", "is-active", "gdm"],
+        "returncode": 0,
+        "stdout": "controlled state\n",
+        "stderr": ""
+      }
+    }
+  },
+  "payload": {
+    "4": "legacy original\n",
+    "2": "# future reviewed Sway configuration\n",
+    "0": "untracked i3 reference\n"
+  }
+}

@@ -1,0 +1,27 @@
+minimum_pre_commit_version: "4.3.0"
+default_install_hook_types: [pre-commit]
+default_stages: [pre-commit]
+files: ^sway/
+exclude: ^sway/(\.private/|config$|rofi/|scripts/)
+
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff-check
+        language: system
+        entry: uv run --project sway --locked --group lint ruff check --config sway/pyproject.toml --fix --show-fixes
+        files: ^sway/(deployment\.py|configuration/scripts/.*\.py|tests/.*\.py)$
+        types: [python]
+      - id: ruff-format
+        name: ruff-format
+        language: system
+        entry: uv run --project sway --locked --group lint ruff format --config sway/pyproject.toml
+        files: ^sway/(deployment\.py|configuration/scripts/.*\.py|tests/.*\.py)$
+        types: [python]
+      - id: mypy
+        name: mypy
+        language: system
+        entry: uv run --directory sway --locked --group lint mypy --cache-dir=/dev/null
+        files: ^sway/(deployment\.py|configuration/scripts/.*\.py|tests/.*\.py|pyproject\.toml|uv\.lock|\.pre-commit-config\.yaml)$
+        pass_filenames: false
