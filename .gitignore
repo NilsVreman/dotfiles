@@ -2,3 +2,7 @@
 nvim/pack/*
 /sway/.private/
 /sway/**/__pycache__/
+/sway/.venv*/
+/sway/.mypy_cache/
+/sway/.pytest_cache/
+/sway/.ruff_cache/

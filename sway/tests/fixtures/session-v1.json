@@ -1,0 +1,32 @@
+{
+  "socket": "@ROOT@/runtime/sway.sock",
+  "helpers": ["waybar", "swaync", "swaybg", "nm-applet", "authentication"],
+  "environment": {
+    "WAYLAND_DISPLAY": "wayland-test",
+    "DISPLAY": ":test",
+    "SWAYSOCK": "@ROOT@/runtime/sway.sock",
+    "I3SOCK": "",
+    "XDG_CURRENT_DESKTOP": "sway",
+    "XDG_SESSION_DESKTOP": "sway",
+    "XDG_SESSION_TYPE": "wayland",
+    "HYPRLAND_INSTANCE_SIGNATURE": "",
+    "DOTFILES_SWAY_CONFIG": "@ROOT@/configuration"
+  },
+  "environment_before": {
+    "WAYLAND_DISPLAY": "",
+    "DISPLAY": "",
+    "SWAYSOCK": "",
+    "I3SOCK": "",
+    "XDG_CURRENT_DESKTOP": "",
+    "XDG_SESSION_DESKTOP": "",
+    "XDG_SESSION_TYPE": "",
+    "HYPRLAND_INSTANCE_SIGNATURE": ""
+  },
+  "unit_files": {
+    "dotfiles-sway-helper@waybar.service": "[Unit]\nDescription=Dotfiles Sway owned helper (%i)\nPartOf=dotfiles-sway-session.target\nBindsTo=dotfiles-sway-session.target\nAfter=dotfiles-sway-session.target\n\n[Service]\nType=exec\nEnvironmentFile=%t/dotfiles-sway-session/environment\n# start renders runtime instance files with a direct, resolved tool ExecStart.\n# This unconfigured template must never launch a tool with implicit defaults.\nExecStart=\"@ROOT@/bin/waybar\" \"--config\" \"@ROOT@/configuration/waybar/config.jsonc\" \"--style\" \"@ROOT@/configuration/styles/waybar.css\"\nTimeoutStopSec=5\n# Also reaps child writers/watchers; no user-wide process matching or killing.\nKillMode=control-group\nTasksAccounting=yes\nSendSIGKILL=yes\nRestart=no\n",
+    "dotfiles-sway-helper@swaync.service": "[Unit]\nDescription=Dotfiles Sway owned helper (%i)\nPartOf=dotfiles-sway-session.target\nBindsTo=dotfiles-sway-session.target\nAfter=dotfiles-sway-session.target\n\n[Service]\nType=exec\nEnvironmentFile=%t/dotfiles-sway-session/environment\n# start renders runtime instance files with a direct, resolved tool ExecStart.\n# This unconfigured template must never launch a tool with implicit defaults.\nExecStart=\"@ROOT@/bin/swaync\" \"--config\" \"@ROOT@/configuration/swaync/config.json\" \"--style\" \"@ROOT@/configuration/styles/swaync.css\"\nTimeoutStopSec=5\n# Also reaps child writers/watchers; no user-wide process matching or killing.\nKillMode=control-group\nTasksAccounting=yes\nSendSIGKILL=yes\nRestart=no\n",
+    "dotfiles-sway-helper@swaybg.service": "[Unit]\nDescription=Dotfiles Sway owned helper (%i)\nPartOf=dotfiles-sway-session.target\nBindsTo=dotfiles-sway-session.target\nAfter=dotfiles-sway-session.target\n\n[Service]\nType=exec\nEnvironmentFile=%t/dotfiles-sway-session/environment\n# start renders runtime instance files with a direct, resolved tool ExecStart.\n# This unconfigured template must never launch a tool with implicit defaults.\nExecStart=\"@ROOT@/bin/swaybg\" \"--color\" \"#1e1e2e\"\nTimeoutStopSec=5\n# Also reaps child writers/watchers; no user-wide process matching or killing.\nKillMode=control-group\nTasksAccounting=yes\nSendSIGKILL=yes\nRestart=no\n",
+    "dotfiles-sway-helper@nm-applet.service": "[Unit]\nDescription=Dotfiles Sway owned helper (%i)\nPartOf=dotfiles-sway-session.target\nBindsTo=dotfiles-sway-session.target\nAfter=dotfiles-sway-session.target\n\n[Service]\nType=exec\nEnvironmentFile=%t/dotfiles-sway-session/environment\n# start renders runtime instance files with a direct, resolved tool ExecStart.\n# This unconfigured template must never launch a tool with implicit defaults.\nExecStart=\"@ROOT@/bin/nm-applet\" \"--indicator\"\nTimeoutStopSec=5\n# Also reaps child writers/watchers; no user-wide process matching or killing.\nKillMode=control-group\nTasksAccounting=yes\nSendSIGKILL=yes\nRestart=no\n",
+    "dotfiles-sway-helper@authentication.service": "[Unit]\nDescription=Dotfiles Sway owned helper (%i)\nPartOf=dotfiles-sway-session.target\nBindsTo=dotfiles-sway-session.target\nAfter=dotfiles-sway-session.target\n\n[Service]\nType=exec\nEnvironmentFile=%t/dotfiles-sway-session/environment\n# start renders runtime instance files with a direct, resolved tool ExecStart.\n# This unconfigured template must never launch a tool with implicit defaults.\nExecStart=\"@ROOT@/bin/auth-test\"\nTimeoutStopSec=5\n# Also reaps child writers/watchers; no user-wide process matching or killing.\nKillMode=control-group\nTasksAccounting=yes\nSendSIGKILL=yes\nRestart=no\n"
+  }
+}

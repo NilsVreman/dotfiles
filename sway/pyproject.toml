@@ -1,0 +1,59 @@
+[project]
+name = "sway-configuration"
+version = "0.1.0"
+description = "Development tools for standalone Sway deployment and session scripts"
+requires-python = ">=3.12"
+readme = "README.md"
+dependencies = []
+
+[dependency-groups]
+lint = [
+    "mypy>=2.3.1",
+    "pre-commit>=4.6.2",
+    "ruff>=0.16.7",
+]
+test = ["pytest>=9.0.2"]
+
+[tool.uv]
+required-version = ">=0.12.12"
+package = false
+default-groups = ["lint", "test"]
+exclude-newer = "7 days"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+include = ["deployment.py", "configuration/scripts/*.py", "tests/**/*.py"]
+extend-exclude = [".private", "rofi"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W", "F", "I", "UP", "B", "C4", "SIM", "PTH", "PGH", "RUF",
+    "D", "T20", "S101",
+]
+pydocstyle.convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+# These are CLI programs: their intentional output is part of the interface.
+"deployment.py" = ["T201"]
+"configuration/scripts/session.py" = ["T201"]
+# Behavior-named tests need no docstrings and use assertions as their interface.
+"tests/**/*.py" = ["D", "S101"]
+# The command substitute implements CLI output, just like the real commands.
+"tests/substitutes/command.py" = ["T201"]
+
+[tool.mypy]
+python_version = "3.12"
+files = ["deployment.py", "configuration/scripts", "tests"]
+mypy_path = [
+    "$MYPY_CONFIG_FILE_DIR",
+    "$MYPY_CONFIG_FILE_DIR/tests",
+]
+strict = true
+namespace_packages = true
+explicit_package_bases = true
+warn_unused_configs = true
